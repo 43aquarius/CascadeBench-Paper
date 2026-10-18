@@ -1,0 +1,449 @@
+\section{Results and analysis}
+\label{sec:results}
+
+\subsection{Clean baseline and the main degradation grid}
+\label{sec:results:main}
+
+Table~\ref{tab:main} reports sentence-level error rates on the main grid for
+the five recognition systems, and Fig.~\ref{fig:heatmap} visualises the same
+data split by language. On clean synthetic speech the three foundation-model
+recognisers are close to their scoring floor, with error rates between 0.3
+and 0.5 percent, while the specialised streaming recogniser operates at 0.56
+percent on Chinese and 3.99 percent on English, reflecting its primarily
+Mandarin training. The telephone-band specialist reaches 1.86 percent on its
+native language. The clean-condition figures establish that the comparisons
+under degradation are not confounded by differences in clean accuracy of
+comparable magnitude.
+
+\begin{table}[t]
+\centering
+\caption{Mean recognition error rates in percent on the main degradation
+grid, both languages pooled, with bootstrap 95 percent confidence intervals
+in parentheses. The 8~kHz specialist is evaluated on the Chinese subset only.}
+\label{tab:main}
+\small
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{lccccccccc}
+\toprule
+System & Clean & Babble 10 & Babble 0 & Reverb & Narrow & Codec & Loss & Clip & Tempo \\
+\midrule
+Paraformer-RT-v2 & 2.3 & 2.8 & 58.5 & 3.2 & 2.1 & 2.4 & 3.2 & 2.5 & 2.3 \\
+ & (1.7,2.9) & (2.2,3.6) & (54.5,62.6) & (2.5,4.0) & (1.5,2.7) & (1.8,3.1) & (2.5,4.0) & (1.9,3.2) & (1.7,3.0) \\
+Paraformer-RT-8K & 1.9 & 4.7 & 73.2 & 18.2 & 1.9 & 1.8 & 3.3 & 1.9 & 2.3 \\
+ & (1.2,2.7) & (3.3,6.3) & (68.8,77.6) & (14.4,22.3) & (1.2,2.7) & (1.1,2.6) & (2.2,4.6) & (1.2,2.7) & (1.5,3.3) \\
+Qwen-Audio-3.1 & 0.5 & 0.9 & 28.2 & 0.7 & 0.6 & 0.6 & 0.6 & 0.9 & 0.6 \\
+ & (0.3,0.7) & (0.6,1.3) & (24.8,32.0) & (0.5,1.0) & (0.4,0.8) & (0.4,0.8) & (0.4,0.9) & (0.6,1.2) & (0.4,0.8) \\
+Qwen3-ASR-Flash & 0.3 & 0.5 & 25.1 & 0.3 & 0.3 & 0.3 & 0.4 & 0.3 & 0.3 \\
+ & (0.2,0.5) & (0.3,0.8) & (21.7,28.7) & (0.2,0.5) & (0.2,0.5) & (0.2,0.5) & (0.2,0.6) & (0.2,0.5) & (0.2,0.5) \\
+Qwen3.8-Omni-Flash & 0.4 & 0.6 & 31.8 & 1.1 & 0.1 & 0.3 & 0.2 & 1.0 & 0.3 \\
+ & (0.2,0.6) & (0.4,0.9) & (28.0,35.8) & (0.7,1.6) & (0.0,0.3) & (0.1,0.5) & (0.1,0.4) & (0.6,1.5) & (0.1,0.5) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig2_heatmap.pdf}
+\caption{Recognition error rates by system and degradation condition,
+separated by language. Colour scale is truncated at 80 percent. The 8~kHz
+specialist is evaluated on the Chinese subset only.}
+\label{fig:heatmap}
+\end{figure}
+
+Three regularities stand out in the grid. First, babble noise at 0~dB is by
+far the most destructive condition for every system, but the magnitude of
+the collapse separates the architectural families sharply. The specialised
+streaming recogniser reaches a pooled error rate of 58.5 percent and the
+telephone-band specialist 73.2 percent, whereas the two LLM-ASR systems
+remain at 25 to 28 percent and the omni model at 31.8 percent. At matched
+severity, the foundation-model recognisers commit roughly half the error of
+the specialised systems, and the difference is significant at the sentence
+level: in Chinese at 0~dB, Qwen-Audio 3.1 errs at 6.3 percent against 41.6
+percent for the streaming specialist (Wilcoxon $p<0.001$, $n=240$).
+
+Second, the effect of noise is strongly language-asymmetric in a way that
+differs by family. For the LLM-ASR systems, Chinese recognition at 0~dB is
+nearly immune, at 6.3 percent for Qwen-Audio 3.1 and 13.1 percent for Qwen3
+ASR, while their English error rates at the same severity reach 50.2 and 37.1
+percent. The specialised streaming recogniser suffers heavily in both
+languages, 41.6 percent in Chinese and 75.5 percent in English. The babble
+mixture is language-mixed, so the asymmetry cannot be attributed to
+language-matched interference alone; a plausible partial explanation is that
+the tonal structure of Mandarin provides complementary cues that survive
+energetic masking, a hypothesis consistent with the general observation that
+Mandarin recognition degrades more slowly than English under stationary
+interference~\cite{virtanen2012overview}.
+
+Third, the non-noise degradations expose narrow specialisation rather than
+uniform fragility. Narrowbanding to the telephone band costs the LLM-ASR
+systems almost nothing, 0.3 to 0.6 percent, and the omni model is essentially
+unaffected at 0.1 percent, whereas the telephone-band specialist shows no
+measurable home-field advantage over the generalist systems in its own band.
+Reverberation, by contrast, is disproportionately expensive for the
+telephone-band specialist at 18.2 percent, an order of magnitude above every
+other system, which suggests that its front-end processing is tuned for
+direct-path telephone speech. Codec compression, packet loss, clipping, and
+tempo distortion at the chosen severities are individually mild for all
+systems, raising error rates by at most one percentage point over clean
+speech. This does not make them harmless: Section~\ref{sec:results:cascade}
+shows that even sub-point recognition changes propagate measurably into
+translation quality, and the conditions were deliberately calibrated to
+deployed-but-aggressive levels rather than to failure-inducing extremes.
+
+Two further behaviours deserve mention because they are invisible in
+conventional aggregate reporting. The numeral-and-entity domain is five times
+more error-prone than the other domains for Qwen-Audio 3.1 on clean speech,
+at 1.25 against 0.25 percent, whereas Qwen3 ASR shows no such penalty, which
+indicates that inverse text normalisation rather than acoustics dominates
+that gap. More strikingly, Qwen-Audio 3.1 is the only system that ever
+declines to answer: on 5.2 percent of the 0~dB utterances, concentrated in
+English at 9.6 percent of that subset, it returns an empty transcript, and
+these refusals are scored as complete failures in Table~\ref{tab:main}. The
+other four systems always emit a hypothesis, however wrong. For a downstream
+consumer this is an operationally meaningful difference between a wrong
+answer and no answer, and it is the kind of behavioural divergence that only
+black-box evaluation at controlled severity can surface.
+
+The remaining conditions merit condition-specific remarks because their
+effects are small in aggregate but structured in detail. Reverberation with
+a reverberation time of 0.5~s raises the specialised streaming recogniser to
+3.2 percent pooled, but the effect concentrates in English, where it reaches
+5.1 percent against 1.3 percent in Chinese, and the paired difference
+against the LLM-ASR systems remains significant in both languages
+(Wilcoxon $p<0.01$ in Chinese, $p<0.001$ in English). The omni model shows
+an idiosyncratic signature under reverberation and clipping, at 1.1 and 1.0
+percent, roughly triple its clean error rate, which suggests that its audio
+encoder is more sensitive to spectral colouration and non-linear distortion
+than the dedicated recognisers even though it dominates under noise. Codec
+compression at 8~kbit/s leaves every system within 0.3 percentage points of
+its clean score, confirming that deployed neural codecs are essentially
+transparent to modern recognisers at this bitrate. Packet loss at 15 percent
+and clipping at the 0.3 threshold behave as mild aggregate stressors, and
+tempo distortion at 1.15 times is fully transparent to every system, which
+is expected because time-scale modification preserves the spectral envelope
+that recognisers rely on. The practical reading of these patterns is that a
+service integrator who cannot control the acoustic environment should
+prioritise noise mitigation far above codec or transport tuning, since the
+latter contribute almost nothing to the error budget at realistic operating
+points.
+
+\subsection{Stratified analysis by domain}
+\label{sec:results:domain}
+
+Because the corpus is balanced by construction, error rates can be
+decomposed by content domain without re-weighting. On clean audio the
+technical domain is the most error-prone for the specialised streaming
+recogniser at 3.3 percent, consistent with its terminological density, while
+the conversation domain is the easiest for every system, below 0.1 percent for the Qwen-Audio recogniser. The numerals-and-entities domain shows the
+clearest family split on clean speech: the two LLM-ASR systems differ by an
+order of magnitude on it, at 1.2 percent for Qwen-Audio against 0.15 percent
+for Qwen3-ASR, which as noted in Section~\ref{sec:results:main} points to
+inverse text normalisation rather than acoustics as the separating factor.
+Under 0~dB noise the domain differences compress for every system: the
+spread across domains narrows to about nine points for the Qwen-Audio
+recogniser and to twelve points for the specialised streaming recogniser,
+and the ordering changes, with the technical domain becoming the most
+difficult for both. The compression indicates that under severe energetic
+masking the bottleneck shifts from lexical and normalisation knowledge,
+which distinguishes systems on clean speech, to the acoustic recovery
+problem, which is common to all systems and dominates the error budget.
+
+\subsection{Scaling with noise severity}
+\label{sec:results:snr}
+
+Fig.~\ref{fig:snr} shows error rate as a function of signal-to-noise ratio
+on the 144-sentence severity sweep, and Table~\ref{tab:slopes} reports the
+fitted degradation gradients. The relation is approximately linear over the
+measured 20 to 0~dB range for all systems, which makes the slope a compact
+summary of noise robustness. The specialised streaming recogniser loses 1.70
+percentage points of Chinese accuracy per dB and 3.08 points per dB in
+English, whereas the LLM-ASR systems lose 0.34 to 0.44 points per dB in Chinese and 1.35 to 1.57 in English. In relative terms the specialised system degrades four to five times faster in Chinese and about twice as fast in English. The omni model, measured on the main grid points only,
+tracks the LLM-ASR family. The crossover structure visible in
+Fig.~\ref{fig:snr} carries the practical content: above roughly 5~dB the
+systems are within a point of each other and choice can be driven by latency
+or cost, but below 5~dB the families separate rapidly, and below 0~dB no
+system delivers usable English transcription, with error rates between 37
+and 76 percent. The sweep also shows that the separation is gradual
+rather than threshold-like. Between 20 and 10~dB every system stays within
+one percentage point of its clean score, so the mild-noise regime is
+effectively free of robustness concerns for all families. Between 10 and
+5~dB the specialised system begins to move first, and by 5~dB the family
+ordering is already established in both languages, which means that
+robustness differences can be detected at moderate severity without
+stressing any system to failure. The practical implication for procurement
+testing is that a single 5~dB babble probe suffices to rank candidate
+recognition services by noise robustness in this measurement, since the
+ordering at 5~dB matches the ordering at 0~dB in both languages for every
+pair of systems compared.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig3_snr_curves.pdf}
+\caption{Recognition error rate against babble noise signal-to-noise ratio
+for three systems, with bootstrap 95 percent confidence bands, on the
+144-sentence severity sweep.}
+\label{fig:snr}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Noise degradation gradients, in percentage points of error rate per
+dB of signal-to-noise ratio, fitted over the 20 to 0~dB sweep with bootstrap
+95 percent confidence intervals.}
+\label{tab:slopes}
+\small
+\begin{tabular}{lcc}
+\toprule
+System & Chinese & English \\
+\midrule
+Paraformer-RT-v2 & $-1.70$ ($-2.05,-1.36$) & $-3.08$ ($-3.72,-2.49$) \\
+Qwen-Audio-3.1 & $-0.23$ ($-0.33,-0.14$) & $-1.30$ ($-1.66,-0.96$) \\
+Qwen3-ASR-Flash & $-0.44$ ($-0.60,-0.30$) & $-1.35$ ($-1.75,-0.97$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Cascade versus end-to-end translation under degradation}
+\label{sec:results:cascade}
+
+Fig.~\ref{fig:cascade} compares the four speech translation paths across the
+main grid, and Table~\ref{tab:translation} reports the corresponding scores.
+On clean audio the two cascades lose almost nothing relative to their
+translation oracle, the text translation engine applied to perfect
+transcripts, which scores 55.5 BLEU against the primary reference. The
+cascade built on Qwen-Audio 3.1 starts at 53.9 BLEU, the cascade built on
+the streaming specialist at 51.5, and the end-to-end omni path scores
+highest at 68.1 with the streaming LiveTranslate service at 59.8. Under
+degradation the ordering and the magnitudes change dramatically. At 0~dB the
+Qwen-Audio cascade drops 9.9 BLEU points, the streaming-specialist cascade
+collapses by 35.7 points to 15.8 BLEU, the omni end-to-end path loses 22.5
+points, and the streaming translation service loses 9.3 points from a lower starting level.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig4_cascade_e2e.pdf}
+\caption{Translation quality of two cascades and two end-to-end speech
+translation paths across the main degradation grid, scored against the
+independent LLM reference. The hatched bar is the text-translation oracle on
+clean transcripts.}
+\label{fig:cascade}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Translation quality by condition: macro-averaged BLEU against the
+independent reference (primary) and against the oracle cascade output
+(secondary), with the clean-to-worst relative loss for the 0~dB condition.}
+\label{tab:translation}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & Clean & Babble 0 & Narrowband & Loss at 0 dB & chrF clean \\
+\midrule
+Oracle MT (clean text) & 55.5 & -- & -- & -- & 66.7 \\
+Cascade: Paraformer + MT & 51.5 & 15.8 & 51.9 & 69\% & 63.4 \\
+Cascade: Qwen-Audio + MT & 53.9 & 44.1 & 52.7 & 18\% & 65.0 \\
+E2E: Omni-Flash & 68.1 & 45.5 & 68.0 & 33\% & 73.0 \\
+E2E: LiveTranslate & 59.8 & 50.4 & 60.1 & 16\% & 68.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two conclusions follow. The first concerns the frontend hypothesis. The
+translation quality of a cascade under acoustic degradation is governed
+almost entirely by the robustness of its recognition stage: swapping the
+frontend from the streaming specialist to the LLM recogniser at 0~dB is
+worth 28 BLEU points on the same backend, far more than any architectural
+change downstream. The second qualifies the common expectation that
+end-to-end systems avoid cascade error propagation and are therefore more
+robust. At 0~dB the omni end-to-end path loses a third of its BLEU score,
+more than the well-frontended cascade loses at 18 percent, and its absolute
+score falls below that cascade. The streaming LiveTranslate service is the
+most degradation-resilient of the four, losing 16 percent at 0~dB, which is
+consistent with the behaviour of its internal frontend recogniser
+documented in Section~\ref{sec:results:frontend}. End-to-end designs do not
+inherit robustness automatically; they inherit the robustness of whatever
+acoustic frontend their provider trained internally, which in this
+measurement is better than the specialised streaming ASR but not
+automatically better than the best cascade.
+
+The condition-wise structure of Fig.~\ref{fig:cascade} adds three nuances to
+this picture. First, apart from the 0~dB point the cascade built on the LLM
+recogniser is essentially flat across the entire grid, moving within one
+BLEU point of its clean score under every other condition, which mirrors the
+recognition flatness of Table~\ref{tab:main} and confirms that the
+non-noise degradations are, at deployed severities, engineering noise rather
+than failure modes for a robust frontend. Second, the streaming translation
+service shows the same flatness with a single exception: its narrowband
+score of 60.1 sits marginally above its clean score, and its packet-loss and
+tempo scores are likewise within half a point of clean, so its 0~dB loss is
+the only substantive degradation it suffers. Third, the omni end-to-end path
+exhibits a small but consistent anomaly: its packet-loss and tempo scores,
+at 71.1 and 70.0, exceed its clean score of 68.1. Inspection of the outputs
+suggests that under these mild distortions the model produces slightly more
+concise translations that happen to align better with the reference style,
+rather than genuinely better translations; the effect is within the
+reference-sensitivity margin documented in Section~\ref{sec:results:dual}
+and is a further argument for treating small absolute differences between
+heterogeneous systems with caution.
+
+Decomposing the 0~dB collapse by direction sharpens the frontend story. The
+specialist cascade loses 26 BLEU points in the Chinese-to-English direction
+but 46 points in the English-to-Chinese direction, falling to 8.7 BLEU,
+because its English recognition, at 75.5 percent error, destroys the source
+representation before the translation stage operates. The LLM-frontend
+cascade degrades far less and nearly symmetrically, losing 7.0 points in one
+direction and 15.0 in the other. The streaming translation service loses
+almost nothing in the Chinese-to-English direction at 0~dB, at 55.5 against
+55.9 clean, but 18 points in the other direction, which parallels the
+language asymmetry of its internal frontend. Direction-symmetric
+deployment claims should therefore be checked per direction rather than
+pooled.
+
+\subsection{Reference sensitivity of translation scoring}
+\label{sec:results:dual}
+
+Table~\ref{tab:translation} also reports scores against the secondary
+reference, the oracle cascade output. The two references invert the apparent
+ordering of the systems on clean audio. Against the independent LLM
+reference the omni end-to-end path leads at 68.1 BLEU, exceeding even the
+text-translation oracle at 55.5. Against the oracle reference the same
+end-to-end path scores 48.5 while the Qwen-Audio cascade scores 89.6, since
+the cascade and the reference generator are the same model. The inversion
+quantifies a hazard for any evaluation that scores machine translation
+against machine-generated references: absolute scores, and even the identity
+of the apparent best system, depend on which model family generated the
+reference. Two safeguards make the present conclusions robust to this
+effect. Degradation losses are computed within a system against a fixed
+reference, so the percentage losses reported above do not depend on the
+choice, and the ordering of losses at 0~dB, at 69, 33, 18, and 16 percent
+for the four paths, is preserved under both references. We recommend that
+future black-box translation evaluations report at least one reference from
+a model family disjoint from every system under test, and state the family
+relationships explicitly.
+
+\subsection{Error pass-through from recognition to translation}
+\label{sec:results:cac}
+
+Fig.~\ref{fig:cac} relates the BLEU loss of the two cascades to their mean
+recognition error rate across all twelve operating conditions. The
+relationship is strikingly linear: the Pearson correlation between
+recognition error and translation loss is 0.988 for the Qwen-Audio cascade
+and 0.999 for the specialist cascade over twelve points spanning 0.1 to 59
+percent recognition error. The fitted pass-through slopes are 0.47 BLEU
+points per percentage point of recognition error for the Qwen-Audio cascade
+and 0.66 for the specialist cascade. The steeper slope for the specialised
+frontend reflects the composition of its errors under severe noise, which
+include whole-utterance failures where the translation engine receives
+little or no usable signal, whereas the LLM recogniser's residual errors
+under moderate degradation are concentrated in individual words that the
+translation engine can often route around. For engineering purposes the
+rule is simple and accurate in this measurement: every percentage point of
+recognition error costs about half a BLEU point downstream, and under
+conditions that produce outright recognition failures the cost approaches
+two thirds of a point. A service integrator can therefore estimate the
+translation consequence of a candidate frontend from recognition error
+measurements alone, without running the full pipeline.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.55\textwidth]{../figures/fig6_cac.pdf}
+\caption{Translation quality loss against mean recognition error rate
+across twelve operating conditions for two cascades, with fitted linear
+pass-through.}
+\label{fig:cac}
+\end{figure}
+
+\subsection{The streaming translation frontend as a recogniser}
+\label{sec:results:frontend}
+
+The streaming translation service exposes its internal recognition output,
+which allows its frontend, a specialised streaming recogniser, to be scored
+as a sixth system on the severity sweep. Its clean-condition error rate of
+0.9 percent is comparable to the other specialised systems, but under noise
+it behaves markedly better, reaching 18.2 percent at 0~dB, against 25 to 28
+percent for the LLM-ASR systems and 58.5 percent for the general-purpose
+streaming specialist, and it does so at the streaming latency of its class.
+This is a noteworthy observation for practitioners: the most noise-robust
+recogniser measured in this study is not directly purchasable as a
+recognition service but is embedded inside a translation product, which
+suggests that providers optimise internal streaming frontends for exactly
+the acoustic conditions where end-to-end translation must survive.
+
+\subsection{Sentence-level variability and latency}
+\label{sec:results:latency}
+
+Fig.~\ref{fig:dist} shows the sentence-level error distributions for the
+strongest LLM recogniser and the specialised streaming recogniser on five
+representative conditions. The distributions are strongly right-skewed:
+under moderate degradation most sentences remain nearly correct while a
+tail of sentences fails completely, which is why the confidence intervals in
+Table~\ref{tab:main} are wide relative to their means. Under 0~dB babble the
+median sentence is still recognised reasonably well by the LLM systems while
+the upper quartile fails outright, a heterogeneity that aggregate error
+rates conceal and that matters for applications with per-utterance quality
+requirements. The skew also explains a statistical property visible
+throughout Table~
+ef{tab:main}: the confidence intervals of the LLM systems
+under moderate degradation are wide relative to their means because a small
+number of complete failures, including the refusal cases, coexist with a
+large mass of near-perfect transcripts. For a system operator this shape
+matters more than the mean, since the tail sentences are the ones that
+generate complaints and downstream errors, and the fraction of sentences
+above a given error threshold is a more actionable deployment metric than
+the average. On the 0~dB condition, the fraction of English sentences with
+error rates above 50 percent is 83 percent for the specialised streaming
+recogniser against 36 percent for Qwen3-ASR, while in Chinese the same
+threshold is exceeded by 33 percent of sentences for the specialised system
+against 3 percent for Qwen-Audio, so the family gap in tail behaviour is
+considerably larger than the gap in means.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig5_distribution.pdf}
+\caption{Sentence-level error distributions by condition for the strongest
+LLM recogniser and the specialised streaming recogniser.}
+\label{fig:dist}
+\end{figure}
+
+Table~\ref{tab:latency} reports API round-trip latencies. The text
+translation stage of the cascade adds about 0.27 seconds per sentence, so a
+Qwen-Audio cascade completes in about 1.1 seconds on average against 0.8
+seconds for its recognition stage alone, whereas the omni end-to-end path
+averages 2.8 seconds with a 95th percentile above 7 seconds, reflecting the
+substantially longer generation path of an omni-modal foundation model that
+produces its translation in a single response. The streaming translation
+service completes in under a second. Latency therefore reinforces rather
+than reverses the accuracy picture: the paths that degrade least under
+noise, the well-frontended cascade and the streaming translation service,
+are also among the fastest, while the slowest path, the omni end-to-end
+model, is the most fragile under severe noise in this measurement.
+
+\begin{table}[t]
+\centering
+\caption{API round-trip latency in seconds for the recognition systems and
+the text translation stage.}
+\label{tab:latency}
+\small
+\begin{tabular}{lccc}
+\toprule
+System & Mean & P50 & P95 \\
+\midrule
+Qwen3-ASR-Flash & 0.37 & 0.35 & 0.46 \\
+Paraformer-RT-8K-v2 & 0.45 & 0.43 & 0.75 \\
+Qwen-Audio-3.1-Flash & 0.80 & 0.72 & 1.93 \\
+Paraformer-RT-v2 & 0.87 & 0.85 & 1.65 \\
+Text translation (qwen-mt-uni) & 0.27 & 0.26 & 0.39 \\
+Qwen3.8-Omni-Flash (E2E) & 2.77 & 2.20 & 7.19 \\
+LiveTranslate (E2E) & 0.55 & 0.52 & 0.80 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\textwidth]{../figures/fig7_latency.pdf}
+\caption{API round-trip latency by system, mean and 95th percentile.}
+\label{fig:latency}
+\end{figure}

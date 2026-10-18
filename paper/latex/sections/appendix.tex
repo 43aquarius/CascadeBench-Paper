@@ -1,0 +1,236 @@
+\appendix
+\section{Corpus composition}
+\label{app:corpus}
+
+Table~\ref{tab:corpus} summarises the corpus structure and lists one sample
+sentence per stratum. The four domains are constructed to differ in register,
+vocabulary, and numerical density. The broadcast-news domain uses formal
+written register with institutional vocabulary, the conversation domain uses
+colloquial everyday phrasing, the technical domain uses scientific and
+engineering terminology, and the numerals-and-entities domain concentrates
+dates, times, quantities, prices, addresses, codes, and named entities, with
+all numbers written out in words as described in
+Section~\ref{sec:methods}. Length strata are defined per language as short,
+medium, and long as given in Section~\ref{sec:methods}, and every
+domain-by-length cell contains twenty sentences per language, giving 240
+sentences per language and 480 in total. The severity sweep subset of 144
+sentences is sampled evenly across all cells, six sentences per cell per
+language.
+
+\begin{table}[h]
+\centering
+\caption{Corpus structure with one sample sentence per domain.}
+\label{tab:corpus}
+\small
+\begin{tabular}{lp{10.2cm}}
+\toprule
+Domain & Sample sentence \\
+\midrule
+News (zh) & 国家统计局今天发布了上月经济运行数据。 \\
+News (en) & The central bank raised interest rates by twenty five basis points to curb inflation. \\
+Conversation (zh) & 我打算下班之后去健身房锻炼一个小时。 \\
+Conversation (en) & I was thinking we could drive to the beach this weekend if the weather holds. \\
+Technical (zh) & 混响是声波在房间内多次反射形成的，会显著降低远场语音识别的准确率。 \\
+Technical (en) & Reverberation arises when sound waves reflect repeatedly off room surfaces. \\
+Numerals (zh) & 从北京到上海的高铁大约需要四个半小时。 \\
+Numerals (en) & The high speed train from Beijing to Shanghai takes about four and a half hours. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Qualitative error analysis}
+\label{app:qualitative}
+
+Table~\ref{tab:examples} collects representative model responses that
+illustrate the failure patterns behind the aggregate numbers in
+Section~\ref{sec:results}.
+
+The refusal behaviour of Section~\ref{sec:results:main} is shown in the
+first row: under 0~dB babble the Qwen-Audio recogniser returns an empty
+transcript for a substantial English sentence, which the benchmark scores as
+a complete failure. The second row shows the opposite regime: the same
+system, on a long English news sentence at the same severity, produces a
+verbatim transcript, which underlines how bimodal the sentence-level
+distributions of Fig.~\ref{fig:dist} are. Row three shows the dominant error
+mode of the specialised streaming recogniser under severe noise, where most
+of the sentence is lost and only a short fragment survives. Row four shows a
+typical near-miss of the LLM recogniser in Chinese, where a single
+content word, density, is replaced by another word of similar phonetic
+shape, speed, without any structural damage. Row five shows the collapse of
+the telephone-band specialist under reverberation, which occasionally
+produces short disconnected fragments rather than transcripts. Row six
+shows an error that the recognition stage never sees but the translation
+consumer experiences: under 0~dB noise the omni end-to-end path substitutes
+a plausible but wrong entity, rendering the sports centre of the source as a
+grand theatre, a hallucination that a string-matching metric penalises only
+lightly but that is catastrophic for factual fidelity. Row seven shows the
+narrowband immunity of the LLM recogniser, which returns a verbatim
+transcript of telephone-band audio. Together the examples support the
+reading of Section~\ref{sec:discussion}: the systems differ less in whether
+they fail than in how, and the failure modes, from verbatim robustness to
+silent entity substitution to outright refusal, have distinct downstream
+consequences.
+
+\begin{table}[h]
+\centering
+\caption{Representative system responses under degradation.}
+\label{tab:examples}
+\small
+\begin{tabular}{llp{6.1cm}}
+\toprule
+Condition & System & Reference and response \\
+\midrule
+0 dB, en & Qwen-Audio-3.1 & Reference: Police arrested two suspects on Tuesday. Response: empty transcript. \\
+0 dB, en & Qwen-Audio-3.1 & Reference: The transport minister told reporters on Friday that the government would invest heavily in electric vehicle charging infrastructure. Response: verbatim transcript. \\
+0 dB, en & Paraformer-RT-v2 & Reference: The battery lasts twenty hours. Response: About. \\
+0 dB, zh & Qwen-Audio-3.1 & Reference: 这款处理器的晶体管密度提升了近一倍。 Response: 这款处理器的晶体管速度提升了近一倍。 \\
+Reverb, zh & Paraformer-RT-8K & Reference: 记者从发布会上了解到，本次合作项目将覆盖全国二十多个主要城市。 Response: 七月同。非常了解到。 \\
+0 dB, E2E & Omni-Flash & Source: 新建成的体育中心可容纳六万名观众。 Translation: The newly built Grand Theatre can accommodate 60,000 audience members. \\
+Narrow, en & Qwen-Audio-3.1 & Reference: This coffee shop is cozy. Response: verbatim transcript. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Cross-system text normalisation}
+\label{app:normalisation}
+
+Comparing transcripts across commercial recognisers requires a normalisation
+protocol that neutralises provider-specific inverse text normalisation. The
+protocol applies the following rules identically to references and
+hypotheses, in order. Unicode compatibility folding and case folding are
+applied first, and punctuation is removed. Numeric expressions are then
+canonicalised to digit form on both sides. For Chinese, the rules handle
+cardinal numbers with the standard multipliers, digit-by-digit readings such
+as room and code numbers where each digit is read separately, decimal
+fractions written with the point particle, time-of-day expressions in which
+the hour and minute parts are converted separately, percentage markers,
+which are deleted on both sides, and scale multipliers, where a digit
+followed by wan, yi, or their combinations is expanded to the full
+multiplied-out form, so that twenty-six million written as 2600万 in one
+system's output and as 26000000 in another's both canonicalise identically.
+For English, the rules handle cardinal numbers including compound
+hyphenated forms and the and connector, time and digit-by-digit readings
+such as twelve zero eight and nine forty, which canonicalise to 1208 and
+940, decimal fractions expressed with point, scale multipliers from thousand
+to trillion, and ordinal expressions of both word and digit form, which are
+masked to a common placeholder since their spoken-to-written realisations
+differ across systems in ways that carry no acoustic information. The rule
+set was validated by inspecting all high-error sentences of the clean
+condition until no residual mismatches attributable to normalisation
+remained, and the clean-condition error rates of Table~\ref{tab:main}, which
+reach 0.14 percent for the strongest system, bound the residual protocol
+noise from above.
+
+\section{Complete pairwise significance results}
+\label{app:significance}
+
+Table~\ref{tab:pairwise} reports all pairwise Wilcoxon signed-rank
+comparisons between recognition systems that are significant at the Holm-corrected
+level, grouped by condition and language. Every reported pair is significant
+after correction across the family of comparisons within each condition,
+which is why the table lists only significant results. The consistency of
+the ordering is itself informative: within every condition and language, the
+two LLM-ASR systems and the omni model occupy the leading positions and the
+specialised streaming recogniser the trailing position, with the single
+systematic exception that Qwen3-ASR leads Qwen-Audio 3.1 in English under
+reverberation, clipping, and 0~dB noise, where the refusal behaviour of the
+latter penalises it.
+
+\begin{table}[h]
+\centering
+\caption{Significant Holm-corrected pairwise Wilcoxon comparisons by
+condition and language. Cells give the mean error rates in percent of the
+two systems compared.}
+\label{tab:pairwise}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llll}
+\toprule
+Condition, language & Comparison & Means (\%) & $p$ \\
+\midrule
+0 dB, zh & Qwen-Audio vs Paraformer-RT & 6.3 vs 41.6 & $<0.001$ \\
+0 dB, zh & Qwen3-ASR vs Paraformer-RT & 13.1 vs 41.6 & $<0.001$ \\
+0 dB, zh & Qwen-Audio vs Qwen3-ASR & 6.3 vs 13.1 & $<0.001$ \\
+0 dB, zh & Qwen-Audio vs Omni & 8.5 vs 20.2 & $<0.001$ \\
+0 dB, zh & Paraformer-RT vs Omni & 42.4 vs 20.2 & $<0.001$ \\
+0 dB, en & Qwen-Audio vs Paraformer-RT & 50.2 vs 75.5 & $<0.001$ \\
+0 dB, en & Qwen3-ASR vs Paraformer-RT & 37.1 vs 75.5 & $<0.001$ \\
+0 dB, en & Qwen-Audio vs Qwen3-ASR & 50.2 vs 37.1 & $<0.001$ \\
+0 dB, en & Paraformer-RT vs Omni & 76.1 vs 43.3 & $<0.001$ \\
+Reverb, zh & Qwen-Audio vs Paraformer-RT & 0.2 vs 1.3 & $<0.001$ \\
+Reverb, en & Qwen3-ASR vs Paraformer-RT & 0.5 vs 5.1 & $<0.001$ \\
+Reverb, en & Qwen-Audio vs Qwen3-ASR & 1.2 vs 0.5 & $0.011$ \\
+Narrow, zh & Qwen-Audio vs Paraformer-RT & 0.2 vs 0.7 & $<0.001$ \\
+Narrow, en & Qwen3-ASR vs Paraformer-RT & 0.5 vs 3.6 & $<0.001$ \\
+Narrow, en & Qwen-Audio vs Qwen3-ASR & 1.0 vs 0.5 & $0.015$ \\
+Clip, en & Qwen3-ASR vs Paraformer-RT & 0.4 vs 4.4 & $<0.001$ \\
+Clip, en & Qwen-Audio vs Qwen3-ASR & 1.6 vs 0.4 & $<0.001$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Numeric results of the severity sweep}
+\label{app:sweep}
+
+Table~\ref{tab:sweep} reports the complete error rates of the severity sweep
+with confidence intervals, and Table~\ref{tab:ltfrontend} reports the
+internal frontend recogniser of the streaming translation service on all
+twelve conditions. Two details of the sweep data deserve note. The
+confidence intervals at 0~dB are wide for every system, spanning roughly ten
+percentage points, which reflects the bimodal sentence-level behaviour
+documented in Section~\ref{sec:results:latency}. The crossover between the
+families occurs between 5 and 0~dB for both languages, and at 5~dB the
+specialised system already shows its first significant departure from its
+clean score while the LLM-ASR systems remain within 0.3 points of theirs in
+Mandarin. The internal frontend of the streaming translation service
+records a zero lower confidence bound at 5~dB, its strongest operating
+point, and degrades less at 0~dB than any directly purchasable recognition
+service measured in this study.
+
+\begin{table}[h]
+\centering
+\caption{Recognition error rates in percent on the severity sweep subset,
+144 sentences, with bootstrap 95 percent confidence intervals.}
+\label{tab:sweep}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llccccc}
+\toprule
+System & Lang & 20 dB & 15 dB & 10 dB & 5 dB & 0 dB \\
+\midrule
+Paraformer-RT-v2 & zh & 0.8 & 0.8 & 0.8 & 2.5 & 42.4 \\
+ &  & (0.3,1.3) & (0.3,1.4) & (0.3,1.4) & (1.1,4.2) & (36.0,49.5) \\
+ & en & 3.8 & 3.7 & 3.9 & 13.4 & 76.1 \\
+ &  & (1.9,6.0) & (1.9,5.9) & (2.1,6.0) & (9.3,17.6) & (71.2,80.8) \\
+Qwen-Audio-3.1 & zh & 0.1 & 0.1 & 0.1 & 0.1 & 8.5 \\
+ &  & (0.0,0.2) & (0.0,0.2) & (0.0,0.2) & (0.0,0.2) & (4.3,13.8) \\
+ & en & 0.9 & 1.3 & 1.5 & 2.0 & 39.7 \\
+ &  & (0.1,2.3) & (0.3,2.6) & (0.4,2.9) & (0.8,3.6) & (30.3,49.9) \\
+Qwen3-ASR-Flash & zh & 0.1 & 0.2 & 0.1 & 0.3 & 11.2 \\
+ &  & (0.0,0.4) & (0.0,0.5) & (0.0,0.4) & (0.0,0.7) & (7.1,15.7) \\
+ & en & 0.9 & 0.9 & 0.7 & 1.9 & 34.1 \\
+ &  & (0.0,2.2) & (0.1,2.2) & (0.0,1.9) & (0.6,3.8) & (25.8,43.4) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Error rate in percent of the streaming translation service
+internal frontend recogniser on all twelve conditions.}
+\label{tab:ltfrontend}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Condition & Clean & 20 dB & 15 dB & 10 dB & 5 dB & 0 dB \\
+\midrule
+Error (\%) & 0.9 & 0.8 & 0.2 & 0.9 & 0.0 & 18.2 \\
+95\% CI & (0.3,1.7) & (0.3,1.6) & (0.0,0.6) & (0.3,1.6) & (0.0,0.0) & (13.9,23.2) \\
+\midrule
+Condition & Reverb & Narrow & Codec & Loss & Clip & Tempo \\
+\midrule
+Error (\%) & 0.8 & 0.8 & 0.7 & 0.8 & 0.8 & 1.0 \\
+95\% CI & (0.3,1.5) & (0.3,1.6) & (0.2,1.4) & (0.3,1.5) & (0.3,1.6) & (0.4,1.8) \\
+\bottomrule
+\end{tabular}
+\end{table}

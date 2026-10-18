@@ -1,0 +1,99 @@
+\section{Related work}
+\label{sec:related}
+
+\subsection{Robustness of speech recognition under acoustic degradation}
+
+The sensitivity of ASR to noise and channel distortions has been studied since
+the earliest statistical recognisers~\cite{lippmann1997speech}. Surveys such
+as that of Virtanen et al.~\cite{virtanen2012overview} organise this
+literature around feature enhancement, model adaptation, and multi-condition
+training. Controlled evaluation infrastructure has been decisive for
+progress. The Aurora framework~\cite{pearce2000aurora} standardised noise
+types and signal-to-noise ratios for telephone-band recognition, and the CHiME
+challenge series~\cite{barker2018fifth} extended such evaluation to
+far-field, reverberant, and overlapping-speech conditions. Classical feature
+transformations such as RASTA filtering~\cite{hermansky1994rasta} targeted the
+same distortions from the signal-processing side, and synthetic room impulse
+responses generated with the image method of Allen and
+Berkley~\cite{allen1979image} and its modern
+implementations~\cite{habets2006room} remain standard tools for controlled
+reverberation studies. More recently, data augmentation strategies such as
+SpecAugment~\cite{park2019specaugment} have embedded artificial degradation
+into the training process itself, and weakly supervised training at scale, as
+exemplified by Whisper~\cite{radford2023robust}, has produced recognisers
+with markedly improved noise tolerance. The present work inherits the
+methodological principle of these efforts, namely controlled and reproducible
+degradation of the input signal, but applies it to black-box services rather
+than to trainable models, which precludes training-based countermeasures and
+makes the measurement itself the object of study.
+
+\subsection{Cascaded and end-to-end speech translation}
+
+The cascade versus end-to-end question has accompanied speech translation
+since neural systems became practical. Early sequence-to-sequence systems
+demonstrated that audio-to-text translation without an explicit recognition
+stage is feasible~\cite{berard2016listen,weiss2017sequence}, and
+Bentivogli et al.~\cite{bentivogli2018cascade} compared the two paradigms
+systematically on IWSLT data, finding that end-to-end systems could match
+cascades in translation quality while differing in error structure, with
+cascades inheriting recognition errors and end-to-end systems producing more
+fluent but occasionally freer output. The survey of Sperber and
+Paulik~\cite{sperber2020speech} synthesises this literature, including work on
+robustness of end-to-end systems to noisy input. Subsequent research
+addressed noise robustness of end-to-end ST through self-training and data
+selection~\cite{park2020robust}. These studies evaluate models that the
+researchers train themselves on public corpora. Robustness of the end-to-end component in
+particular has been treated as a training-data problem, with noise-augmented
+source audio, self-training on noisy transcripts, and domain adaptation as
+the standard remedies. That framing presumes control over the model, which
+is exactly what a service consumer lacks. When the translation component is
+a fixed API, the robustness question shifts from how to train the model to
+how to select among available models and architectures under measured
+channel conditions, and that selection question is what the present
+benchmark operationalises. The commercially relevant
+question, namely how the two architectures behave when every stage is a
+fixed, provider-operated service selected and combined by an integrator, has
+received far less attention, and the present benchmark is designed
+specifically for that setting.
+
+\subsection{Evaluation of commercial speech services}
+
+A third strand of related work evaluates commercial speech services as they
+are exposed to users. Such studies necessarily operate through public APIs,
+report error rates on fixed test material, and periodically re-run as
+services evolve. Their findings consistently show substantial differences
+between providers and between languages. Methodologically, these evaluations
+face constraints that mirror ours: no access to model internals, no control
+over model versions, and reliance on text normalisation to compare outputs
+against references. They have, however, largely concentrated on clean or
+moderately degraded audio, and on transcription accuracy alone. The broader
+evaluation culture in speech and audio quality research, with its
+calibrated degradation methodology and emphasis on reproducibility,
+similarly targets the acoustic layer rather than the linguistic stages
+downstream, and it is that tradition which the present service-level
+benchmark follows. The
+contribution of the present study relative to this strand is twofold. First,
+the evaluation is extended across the translation boundary, quantifying how
+recognition differences propagate into translation quality for both cascade
+and end-to-end architectures. Second, the acoustic degradations are applied
+under full experimental control, with calibrated noise levels, a synthetic
+room impulse response, codec and packet-loss emulation, and fixed random
+seeds, which makes the entire measurement reproducible rather than dependent
+on whatever happened to be in the test recordings.
+
+\subsection{Positioning}
+
+In summary, robustness benchmarks address open models but not commercial
+services, service evaluations address commercial ASR but usually only in
+clean conditions and only at the recognition boundary, and the
+cascade-versus-end-to-end literature addresses research models rather than
+provider-operated systems. CascadeBench combines the three perspectives. It
+applies the controlled degradation methodology of the robustness literature
+to the black-box commercial setting, extends the measurement through the
+translation stage for both architectures, and adds a dual-reference scoring
+protocol that quantifies a bias source that any evaluation involving modern
+generative reference translations must confront. To our knowledge, no
+previous study has measured all of these dimensions simultaneously for the
+current generation of speech APIs, and none has reported the linear
+recognition-to-translation error pass-through relationship that
+Section~\ref{sec:results} documents.

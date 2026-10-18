@@ -1,0 +1,84 @@
+\documentclass[review,number,sort&compress]{elsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\journal{Applied Acoustics}
+
+\newcommand{\cer}{\mathrm{CER}}
+\newcommand{\wer}{\mathrm{WER}}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
+Degradations: A Black-Box Benchmark of Commercial Speech Intelligence APIs}
+
+\author[addr1]{Anonymous Author}
+\address[addr1]{Affiliation withheld for double-blind review}
+
+\begin{abstract}
+Modern speech intelligence services are increasingly assembled from black-box
+cloud APIs, in which an automatic speech recognition (ASR) system feeds a
+machine translation (MT) engine in a cascade, or are replaced by end-to-end
+speech translation (E2E ST) models. The acoustic channels that carry speech to
+these systems are rarely clean, yet the sensitivity of each architectural
+choice to realistic channel impairments is difficult to assess because
+commercial systems can only be queried through their interfaces. This paper
+presents CascadeBench, a black-box benchmark that quantifies how eight
+canonical acoustic channel degradations, including multi-talker babble noise
+at five signal-to-noise ratios, room reverberation, telephone narrowbanding,
+low-bitrate coding, packet loss, amplitude clipping, and tempo distortion,
+propagate through the recognition and translation stages of commercial speech
+APIs. A stratified bilingual corpus of 480 Chinese and English sentences was
+synthesised with multiple neural voices, degraded in a fully controlled and
+reproducible pipeline, and processed by five recognition systems spanning three
+architectural families, together with two cascade and two end-to-end speech
+translation paths. Results show that large-language-model ASR services degrade several times more slowly under noise than specialised streaming models, with degradation slopes of 0.3 to 0.4 percentage points per dB against 1.7 for the specialised system in Mandarin, but a dedicated telephone-band model remains
+competitive only in its home band. At a signal-to-noise ratio of 0~dB the
+strongest cascade loses 18 percent of its BLEU score while the weakest loses 69
+percent, and end-to-end speech translation proves more fragile than a
+well-frontend cascade. Across twelve operating conditions, translation quality
+declines linearly with the recognition error rate, with a pass-through slope of
+0.47 to 0.66 BLEU points per percentage point of recognition error and a
+correlation above 0.98, which provides system integrators with a simple
+engineering rule for estimating translation losses. All experiments were
+executed on free-tier API quotas, and the complete benchmark recipe, including
+the corpus, perturbation code, and per-sentence transcripts, is released for
+reproduction.
+\end{abstract}
+
+\begin{keyword}
+speech recognition \sep speech translation \sep robustness benchmark \sep
+acoustic channel degradations \sep cascaded systems \sep cloud APIs
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sections/intro}
+\input{sections/related}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusions}
+\input{sections/appendix}
+
+\section*{Data and code availability}
+The full benchmark recipe, including the sentence corpus, the perturbation
+implementations with fixed random seeds, all per-sentence model transcripts and
+translations, and the analysis scripts, will be made publicly available at a
+repository link provided upon acceptance. The data can also be reconstructed
+end to end from the documentation in this paper using free-tier API quotas.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper.
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}

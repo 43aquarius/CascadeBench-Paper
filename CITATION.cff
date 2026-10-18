@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite the paper and this repository."
+title: "Error Propagation in Cascaded Speech Translation under Acoustic Channel Degradations: A Black-Box Benchmark of Commercial Speech Intelligence APIs"
+type: dataset
+authors:
+  - name: CascadeBench Authors
+    website: "https://github.com/43aquarius"
+keywords:
+  - speech recognition
+  - speech translation
+  - robustness benchmark
+  - acoustic channel degradation
+  - black-box API evaluation
+  - error propagation
+license: MIT
+repository-code: "https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics"
+abstract: >-
+  CascadeBench is a fully seeded, black-box benchmark measuring how twelve
+  acoustic channel degradations propagate through commercial speech
+  recognition and translation APIs: 480 bilingual sentences, six recognisers
+  across three architectural families, four translation paths, and 26,238
+  logged API calls on complimentary quotas.
+version: 1.0.0
+date-released: "2026-10-18"

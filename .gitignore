@@ -1,0 +1,27 @@
+# secrets / environment
+apikey.txt
+.env
+*.key
+
+# generated audio (866 MB tree, reproducible via scripts)
+audio/
+*.wav
+*.mp3
+*.opus
+
+# runtime artifacts
+logs/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# LaTeX build products
+paper/latex/*.aux
+paper/latex/*.log
+paper/latex/*.out
+paper/latex/*.bbl
+paper/latex/*.blg
+paper/latex/*.fls
+paper/latex/*.fdb_latexmk
+paper/latex/*.synctex.gz

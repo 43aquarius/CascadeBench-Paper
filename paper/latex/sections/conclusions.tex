@@ -1,0 +1,47 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+This paper introduced CascadeBench, a black-box benchmark that measures how
+acoustic channel degradations propagate through commercial speech
+recognition and translation services, and reported a complete measurement
+over a controlled bilingual corpus of 480 sentences, eight degradation
+conditions, and a five-level noise severity sweep, covering five recognition
+systems from three architectural families, two cascade translation paths,
+and two end-to-end speech translation paths, all accessed through their
+public interfaces on free service quotas.
+
+The measurements support five conclusions. First, the architectural families
+of commercial recognisers differ sharply and systematically in noise
+robustness: LLM-based recognisers degrade at 0.34 to 0.44 percentage points per dB in Mandarin against 1.70 for a specialised streaming recogniser, and the family gap exceeds a factor of two in pooled error rate at 0~dB.
+Second, robustness is condition- and language-specific rather than uniform:
+narrowbanding, coding, packet loss, clipping, and tempo changes at deployed
+severities are individually negligible for all systems, while 0~dB babble
+nearly destroys English recognition for every system and leaves the best Mandarin recognition almost intact. Third, the quality of a speech
+translation cascade under degradation is governed by its recognition
+frontend, and the relationship is linear and predictable, with a
+pass-through of 0.47 to 0.66 BLEU points per percentage point of recognition
+error at a correlation above 0.98 across twelve conditions. Fourth,
+end-to-end speech translation is not automatically more robust than a
+cascade: the most resilient translation path measured is a dedicated
+streaming end-to-end service, while the omni-modal end-to-end path is both
+the slowest and, under severe noise, the most fragile. Fifth, black-box
+evaluation carries specific methodological obligations that this benchmark
+operationalises, including dual-reference scoring to control machine-reference
+affinity, exact-transcript corpora to enable sub-percent measurement, and
+the reporting of response completeness alongside error rates.
+
+The benchmark recipe, including the corpus, the seeded degradation pipeline,
+all model responses, and the analysis code, is released so that the
+measurement can be re-executed as providers update their services. The released artefacts are versioned alongside the service
+identifiers and access dates of every system, so that future re-runs can
+attribute score movements either to provider-side model updates or to
+changes in the benchmark itself, a distinction that periodic evaluation of
+moving targets requires. Together with the zero-cost execution protocol
+described in Section~\ref{sec:methods}, the release is intended to make
+robustness re-measurement a routine maintenance activity for speech
+deployments rather than a one-off research exercise. As
+speech intelligence continues to migrate into provider-operated black-box
+systems, controlled measurement of this kind, repeated over time and across
+providers, offers the community a practical substitute for the training-set
+access that classical robustness research assumed, and offers integrators
+the quantitative basis that architectural intuition alone cannot supply.

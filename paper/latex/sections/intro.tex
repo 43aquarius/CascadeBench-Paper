@@ -1,0 +1,123 @@
+\section{Introduction}
+\label{sec:intro}
+
+Speech has become a primary interface to cloud intelligence. Voice assistants,
+meeting transcription products, live captioning services, and multilingual
+communication platforms are routinely assembled from commercial automatic
+speech recognition (ASR) and machine translation (MT) interfaces offered by
+large cloud providers. In a typical deployment, audio captured by a far-field
+microphone or transported over a communication channel is first converted to
+text by an ASR service, and the resulting text is then passed to a text
+translation engine whenever the application crosses a language boundary. This
+cascade architecture dominates industrial practice because it allows each
+stage to be selected, replaced, and billed independently, and because the best
+available components at each stage are often operated by different providers.
+An alternative architecture, end-to-end speech translation (E2E ST), maps
+source-language audio directly to target-language text and has matured
+rapidly with large foundation models.
+
+The acoustic pathway between a speaker and these services is rarely pristine.
+Speech arrives mixed with competing talkers, shaped by room reverberation,
+band-limited by telephone channels, compressed by low-bitrate codecs, or
+corrupted by packet loss on unstable network links. The robustness of ASR
+systems to such degradations has been a central concern of the speech research
+community for decades, and controlled robustness corpora have driven
+substantial progress. What has changed is the identity of the systems that
+now dominate deployment. Commercial speech services are increasingly built on
+large language model (LLM) based ASR, on general-purpose multimodal foundation
+models that accept audio alongside text, and on streaming speech translation
+models, none of which can be fine-tuned, inspected, or benchmarked offline by
+their consumers. A systems integrator who composes such services into a
+translation pipeline has no principled way to predict how recognition errors
+induced by an acoustic channel will propagate into the final translation, or
+whether a cascade or an end-to-end design is the safer choice under the
+conditions of a given deployment.
+
+The evaluation gap is not academic. Deployment decisions are made
+weekly by integrators who must choose among service tiers and architectural
+patterns with nothing but clean-audio demo pages and marketing claims, while
+the operating conditions of real audio pathways, conference rooms, vehicles,
+telephone trunks, and congested wireless links, are precisely the conditions
+that clean demos do not exercise. A deployment that selects a recognition
+frontend on clean-audio accuracy alone can be quietly losing most of its
+translation quality in the field, and a deployment that assumes end-to-end
+robustness can be more fragile than the cascade it replaced. Closing this
+gap requires measurement that is controlled at the acoustic layer, complete
+at the pipeline layer, and reproducible at the service layer, and that is
+the design brief of the benchmark presented here.
+
+This gap motivates the present study. Academic robustness benchmarks such as
+Aurora~\cite{pearce2000aurora} and the CHiME challenge
+series~\cite{barker2018fifth} evaluate open recognizers on fixed noise
+corpora, but they do not cover the black-box commercial systems that now carry
+production traffic, they rarely extend beyond recognition to the downstream
+translation stage, and they cannot be re-run on new model versions without
+access to model internals. Conversely, studies that compare commercial ASR
+services report error rates on fixed test sets but typically consider clean
+audio and stop at the transcription boundary. The propagation of acoustic
+degradation through a complete speech translation pipeline, comparing
+architectural families and both cascade and end-to-end designs under
+identical and fully controlled channel conditions, has to our knowledge not
+been quantified for the current generation of speech APIs.
+
+This paper presents CascadeBench, a black-box benchmark designed to answer
+four questions. First, how sensitive are the main architectural families of
+commercial ASR, namely specialised streaming models, LLM-based recognisers,
+and general-purpose multimodal models, to eight canonical acoustic channel
+degradations? Second, how does recognition accuracy scale with noise severity,
+and do the families differ in their degradation slopes? Third, when
+recognition errors flow into a downstream translation engine, does the
+cascade amplify them, and how does the cascade compare with end-to-end speech
+translation under identical conditions? Fourth, what are the latency
+consequences of each architectural choice? To answer these questions under
+the constraint that only public interfaces are available, the benchmark
+synthesises a stratified bilingual corpus of 480 Mandarin Chinese and English
+sentences with multiple neural voices, applies a grid of eight controlled
+acoustic degradations together with a five-level noise severity sweep, and
+measures five recognition systems, two cascade translation paths, and two
+end-to-end speech translation paths through their public APIs, using only
+free service quotas.
+
+The study yields findings that are relevant to both the science of robust
+speech processing and the practice of assembling speech services. Recognition
+services from the three families differ sharply and systematically in their
+sensitivity to noise: the specialised streaming recogniser degrades at about
+1.7 percentage points per dB of noise in Mandarin, whereas the LLM-based recognisers degrade at 0.3 to 0.4 points per dB, and at a signal-to-noise
+ratio of 0~dB the gap between families reaches a factor of two to three in
+error rate. The end-to-end translation paths, often assumed to be more robust
+than cascades because they avoid error propagation, in fact degrade more
+strongly under severe noise than a cascade built on a robust recognition
+frontend. Across twelve operating conditions, the BLEU score of a cascade
+falls linearly with its recognition error rate, with a pass-through slope of
+0.47 to 0.66 BLEU points per percentage point of recognition error and a
+correlation coefficient above 0.98, which gives integrators a simple and
+accurate engineering rule for estimating translation losses from recognition
+quality alone. Finally, the benchmark surfaces behavioural differences that
+are invisible in clean-audio evaluations, including the refusal of one
+recognition service to return any transcript for a fraction of severely
+noised utterances and the collapse of a telephone-band specialist outside its
+home bandwidth.
+
+The contribution of this paper is threefold. It provides, to our knowledge,
+the first systematic measurement of acoustic degradation propagation across
+recognition and translation stages for commercial black-box speech APIs,
+covering three architectural families of recognisers and both cascade and
+end-to-end translation designs. It introduces a fully reproducible benchmark
+recipe in which the test material, the degradations, and every model response
+are controlled, logged, and releasable, so that the measurements can be
+repeated as providers update their models. And it distils the measurements
+into quantitative design guidance, including degradation slopes per
+architectural family, the error pass-through rule for cascades, and a
+dual-reference protocol that exposes and controls the systematic bias that
+arises when automatic translation quality is scored against references
+produced by models from the same family as one of the systems under test.
+
+The remainder of the paper is organised as follows.
+Section~\ref{sec:related} reviews related work on robust ASR, cascade and
+end-to-end speech translation, and the evaluation of commercial services.
+Section~\ref{sec:methods} describes the benchmark design, including the
+corpus, the degradation grid, the systems under test, and the evaluation
+protocol. Section~\ref{sec:results} presents the results, and
+Section~\ref{sec:discussion} discusses their implications for practitioners
+and for future evaluation practice. Limitations are examined in
+Section~\ref{sec:limitations}, and Section~\ref{sec:conclusions} concludes.

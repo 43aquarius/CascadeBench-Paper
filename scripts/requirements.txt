@@ -1,0 +1,14 @@
+# Core dependencies for the CascadeBench pipeline
+# Install: pip install -r requirements.txt
+
+dashscope>=1.20          # Alibaba Cloud Model Studio SDK (TTS / ASR / LLM / MT)
+requests>=2.28           # HTTP endpoints (qwen-audio, qwen-mt)
+websocket-client>=1.6    # LiveTranslate realtime websocket channel
+numpy>=1.24
+scipy>=1.10              # resampling / convolution in perturb.py
+soundfile>=0.12          # WAV I/O
+librosa>=0.10            # resample fallback
+matplotlib>=3.7          # publication figures
+sacrebleu>=2.3           # BLEU / chrF with signature reporting
+cn2an>=0.5               # Chinese numeral normalisation
+word2number>=1.1         # English numeral normalisation
