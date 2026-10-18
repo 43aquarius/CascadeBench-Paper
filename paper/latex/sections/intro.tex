@@ -61,56 +61,67 @@ identical and fully controlled channel conditions, has to our knowledge not
 been quantified for the current generation of speech APIs.
 
 This paper presents CascadeBench, a black-box benchmark designed to answer
-four questions. First, how sensitive are the main architectural families of
+four questions. First, how sensitive are the main product classes of
 commercial ASR, namely specialised streaming models, LLM-based recognisers,
 and general-purpose multimodal models, to eight canonical acoustic channel
-degradations? Second, how does recognition accuracy scale with noise severity,
-and do the families differ in their degradation slopes? Third, when
+degradations? Second, how does recognition accuracy scale with noise
+severity across the full range from mild to destructive, and where does
+each class fail? Third, when
 recognition errors flow into a downstream translation engine, does the
 cascade amplify them, and how does the cascade compare with end-to-end speech
 translation under identical conditions? Fourth, what are the latency
-consequences of each architectural choice? To answer these questions under
-the constraint that only public interfaces are available, the benchmark
+consequences of each choice? To answer these questions under the
+constraint that only public interfaces are available, the benchmark
 synthesises a stratified bilingual corpus of 480 Mandarin Chinese and English
 sentences with multiple neural voices, applies a grid of eight controlled
-acoustic degradations together with a five-level noise severity sweep, and
-measures five recognition systems, two cascade translation paths, and two
+acoustic degradations together with an eight-level noise severity sweep from
+20 to $-10$~dB, and measures five recognition systems, three cascade
+translation paths, and two
 end-to-end speech translation paths through their public APIs, using only
-free service quotas.
+free service quotas. All systems come from one provider, so the study is a
+single-provider case study whose class-level findings require cross-provider
+replication before attribution to architecture; this constraint is examined
+in Section~\ref{sec:limitations} and revisited throughout.
 
 The study yields findings that are relevant to both the science of robust
 speech processing and the practice of assembling speech services. Recognition
-services from the three families differ sharply and systematically in their
-sensitivity to noise: the specialised streaming recogniser degrades at about
-1.7 percentage points per dB of noise in Mandarin, whereas the LLM-based recognisers degrade at 0.3 to 0.4 points per dB, and at a signal-to-noise
-ratio of 0~dB the gap between families reaches a factor of two to three in
-error rate. The end-to-end translation paths, often assumed to be more robust
-than cascades because they avoid error propagation, in fact degrade more
-strongly under severe noise than a cascade built on a robust recognition
-frontend. Across twelve operating conditions, the BLEU score of a cascade
+services from the three classes differ sharply in where, rather than how
+fast, they fail under noise: the LLM-based recognisers hold a sub-percent
+error floor and cross ten percent error at noise levels 2.5 to 4~dB lower
+than the specialised streaming system, with sharper collapse beyond their
+knee, and below 0~dB they fail by insertion-heavy hallucination that drives
+character error rates above 100 percent. The end-to-end translation paths,
+often assumed to be more robust
+than cascades because they avoid error propagation, do not inherit
+robustness automatically: the omni-modal path loses more of its clean
+quality under severe noise than a well-frontend cascade, while a streaming
+end-to-end service is the most resilient path measured. Across fifteen
+operating conditions, the BLEU score of every cascade measured
 falls linearly with its recognition error rate, with a pass-through slope of
-0.47 to 0.66 BLEU points per percentage point of recognition error and a
-correlation coefficient above 0.98, which gives integrators a simple and
-accurate engineering rule for estimating translation losses from recognition
+0.44 to 0.54 BLEU points per percentage point, sentence-level bootstrap
+confidence intervals within $\pm 0.04$, and an intercept statistically
+indistinguishable from zero, which gives integrators a calibrated
+engineering rule for estimating translation losses from recognition
 quality alone. Finally, the benchmark surfaces behavioural differences that
-are invisible in clean-audio evaluations, including the refusal of one
-recognition service to return any transcript for a fraction of severely
-noised utterances and the collapse of a telephone-band specialist outside its
-home bandwidth.
+are invisible in clean-audio evaluations, including two distinct
+empty-output mechanisms under severe noise, an explicit protocol-level
+refusal and a silent empty return, and the unique fragility of a
+telephone-band specialist under reverberation.
 
 The contribution of this paper is threefold. It provides, to our knowledge,
 the first systematic measurement of acoustic degradation propagation across
 recognition and translation stages for commercial black-box speech APIs,
-covering three architectural families of recognisers and both cascade and
-end-to-end translation designs. It introduces a fully reproducible benchmark
+covering three product classes of one provider and both cascade and
+end-to-end translation designs, which we frame as a case study pending
+cross-provider replication. It introduces a fully reproducible benchmark
 recipe in which the test material, the degradations, and every model response
-are controlled, logged, and releasable, so that the measurements can be
+are controlled, logged, and released, so that the measurements can be
 repeated as providers update their models. And it distils the measurements
-into quantitative design guidance, including degradation slopes per
-architectural family, the error pass-through rule for cascades, and a
+into quantitative design guidance, including noise-failure thresholds per
+product class, the error pass-through regression for cascades, and a
 dual-reference protocol that exposes and controls the systematic bias that
 arises when automatic translation quality is scored against references
-produced by models from the same family as one of the systems under test.
+produced by models related to one of the systems under test.
 
 The remainder of the paper is organised as follows.
 Section~\ref{sec:related} reviews related work on robust ASR, cascade and

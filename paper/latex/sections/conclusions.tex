@@ -10,29 +10,40 @@ systems from three architectural families, two cascade translation paths,
 and two end-to-end speech translation paths, all accessed through their
 public interfaces on free service quotas.
 
-The measurements support five conclusions. First, the architectural families
-of commercial recognisers differ sharply and systematically in noise
-robustness: LLM-based recognisers degrade at 0.34 to 0.44 percentage points per dB in Mandarin against 1.70 for a specialised streaming recogniser, and the family gap exceeds a factor of two in pooled error rate at 0~dB.
-Second, robustness is condition- and language-specific rather than uniform:
-narrowbanding, coding, packet loss, clipping, and tempo changes at deployed
-severities are individually negligible for all systems, while 0~dB babble
-nearly destroys English recognition for every system and leaves the best Mandarin recognition almost intact. Third, the quality of a speech
-translation cascade under degradation is governed by its recognition
-frontend, and the relationship is linear and predictable, with a
-pass-through of 0.47 to 0.66 BLEU points per percentage point of recognition
-error at a correlation above 0.98 across twelve conditions. Fourth,
-end-to-end speech translation is not automatically more robust than a
-cascade: the most resilient translation path measured is a dedicated
-streaming end-to-end service, while the omni-modal end-to-end path is both
-the slowest and, under severe noise, the most fragile. Fifth, black-box
-evaluation carries specific methodological obligations that this benchmark
-operationalises, including dual-reference scoring to control machine-reference
-affinity, exact-transcript corpora to enable sub-percent measurement, and
-the reporting of response completeness alongside error rates.
+The measurements support five conclusions. First, the product classes of
+commercial recognisers differ in where they fail under noise, not merely how
+fast: LLM-based recognisers hold a sub-percent floor and cross ten percent
+error 2.5 to 2.9~dB later in Mandarin and 4.4 to 4.8~dB later in English
+than the specialised streaming system, then collapse more sharply, and below
+0~dB they fail by insertion-heavy hallucination with character error rates
+above 100 percent. Second, robustness is condition- and language-specific
+rather than uniform: narrowbanding, coding, packet loss, clipping, and tempo
+changes at deployed severities are individually negligible for all systems,
+0~dB babble nearly destroys English recognition for every system while
+leaving the best Mandarin recognition low, and no system, of any class,
+transcribes reliably below 0~dB. Third, the quality of a speech translation
+cascade under degradation is governed by its recognition frontend, and the
+relationship is linear and predictable, with a pass-through of 0.44 to 0.54
+BLEU points per percentage point of recognition error, bootstrap confidence
+intervals within a few hundredths, a statistically zero intercept, and
+stability under leave-one-condition-out refits, across fifteen conditions
+and three frontends. Fourth, end-to-end speech translation does not inherit
+robustness automatically: the most resilient translation path measured is a
+dedicated streaming end-to-end service, while the omni-modal end-to-end path
+is both the slowest and, under severe noise, the most fragile, even though
+its absolute score remains highest at every condition measured. Fifth,
+black-box evaluation carries specific methodological obligations that this
+benchmark operationalises, including dual-reference scoring to control
+machine-reference affinity, exact-transcript corpora to enable sub-percent
+measurement, the reporting of response completeness alongside error rates,
+and the anchoring of service-level findings in measured signal properties,
+which here exposed a sharp dissociation between intelligibility metrics and
+recognition error across degradation families.
 
 The benchmark recipe, including the corpus, the seeded degradation pipeline,
-all model responses, and the analysis code, is released so that the
-measurement can be re-executed as providers update their services. The released artefacts are versioned alongside the service
+the degraded audio tree, all model responses, and the analysis code, is
+released so that the measurement can be re-executed and verified as
+providers update their services. The released artefacts are versioned alongside the service
 identifiers and access dates of every system, so that future re-runs can
 attribute score movements either to provider-side model updates or to
 changes in the benchmark itself, a distinction that periodic evaluation of

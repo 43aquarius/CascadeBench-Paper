@@ -5,47 +5,54 @@
 
 The measurements translate directly into selection guidance for practitioners
 who compose commercial speech services. Above a signal-to-noise ratio of
-about 5~dB, all five recognition systems deliver sub-percent to low-percent
-error rates on clearly articulated speech, and the choice among them can be
-driven by latency, cost, and interface ergonomics rather than accuracy. The
-latency data in Table~\ref{tab:latency} then favour the LLM-ASR text-input
-systems and the specialised streaming recognisers, which all answer in well
-under a second, over the omni-modal path. Between 0 and 5~dB, the
-architectural families separate: the degradation gradients in
-Table~\ref{tab:slopes} show that every dB of noise costs a specialised streaming recogniser roughly four to five times what it costs an LLM-ASR system in Mandarin and about twice as much in English, so in
-intermittently noisy environments such as public spaces, vehicles, or shared
-offices, the foundation-model recognisers dominate the accuracy-latency
-trade-off. Below 0~dB, no system transcribes English reliably, and the
+about 10~dB, every recognition system measured here operates within one
+point of its clean error rate on clearly articulated speech, and the choice
+among them can be driven by latency, cost, and interface ergonomics rather
+than accuracy. The latency data in Table~\ref{tab:latency} then favour the
+audio-input LLM systems and the specialised streaming recognisers, which
+all answer in well under a second, over the omni-modal path. Between 0 and
+5~dB, the product classes separate, and the knee thresholds of
+Table~\ref{tab:slopes} express the difference most usefully: the LLM-ASR
+systems cross ten percent error 2.4 to 2.9~dB later in Mandarin and 4.4 to
+4.8~dB later in English than the specialised streaming system, so in
+intermittently noisy environments such as public spaces, vehicles, or
+shared offices, the foundation-model recognisers hold the better end of
+the accuracy-latency trade-off. Below 0~dB, every system fails, the LLM
+systems by hallucination and the streaming systems by silence, and the
 appropriate response is architectural: capture improvement, multi-microphone
 processing, or explicit rejection logic. For telephone-band audio, the
-surprising result is that no specialist premium exists; the generalist
-systems are as accurate in-band, and the telephone specialist is markedly
-worse under reverberation, so its selection can be justified only by its
-8~kHz interface requirements and its speed, not by accuracy.
+surprising result is that no specialist premium exists: the telephone
+specialist matches neither the generalists' accuracy in its own band nor
+their robustness elsewhere, and is uniquely fragile under reverberation,
+so its selection can be justified only by its 8~kHz interface requirements
+and its speed, not by accuracy.
 
-For translation pipelines, the frontend hypothesis dominates all other
-choices, and the latency data combine with it into a compact decision rule.
-A cascade assembled from the fastest recognition tier and the text
-translation engine completes in about 1.1 seconds per sentence at the mean,
-roughly twice as fast as the omni end-to-end path, while the streaming
+For translation pipelines, the frontend choice dominates the measurements
+reported here, and the latency data combine with it into a compact decision
+rule. A cascade assembled from the fastest recognition tier and the text
+translation engine completes in about 0.7 seconds per sentence on average,
+roughly four times as fast as the omni end-to-end path, while the streaming
 translation service completes in about half a second and is therefore the
 natural choice when latency dominates; when noise robustness dominates, the
-same streaming service and the LLM-frontend cascade lead the field, so the
-two objectives point to the same shortlist. Swapping the recognition stage of a cascade from the specialised
-streaming system to the LLM recogniser is worth 28 BLEU points at 0~dB on an
-identical translation backend, which exceeds any reasonable expected gain
-from changing the translation engine itself. The linear pass-through rule
-quantified in Section~\ref{sec:results:cac}, at roughly half a BLEU point
-per percentage point of recognition error, allows an integrator to rank
-candidate frontends with recognition-only measurements, which are cheaper to
-run and easier to interpret than full-pipeline evaluations, and to forecast
-translation quality degradation from a measured or contracted recognition
-error rate. The end-to-end versus cascade decision should rest on measured
-degradation behaviour rather than architectural intuition: the omni-modal
-end-to-end path evaluated here is simultaneously the slowest and, under
-severe noise, the most fragile of the four translation designs, while a
-dedicated streaming translation service achieves both the smallest relative
-loss at 0~dB and sub-second latency.
+same streaming service and the LLM-frontend cascades lead the field, so the
+two objectives point to the same shortlist. Swapping the recognition stage
+of a cascade from the specialised streaming system to the LLM recogniser is
+worth 28 BLEU points at 0~dB on an identical translation backend, a far
+larger effect than any measurement noise in this study, though the present
+design holds the translation engine fixed and therefore cannot rank frontend
+changes against engine changes. The pass-through regression of
+Section~\ref{sec:results:cac}, at roughly half a BLEU point per percentage
+point of recognition error with a statistically zero intercept, allows an
+integrator to rank candidate frontends with recognition-only measurements,
+which are cheaper to run and easier to interpret than full-pipeline
+evaluations, and to forecast translation quality degradation from a
+measured or contracted recognition error rate, with the caveat that the
+coefficient is calibrated on one translation engine. The end-to-end versus
+cascade decision should rest on measured degradation behaviour rather than
+architectural intuition: the omni-modal end-to-end path evaluated here is
+simultaneously the slowest and, under severe noise, the most fragile of the
+four translation designs, while a dedicated streaming translation service
+achieves both the smallest relative loss at 0~dB and sub-second latency.
 
 \subsection{Why foundation-model recognisers degrade more slowly}
 
@@ -59,23 +66,27 @@ under codec, packet-loss, clipping, and tempo distortions, which barely
 affect any system. This pattern is consistent with robustness arising from
 exposure to diverse recording conditions during pre-training rather than
 from any explicit enhancement front-end. Second, the advantage is
-language-asymmetric, with Chinese recognition nearly immune at 0~dB while English recognition of the same systems fails at 37 to 50 percent. Providers
+language-asymmetric, with Chinese recognition remaining usable at 0~dB
+while English recognition of the same systems fails at 37 to 50 percent,
+and, as Section~\ref{sec:results:snr} notes, part of the contrast may
+reflect the character-level versus word-level scoring scales rather than
+raw robustness alone. Providers
 disclose neither training mixture nor per-language capacity, so the asymmetry
 can only be documented, not explained, at the black-box level; the
 documentation itself is actionable, since it implies that multilingual
 deployments should be derated per language rather than per provider. It also implies a concrete procurement test: a
-single-language noise probe, one hundred sentences of the target language
-at 0~dB babble, is enough to place a candidate service on the robustness
-spectrum documented here, and repeating the probe per deployment language
-guards against extrapolating a strong Mandarin result to a weak English
-result or the reverse. The direction decomposition of
+noise probe around each system's knee, a few hundred sentences of the target
+language in the 0 to 5~dB window, places a candidate service on the
+robustness scale documented here, and repeating the probe per deployment
+language guards against extrapolating a strong Mandarin result to a weak
+English result or the reverse. The direction decomposition of
 Section~\ref{sec:results:cascade} extends the same caution to translation
 deployments, where the two directions of a bilingual service degraded by
-strikingly different amounts under identical noise.
+asymmetric amounts, from 1.3 to 1 ratio to 3.2 to 1, under identical noise.
 
 \subsection{Cascade versus end-to-end revisited}
 
-The classical comparison of Bentivogli et al.~\cite{bentivogli2018cascade}
+The classical comparison of Bentivogli et al.~\cite{bentivogli2021cascade}
 found end-to-end and cascade systems competitive on clean speech with
 different error structures. Our measurements extend that comparison to
 degraded channels in the black-box setting and qualify it in two ways. The
@@ -104,31 +115,40 @@ stable currency of black-box comparison. The synthesis-based corpus design
 gives black-box studies an exact transcript by construction, which matters
 because at sub-percent clean error rates, transcription uncertainty in
 recorded corpora would be comparable to the effects being measured. Finally,
-the refusal behaviour documented in Section~\ref{sec:results:main}, where
-one system returns empty output on a small but systematic subset of severely
-degraded utterances, argues that black-box benchmarks should report response
-completeness alongside error rates, since a missing transcript and a wrong
-transcript have different downstream failure modes.
+the empty-output behaviour documented in Section~\ref{sec:results:main},
+where three of the five systems return empty transcripts on a systematic
+subset of severely degraded utterances, through two distinct mechanisms,
+argues that black-box benchmarks should report response completeness
+alongside error rates, since a missing transcript and a wrong transcript
+have different downstream failure modes, and a silently empty one differs
+operationally from a protocol-level refusal.
 
 \subsection{A worked example of the pass-through rule}
 
-The pass-through rule is most useful when stated as an explicit calculation.
-Suppose an integrator operates a cascade built on the LLM recogniser in an
-environment that occasionally degrades to 10~dB, at which the recogniser
-errs at 0.9 percent, and contracts a translation stage equivalent to the one
-measured here. The rule predicts a translation loss of roughly 0.47 times
-0.9, that is 0.4 BLEU points, which is below the clean-condition agreement
-between the two reference systems and therefore negligible. If the same
-deployment used the specialised streaming recogniser, whose 10~dB error
-rate is 2.8 percent, the predicted loss is 1.9 BLEU points, still modest,
-but the margin to the 0~dB regime, where the rule predicts 27 to 38 points
-of loss for the two frontends respectively, is thin. The rule therefore
-both quantifies the mild regime, where no architectural action is needed,
-and identifies the severity threshold beyond which the frontend choice
-becomes the dominant design decision. The same arithmetic applied to the
-measured error rates of a candidate system at the actual operating
-signal-to-noise distribution of a deployment yields an expected translation
-quality distribution without running the translation stage at all.
+The pass-through regression is most useful when stated as an explicit
+calculation, including its intercept. For the Qwen-Audio cascade the fitted
+relation is a loss of $0.44\,e + 0.6$ BLEU points at recognition error $e$
+percent. Suppose an integrator operates that cascade in an environment that
+occasionally degrades to 10~dB, at which the recogniser errs at 0.8 percent
+on the sweep subset; the predicted translation loss is 0.9 BLEU points,
+which is below the clean-condition agreement between the two reference
+systems and therefore negligible, and consistent with the measured 1.0
+point loss at that condition. If the same deployment used the specialised
+streaming recogniser, whose 10~dB error rate is 2.4 percent on the same
+sentences, the specialist-calibrated regression predicts $0.54 \times 2.4 -
+1.0$, about 0.3 BLEU points, again matching the measured figure within a
+point. In the 0~dB regime the rule predicts a loss of $0.44 \times 24.1 +
+0.6$, about 11 points, against a measured 9.8, and for the specialist
+frontend $0.54 \times 56.5 - 1.0$, about 29 points, against a measured 35.7,
+so the rule is accurate to within a few points up to the edge of the usable
+regime and understates the collapse beyond it, which is exactly where the
+leverage check of Section~\ref{sec:results:cac} shows the slope rising
+toward two thirds of a point. The same arithmetic applied to the measured
+error rates of a candidate system at the actual operating signal-to-noise
+distribution of a deployment yields an expected translation quality loss
+without running the translation stage at all, and its error bars, roughly
+$\pm 0.04$ on the slope, are small next to the business consequences of the
+frontend decision it informs.
 
 \subsection{Implications for evaluation practice and future work}
 
@@ -150,35 +170,59 @@ translation stage to anchor the machine-reference comparisons. As foundation
 model services begin to expose streaming speech interfaces with embedded
 recognition, the measurement approach demonstrated here, treating each
 service as an opaque function from degraded audio to text and scoring the
-complete pipeline end to end, appears to be the only viable methodology for
+complete pipeline end to end, is, at present, the most direct methodology available for
 the comparative robustness questions that practitioners actually face.
 
 \section{Limitations}
 \label{sec:limitations}
 
-The benchmark uses synthetic speech from four neural voices. Synthetic
+The benchmark uses synthetic speech from four neural voices, each reading
+each sentence once, so voice-level and take-level variability is not
+sampled and the corpus is read-style by construction. Synthetic
 speech lacks the disfluencies, accents, emotional variation, and channel
 noise of spontaneous human recordings, and although the exact-transcript
 property is decisive for measurement at sub-percent error floors, clean
 error rates measured on synthetic speech should not be read as population
 estimates for human speech; the degradation deltas, which are the object of
 this study, are less sensitive to this concern because they are within-system
-contrasts. All systems come from a single provider, so architectural family
-effects and provider effects are confounded; the family-level regularities
-reported here are consistent with published training-scale
-explanations~\cite{radford2023robust}, but cross-provider replication is
-required before they can be attributed to architecture rather than to one
-provider's engineering. The babble noise is itself synthesised from
+contrasts, but a real-speech replication remains necessary before the
+clean-condition levels can be generalised. The most consequential design
+constraint is that all systems, references, and the synthesis come from a
+single provider, so product class and vendor are fully confounded: the
+class-level regularities reported here are consistent with published
+training-scale explanations~\cite{radford2023robust}, but cross-provider
+replication is required before they can be attributed to architecture
+rather than to one provider's engineering, and the same confound applies to
+the reference translations, since no reference generator family-disjoint
+from all systems was available; human references or references from other
+vendors are needed to anchor absolute translation quality. The babble
+noise is itself synthesised from
 disjoint neural voices, which makes it speech-shaped and fully reproducible
 but smoother than real multi-talker cocktail-party interference, which
-includes semantic competition and stronger nonstationarity. Severity levels
+includes semantic competition and stronger nonstationarity. The
+reverberation condition uses a synthetic exponentially decaying response
+whose diffuse tail yields a direct-to-reverberant ratio of $-27.6$~dB at a
+moderate clarity ratio, which under-represents the discrete early
+reflections of real small rooms; real recorded impulse responses and real
+environmental noise would strengthen the acoustic realism of both
+categories. Severity levels
 for the non-noise degradations were fixed at deployed-but-aggressive values
-rather than swept, so only the noise family is characterised by a gradient.
-Translation quality is measured with BLEU and chrF against machine-generated
-references, with the family-affinity bias that
-Section~\ref{sec:results:dual} quantifies; human-reference scoring would
-strengthen absolute claims. Finally, commercial APIs are moving targets: the
-measurements document the October 2026 versions of the listed services, and
-one of the systems could not complete its full condition grid before its
-free-tier quota was exhausted, which is itself a practically relevant datum
+rather than swept, so only the noise family is characterised by a curve,
+and the Opus and narrowband conditions proved to be partially redundant
+stressors at the chosen bitrate. Translation quality is measured with BLEU
+and chrF against machine-generated references, with the family-affinity
+bias that Section~\ref{sec:results:dual} quantifies; no learned
+reference-free metric (COMET class) or human judgement was available within
+the zero-cost constraint, and human-reference scoring is the single
+addition that would most strengthen the absolute claims. The corpus
+sentences were authored to be neutral and predictable, so the language-model
+prior of the LLM recognisers may partly mask acoustic degradation, and the
+numerals-domain gap may partly reflect inverse text normalisation rather
+than acoustics, as the normalisation sensitivity analysis suggests.
+Finally, commercial APIs are moving targets: the
+measurements document the October 2026 versions of the listed services, one
+system could not complete its full condition grid before its
+free-tier quota was exhausted, and the websocket transport of the streaming
+translation service dropped roughly ten percent of its sessions, which is
+itself a practically relevant datum
 for anyone planning a similar measurement on complimentary quotas.

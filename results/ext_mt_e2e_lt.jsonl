@@ -1,0 +1,300 @@
+{"key": "n25/en_D1_L_04", "ok": true, "text": "环保组织批评了这项计划。他们认为，拟议中的机场扩建将破坏受保护的湿地，并危害当地野生动物。", "source_asr": "Environmental groups have criticized the plan. arguing that the proposed airport expansion would destroy protected wetlands and harm local wildlife. ", "latency_s": 0.95, "lang": "en"}
+{"key": "n25/en_D1_L_01", "ok": true, "text": "交通部长对记者说，周五表示，未来五年内，政府将大力投资电动汽车充电基础设施。", "source_asr": "The transport minister told reporters on Friday that the government would invest heavily in electric vehicle charging infrastructure over the next five years. ", "latency_s": 0.78, "lang": "en"}
+{"key": "n25/en_D1_L_09", "ok": true, "text": "大学的研究人员已经开发出一种低成本的水过滤器，可以去除重金属，这有望惠及农村地区的数百万人。", "source_asr": "University researchers have developed a low-cost water filter that can remove heavy metals, potentially benefiting millions of people in rural areas. ", "latency_s": 0.8, "lang": "en"}
+{"key": "n25/en_D1_L_08", "ok": true, "text": "这个节日开幕了，港口上空燃放了壮观的烟火秀，尽管天气寒冷，还有零星的小雨，但还是吸引了大量人群。", "source_asr": "The festival opened with a spectacular fireworks display over the harbor, drawing huge crowds despite the cold weather and occasional drizzle. ", "latency_s": 0.79, "lang": "en"}
+{"key": "n25/en_D1_L_17", "ok": true, "text": "当地的渔民表示，近年来他们的渔获量急剧下降，许多人已经转行从事水产养殖，或者彻底离开了这个行业。", "source_asr": "Local fishermen say their catches have declined sharply in recent years, and many have switched to aquaculture or left the industry altogether. ", "latency_s": 0.72, "lang": "en"}
+{"key": "n25/en_D1_L_03", "ok": true, "text": "当主队在全场爆满的观众面前，于最后几分钟连进两球时，这场冠军争夺战以戏剧性的方式画上了句号。", "source_asr": "The championship ended in dramatic fashion when the home side scored twice in the final minutes before a capacity crowd. ", "latency_s": 0.69, "lang": "en"}
+{"key": "n25/en_D1_M_04", "ok": true, "text": "官员表示，供水预计将于明天晚上恢复正常。", "source_asr": "Officials said the water supply should return to normal by tomorrow evening. ", "latency_s": 0.46, "lang": "en"}
+{"key": "n25/en_D1_M_18", "ok": true, "text": "考古学家发现了可以追溯到1000多年前的古钱币。", "source_asr": "Archaeologists unearthed ancient coins dating back more than 1,000 years. ", "latency_s": 0.63, "lang": "en"}
+{"key": "n25/en_D1_M_03", "ok": true, "text": "一条新的高速铁路将把旅行时间缩短一半。", "source_asr": "A new high-speed rail line will cut travel time by half. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D1_M_14", "ok": true, "text": "城市规划师公布了一项提案，旨在将历史悠久的市中心区域改造成步行区。", "source_asr": "City planners unveiled a proposal to pedestrianize the historic downtown district. ", "latency_s": 0.59, "lang": "en"}
+{"key": "n25/en_D1_M_02", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D1_M_01", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D1_S_03", "ok": true, "text": "新的地铁线路将于周五开通。", "source_asr": "The new metro line opens Friday. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D1_S_07", "ok": true, "text": "成千上万的粉丝欢迎球队回家。", "source_asr": "Thousands of fans welcome the team home. ", "latency_s": 0.57, "lang": "en"}
+{"key": "n25/en_D1_S_08", "ok": true, "text": "艺术节将于本周末开始。", "source_asr": "The art festival begins this weekend. ", "latency_s": 0.46, "lang": "en"}
+{"key": "n25/en_D1_S_17", "ok": true, "text": "桥梁修复项目现在已经完成了。", "source_asr": "The bridge repair project is now complete. ", "latency_s": 0.49, "lang": "en"}
+{"key": "n25/en_D1_S_01", "ok": true, "text": "今天股市收盘上涨。", "source_asr": "The stock market closed higher today. ", "latency_s": 0.44, "lang": "en"}
+{"key": "n25/en_D1_S_09", "ok": true, "text": "本月油价略有下降。", "source_asr": "Fuel prices dropped slightly this month. ", "latency_s": 0.43, "lang": "en"}
+{"key": "n25/en_D2_L_07", "ok": true, "text": "如果你能在周三之前完成报告，那我们周五就可以早点下班，避开交通高峰。", "source_asr": "If you finish the report by Wednesday, we could all leave early on Friday and beat the traffic. ", "latency_s": 0.66, "lang": "en"}
+{"key": "n25/en_D2_L_18", "ok": true, "text": "我们在去婚礼的路上迷路了。", "source_asr": "We got lost on the way to the wedding. ", "latency_s": 0.49, "lang": "en"}
+{"key": "n25/en_D2_L_14", "ok": true, "text": "我们的酒店很棒，就是每天早上七点准时开始的施工噪音有点烦人。", "source_asr": "Our hotel was lovely, except for the construction noise that started promptly at seven every morning. ", "latency_s": 0.74, "lang": "en"}
+{"key": "n25/en_D2_L_08", "ok": true, "text": "她已经为去日本的旅行存了两年钱，上周终于订好了机票。", "source_asr": "She's been saving up for that trip to Japan for two years, and she finally booked her tickets last week. ", "latency_s": 0.66, "lang": "en"}
+{"key": "n25/en_D2_L_15", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D2_L_10", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D2_M_09", "ok": true, "text": "邻居的狗整晚都在叫，我已经好几天没睡好觉了。", "source_asr": "The neighbor's dog barks all night, and I haven't slept properly in days. ", "latency_s": 0.73, "lang": "en"}
+{"key": "n25/en_D2_M_01", "ok": true, "text": "我在想，如果天气好的话，我们这个周末可以开车去海滩。", "source_asr": "I was thinking we could drive to the beach this weekend if the weather holds. ", "latency_s": 0.53, "lang": "en"}
+{"key": "n25/en_D2_M_06", "ok": true, "text": "你能去学校接一下孩子吗？我有一个牙医预约。", "source_asr": "Could you pick up the kids from school? I have a dentist appointment. ", "latency_s": 0.49, "lang": "en"}
+{"key": "n25/en_D2_M_14", "ok": true, "text": "机械师说，这辆车需要更换刹车片，还要做一下轮胎换位。", "source_asr": "The mechanic said the car needs new brake pads and a tire rotation. ", "latency_s": 0.62, "lang": "en"}
+{"key": "n25/en_D2_M_11", "ok": true, "text": "他在考试前把笔记借给了我，说实话，这救了我的成绩。", "source_asr": "He lent me his notes before the exam, which honestly saved my grade. ", "latency_s": 0.61, "lang": "en"}
+{"key": "n25/en_D2_M_05", "ok": true, "text": "我姐姐刚搬到了市中心的一套新公寓，租金贵得离谱。", "source_asr": "My sister just moved into a new apartment downtown, and the rent is insane. ", "latency_s": 0.76, "lang": "en"}
+{"key": "n25/en_D2_S_05", "ok": true, "text": "我的手机电池快没电了。", "source_asr": "My phone battery is almost dead. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D2_S_07", "ok": true, "text": "据说待会儿会下雨。", "source_asr": "It's supposed to rain later. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D2_S_11", "ok": true, "text": "我下班后给你打电话。", "source_asr": "I'll call you after work. ", "latency_s": 0.41, "lang": "en"}
+{"key": "n25/en_D2_S_04", "ok": true, "text": "你昨晚看比赛了吗？", "source_asr": "Did you watch the game last night? ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D2_S_03", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D2_S_19", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D3_L_04", "ok": true, "text": "端到端的语音翻译将源语言音频直接映射为目标语言的文本，从而避免了错误传播或级联效应。", "source_asr": "End-to-end speech translation maps source language audio directly to target language text, avoiding error propagation or cascading. ", "latency_s": 0.82, "lang": "en"}
+{"key": "n25/en_D3_L_12", "ok": true, "text": "船舶设计遵循逻辑，经过综合、功能验证、物理布局和制造等步骤，历时数月。", "source_asr": "Ship design flows through logic, synthesis, functional verification, physical layout, and fabrication over many months. ", "latency_s": 0.79, "lang": "en"}
+{"key": "n25/en_D3_L_19", "ok": true, "text": "图像压缩算法利用了人类视觉的局限性，以在视觉质量和比特率之间取得平衡。", "source_asr": "Image compression algorithms exploit the limits of human vision to balance visual quality against bit rate. ", "latency_s": 0.72, "lang": "en"}
+{"key": "n25/en_D3_L_09", "ok": true, "text": "当声波在真实表面上反复反射时，就会产生混响。这会显著降低远场识别的准确性。", "source_asr": "Reverberation arises when sound waves reflect repeatedly off real surfaces, and it significantly degrades far-field recognition accuracy. ", "latency_s": 0.78, "lang": "en"}
+{"key": "n25/en_D3_L_02", "ok": true, "text": "训练大型模型需要数千个图形处理器连续运行数周，并消耗大量的能源。", "source_asr": "Training large models requires thousands of graphics processors running continuously for weeks and consuming enormous amounts of energy. ", "latency_s": 0.88, "lang": "en"}
+{"key": "n25/en_D3_L_18", "ok": true, "text": "现在，语音合成技术可以生成非常自然的语音，这给合成音频的检测带来了新的挑战。", "source_asr": "Speech synthesis can now generate highly natural voices, posing new challenges for synthetic audio detection. ", "latency_s": 0.87, "lang": "en"}
+{"key": "n25/en_D3_M_15", "ok": true, "text": "分布式系统必须谨慎管理跨副本的一致性。", "source_asr": "Distributed systems must carefully manage consistency across replicas. ", "latency_s": 0.46, "lang": "en"}
+{"key": "n25/en_D3_M_18", "ok": true, "text": "半导体制造需要严格的洁净室环境。", "source_asr": "Semiconductor fabrication demands a strictly clean room environment. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D3_M_04", "ok": true, "text": "现代语音识别系统通常会将声学模型和语言模型相结合。", "source_asr": "Modern speech recognition systems typically combine acoustic and language models. ", "latency_s": 0.53, "lang": "en"}
+{"key": "n25/en_D3_M_13", "ok": true, "text": "在过去的二十年里，基因组测序的成本大幅下降。", "source_asr": "The cost of genome sequencing has fallen dramatically over two decades. ", "latency_s": 0.44, "lang": "en"}
+{"key": "n25/en_D3_M_03", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D3_M_09", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D3_S_10", "ok": true, "text": "卫星进入了轨道。", "source_asr": "The satellite reached its orbit. ", "latency_s": 0.51, "lang": "en"}
+{"key": "n25/en_D3_S_12", "ok": true, "text": "电池续航时间为20小时。", "source_asr": "The battery lasts 20 hours. ", "latency_s": 0.47, "lang": "en"}
+{"key": "n25/en_D3_S_07", "ok": true, "text": "加密可以保护数据通道。", "source_asr": "Encryption protects the data channel. ", "latency_s": 0.44, "lang": "en"}
+{"key": "n25/en_D3_S_03", "ok": true, "text": "这个芯片的功耗非常低。", "source_asr": "This chip consumes very little power. ", "latency_s": 0.49, "lang": "en"}
+{"key": "n25/en_D3_S_02", "ok": true, "text": "神经网络需要大量的数据集。", "source_asr": "Neural networks need large data sets. ", "latency_s": 0.46, "lang": "en"}
+{"key": "n25/en_D3_S_11", "ok": true, "text": "量子计算机仍处于实验阶段。", "source_asr": "Quantum computers remain experimental. ", "latency_s": 0.72, "lang": "en"}
+{"key": "n25/en_D4_L_08", "ok": true, "text": "周年庆典定于5月20日，届时预计将有超过3000名校友重返校园。", "source_asr": "The anniversary celebration falls on May 20th, when more than 3,000 alumni are expected to return to campus. ", "latency_s": 0.79, "lang": "en"}
+{"key": "n25/en_D4_L_10", "ok": true, "text": "二十多年来，这家公司已经扩张到300多个城市，服务了超过8000万用户。", "source_asr": "Over 20 years, the company has expanded to more than 300 cities and served over 80 million users. ", "latency_s": 0.7, "lang": "en"}
+{"key": "n25/en_D4_L_03", "ok": true, "text": "这艘航天器在轨道上飞行了90天。它完成了超过一千项实验，并于11点33分安全着陆。", "source_asr": "The spacecraft flew in orbit for 90 days. completed more than a thousand experiments and landed safely at 11:33. ", "latency_s": 0.87, "lang": "en"}
+{"key": "n25/en_D4_L_20", "ok": true, "text": "调查显示，超过70%的居民使用移动支付，平均每天约18次。", "source_asr": "Surveys show over 70 percent of residents use mobile payments daily, averaging about 18 per transaction. ", "latency_s": 1.0, "lang": "en"}
+{"key": "n25/en_D4_L_04", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D4_L_07", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D4_M_09", "ok": true, "text": "她已经在牛津大学攻读博士学位三年了。", "source_asr": "She has been pursuing her doctorate at Oxford for three years now. ", "latency_s": 0.52, "lang": "en"}
+{"key": "n25/en_D4_M_15", "ok": true, "text": "那个隧道。限速60，并且不允许变道。", "source_asr": "The tunnel. has a speed limit of 60 and no lane changes allowed. ", "latency_s": 0.57, "lang": "en"}
+{"key": "n25/en_D4_M_12", "ok": true, "text": "本次展览展出了这位大师创作的100多件真品。", "source_asr": "The exhibition features over 100 authentic works by the master painter. ", "latency_s": 0.56, "lang": "en"}
+{"key": "n25/en_D4_M_06", "ok": true, "text": "今年冬天，北部山区的气温可能会降至零下10度。", "source_asr": "Temperatures this winter could drop to minus 10 in the northern mountains. ", "latency_s": 0.55, "lang": "en"}
+{"key": "n25/en_D4_M_18", "ok": true, "text": "追踪号码以7730开头，以49结尾。", "source_asr": "The tracking number starts with 7730 and ends with 49. ", "latency_s": 0.6, "lang": "en"}
+{"key": "n25/en_D4_M_17", "ok": true, "text": "会议徽章可以在三楼的登记处领取。", "source_asr": "Conference badges can be collected at the registration desk on level three. ", "latency_s": 0.49, "lang": "en"}
+{"key": "n25/en_D4_S_07", "ok": true, "text": "我的生日在十月。", "source_asr": "My birthday is in October. ", "latency_s": 0.68, "lang": "en"}
+{"key": "n25/en_D4_S_09", "ok": true, "text": "我住在第五大道。", "source_asr": "I live on Fifth Avenue. ", "latency_s": 0.41, "lang": "en"}
+{"key": "n25/en_D4_S_03", "ok": true, "text": "我们在1208房间。", "source_asr": "We're in 1208. ", "latency_s": 0.42, "lang": "en"}
+{"key": "n25/en_D4_S_06", "ok": true, "text": "火车9点40分出发。", "source_asr": "The train departs at 9:40. ", "latency_s": 0.51, "lang": "en"}
+{"key": "n25/en_D4_S_08", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D4_S_18", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D1_L_15", "ok": true, "text": "This laboratory has brought together a group of outstanding young scholars. They have achieved a number of original breakthroughs in the field of artificial intelligence. ", "source_asr": "该实验室聚集了一批优秀 青年学者，在人工智能领域取得多项原创成果。 ", "latency_s": 0.82, "lang": "zh"}
+{"key": "n25/zh_D1_L_13", "ok": true, "text": "The report concludes that, the green and low-carbon transition will bring huge market space and opportunities for related industries. ", "source_asr": "报告认为 绿色低碳转型将为相关产业带来巨大的市场空间和机遇 ", "latency_s": 0.79, "lang": "zh"}
+{"key": "n25/zh_D1_L_09", "ok": true, "text": "The research team spent five years to complete this project. The results have been published in an international authoritative journal. ", "source_asr": "研究团队历时五年完成了 这项课题，成果已在国际权威期刊上发表。 ", "latency_s": 0.78, "lang": "zh"}
+{"key": "n25/zh_D1_L_08", "ok": true, "text": "The newly built sports center can accommodate 60,000 spectators and will become a new landmark building for the city. ", "source_asr": "新建成的体育中心可容纳六万名观众，将成为城市新的地标性建筑。 ", "latency_s": 0.8, "lang": "zh"}
+{"key": "n25/zh_D1_L_11", "ok": true, "text": "This exercise focused on testing the emergency command system's ability to coordinate operations under complex conditions. ", "source_asr": "这次演习重点检验了应急指挥系统在复杂条件下的协同作战能力。 ", "latency_s": 1.13, "lang": "zh"}
+{"key": "n25/zh_D1_L_14", "ok": true, "text": "The traffic management department reminds that there is heavy traffic on the highways during holidays. Please plan your route reasonably before traveling. ", "source_asr": "交管部门提醒 节假日期间高速车流量大，出行前请合理规划路线 ", "latency_s": 0.69, "lang": "zh"}
+{"key": "n25/zh_D1_M_02", "ok": true, "text": "This space mission has successfully completed all scheduled experimental projects. ", "source_asr": "本次航天任务圆满完成全部预定实验项目 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D1_M_08", "ok": true, "text": "The municipal government has announced the launch of a new round of renovation plans for old residential communities. ", "source_asr": "市政府宣布启动新一轮老旧小区改造计划 ", "latency_s": 0.58, "lang": "zh"}
+{"key": "n25/zh_D1_M_20", "ok": true, "text": "The Employment Promotion Week for College Graduates kicked off today. ", "source_asr": "高校毕业生就业宣传周活动今天启动 ", "latency_s": 0.52, "lang": "zh"}
+{"key": "n25/zh_D1_M_11", "ok": true, "text": "Relevant departments have jointly conducted a major safety inspection. ", "source_asr": "相关部门联合开展安全生产大检查 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D1_M_13", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D1_M_05", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D1_S_03", "ok": true, "text": "The typhoon will make landfall in coastal areas tomorrow night. ", "source_asr": "台风明晚登陆沿海地区 ", "latency_s": 0.58, "lang": "zh"}
+{"key": "n25/zh_D1_S_07", "ok": true, "text": "The meeting issued an important statement. ", "source_asr": "会议发布了重要声明 ", "latency_s": 0.45, "lang": "zh"}
+{"key": "n25/zh_D1_S_11", "ok": true, "text": "The champion team returned in triumph tonight. ", "source_asr": "冠军队伍今晚凯旋归来 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D1_S_19", "ok": true, "text": "Registration for the city marathon has officially opened. ", "source_asr": "城市马拉松报名正式启动 ", "latency_s": 0.49, "lang": "zh"}
+{"key": "n25/zh_D1_S_16", "ok": true, "text": "The opening ceremony of the art festival was packed. ", "source_asr": "艺术节开幕式座无虚席 ", "latency_s": 0.51, "lang": "zh"}
+{"key": "n25/zh_D1_S_17", "ok": true, "text": "Sales of new energy vehicles have reached a new high. ", "source_asr": "新能源汽车销量再创新高 ", "latency_s": 0.43, "lang": "zh"}
+{"key": "n25/zh_D2_L_15", "ok": true, "text": "On the weekend, our whole family went to a picking garden in the suburbs. The kids had a great time. ", "source_asr": "周末我们全家去了趟郊区采摘园，孩子玩得特别开心 ", "latency_s": 0.62, "lang": "zh"}
+{"key": "n25/zh_D2_L_05", "ok": true, "text": "The temperature has dropped in the past two days. So remember to wear more clothes when you go out, and don't catch a cold again. ", "source_asr": "这两天降温 出门的时候记得多穿点衣服，别又感冒了 ", "latency_s": 0.75, "lang": "zh"}
+{"key": "n25/zh_D2_L_09", "ok": true, "text": "My parents, are coming to stay for a while next month. I plan to redecorate the second bedroom first. ", "source_asr": "我爸妈 下个月要来住一段时间，我打算先把次卧重新布置一下 ", "latency_s": 0.63, "lang": "zh"}
+{"key": "n25/zh_D2_L_19", "ok": true, "text": "Yesterday, I passed by the mall and saw a seasonal sale, so I couldn't resist buying two more shirts. ", "source_asr": "昨天路过商场看到换季打折，忍不住又买了两件衬衫 ", "latency_s": 0.58, "lang": "zh"}
+{"key": "n25/zh_D2_L_08", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D2_L_12", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D2_M_18", "ok": true, "text": "Guess who I ran into in the elevator today? ", "source_asr": "你猜今天在电梯里遇到谁了 ", "latency_s": 0.56, "lang": "zh"}
+{"key": "n25/zh_D2_M_20", "ok": true, "text": "I remember putting the key in my bag. ", "source_asr": "我记得把钥匙放在包里了呀 ", "latency_s": 0.58, "lang": "zh"}
+{"key": "n25/zh_D2_M_09", "ok": true, "text": "I've been learning how to cook recently, and it's going pretty well. ", "source_asr": "我最近在学做菜，进展还挺顺利的 ", "latency_s": 0.73, "lang": "zh"}
+{"key": "n25/zh_D2_M_14", "ok": true, "text": "Did you bring an umbrella? It's raining pretty hard outside. ", "source_asr": "你带伞了吗？外面雨下得挺大的 ", "latency_s": 0.52, "lang": "zh"}
+{"key": "n25/zh_D2_M_13", "ok": true, "text": "I've made plans with an old classmate to have morning tea on Saturday morning. ", "source_asr": "我约了老同学周六上午喝早茶 ", "latency_s": 0.57, "lang": "zh"}
+{"key": "n25/zh_D2_M_06", "ok": true, "text": "He worked overtime until midnight yesterday, so he definitely won't be able to get up today. ", "source_asr": "他昨天加班到半夜，今天肯定起不来 ", "latency_s": 0.56, "lang": "zh"}
+{"key": "n25/zh_D2_S_08", "ok": true, "text": "What have you been busy with lately? ", "source_asr": "你最近忙什么呀？ ", "latency_s": 0.45, "lang": "zh"}
+{"key": "n25/zh_D2_S_05", "ok": true, "text": "Outside. It looks like it's going to rain. ", "source_asr": "外面 好像要下雨了 ", "latency_s": 0.53, "lang": "zh"}
+{"key": "n25/zh_D2_S_17", "ok": true, "text": "I got a new hairstyle. ", "source_asr": "我换了新发型 ", "latency_s": 0.45, "lang": "zh"}
+{"key": "n25/zh_D2_S_16", "ok": true, "text": "The package has been left at the front desk. ", "source_asr": "快递放在前台了 ", "latency_s": 0.51, "lang": "zh"}
+{"key": "n25/en_D1_M_02", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D1_M_01", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D2_L_15", "ok": true, "text": "自从我开始在家工作后，因为不用每天通勤，我节省了很多时间。", "source_asr": "Since I started working from home, I've saved so much time by not commuting every day. ", "latency_s": 0.66, "lang": "en"}
+{"key": "n25/en_D2_L_10", "ok": true, "text": "我发誓，这台打印机能感觉到我着急的时候，偏偏就在那一刻卡纸。", "source_asr": "I swear this printer senses when I'm in a hurry and chooses that exact moment to jam. ", "latency_s": 0.64, "lang": "en"}
+{"key": "n25/en_D2_S_03", "ok": true, "text": "这家咖啡店很温馨。", "source_asr": "This coffee shop is cozy. ", "latency_s": 0.42, "lang": "en"}
+{"key": "n25/en_D2_S_19", "ok": true, "text": "我们把账单平均分了吧。", "source_asr": "Let's split the bill evenly. ", "latency_s": 0.45, "lang": "en"}
+{"key": "n25/en_D3_M_03", "ok": true, "text": "大型语言模型从根本上改变了自然语言处理领域。", "source_asr": "Large language models have fundamentally changed the field of natural language processing. ", "latency_s": 0.6, "lang": "en"}
+{"key": "n25/en_D3_M_09", "ok": true, "text": "云平台可以按需弹性地提供计算资源。", "source_asr": "Cloud platforms provide elastic computing resources on demand. ", "latency_s": 0.51, "lang": "en"}
+{"key": "n25/en_D4_L_04", "ok": true, "text": "这个项目要求孩子们投入大约180亿。这将惠及四个县的近200万居民。", "source_asr": "The project requires the children to invest at about 18 billion. It will benefit nearly two million residents in four counties. ", "latency_s": 0.84, "lang": "en"}
+{"key": "n25/en_D4_L_07", "ok": true, "text": "这列火车于7点从南站出发。每天早上。它经过六个车站，10点40分到达。", "source_asr": "The train leaves the South Station at every morning. It stops at six stations and arrives at 10:40. ", "latency_s": 0.98, "lang": "en"}
+{"key": "n25/en_D4_S_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "en"}
+{"key": "n25/en_D4_S_18", "ok": true, "text": "这条河全长六千公里。", "source_asr": "The river runs 6,000 kilometers. ", "latency_s": 0.53, "lang": "en"}
+{"key": "n25/zh_D1_M_13", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D1_M_05", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D2_L_08", "ok": true, "text": "If you had left half an hour earlier, you definitely wouldn't have run into the rush hour traffic. ", "source_asr": "你要是早半个小时出发，肯定就不会赶上晚高峰堵车了。 ", "latency_s": 0.67, "lang": "zh"}
+{"key": "n25/zh_D2_L_12", "ok": true, "text": "I couldn't sleep last night. I tossed and turned and didn't manage to fall asleep until after 3 a.m. ", "source_asr": "我昨天晚上失眠，翻来覆去到凌晨三点多才勉强睡着 ", "latency_s": 0.65, "lang": "zh"}
+{"key": "n25/zh_D2_S_03", "ok": true, "text": "Is this dress on sale? ", "source_asr": "这件衣服打折吗 ", "latency_s": 0.5, "lang": "zh"}
+{"key": "n25/zh_D2_S_13", "ok": true, "text": "A new noodle shop has opened downstairs. ", "source_asr": "楼下新开了家面馆 ", "latency_s": 0.68, "lang": "zh"}
+{"key": "n25/zh_D3_L_02", "ok": true, "text": "Training large models requires thousands of GPUs running continuously for weeks, with energy consumption and costs being substantial. ", "source_asr": "训练大模型需要成千上万块图形处理器连续运转数周，能耗和成本都相当可观。 ", "latency_s": 0.76, "lang": "zh"}
+{"key": "n25/zh_D3_L_04", "ok": true, "text": "End-to-end speech translation system. It directly maps the source language audio to the target language text, avoiding the accumulation of errors. ", "source_asr": "端到端语音翻译系统 直接把源语言音频映射为目标语言文本，避免了误差积累 ", "latency_s": 0.81, "lang": "zh"}
+{"key": "n25/zh_D3_L_05", "ok": true, "text": "Federated learning allows multiple organizations to jointly train a global model without sharing the raw data. ", "source_asr": "联邦学习允许多个机构 在不共享原始数据的前提下，共同训练出一个全局模型。 ", "latency_s": 0.78, "lang": "zh"}
+{"key": "n25/zh_D3_L_06", "ok": true, "text": "The precision of semiconductor lithography processes, has entered the nanometer level. Extreme ultraviolet lithography machines are the key equipment in this process. ", "source_asr": "半导体光刻工艺的精度 已经进入纳米级别，极紫外光刻机是其中的关键设备。 ", "latency_s": 1.06, "lang": "zh"}
+{"key": "n25/zh_D3_L_14", "ok": true, "text": "The error rate of automatic speech recognition, is now below 5% in quiet environments. However, noisy scenarios still pose a significant challenge. ", "source_asr": "自动语音识别的错误率 在安静环境下已低于5%，但噪声场景仍充满挑战。 ", "latency_s": 0.81, "lang": "zh"}
+{"key": "n25/zh_D3_L_10", "ok": true, "text": "Neural machine translation has replaced traditional statistical methods, and the translation quality is closer to that of humans for many language pairs. ", "source_asr": "神经机器翻译取代了传统的统计方法，翻译质量在许多语言对上更接近人类。 ", "latency_s": 0.84, "lang": "zh"}
+{"key": "n25/zh_D3_M_03", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D3_M_13", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D3_M_19", "ok": true, "text": "Numerical weather forecasting relies on the computing power of supercomputers. ", "source_asr": "数值天气预报依赖超级计算机算力 ", "latency_s": 0.54, "lang": "zh"}
+{"key": "n25/zh_D3_M_15", "ok": true, "text": "Distributed systems need to address the issue of data consistency. ", "source_asr": "分布式系统需要解决数据一致性问题 ", "latency_s": 0.49, "lang": "zh"}
+{"key": "n25/zh_D3_M_09", "ok": true, "text": "The cloud computing platform supports elastically scalable computing resources. ", "source_asr": "云计算平台支持弹性伸缩的计算资源 ", "latency_s": 0.53, "lang": "zh"}
+{"key": "n25/zh_D3_M_16", "ok": true, "text": "Virtual reality technology is reshaping the way humans interact with machines. ", "source_asr": "虚拟现实技术正在重塑人机交互方式 ", "latency_s": 0.51, "lang": "zh"}
+{"key": "n25/zh_D3_S_01", "ok": true, "text": "Neural networks require a large amount of data. ", "source_asr": "神经网络需要大量数据 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D3_S_04", "ok": true, "text": "Lidar is used for distance measurement. ", "source_asr": "激光雷达用于测距 ", "latency_s": 0.42, "lang": "zh"}
+{"key": "n25/zh_D3_S_18", "ok": true, "text": "The wireless charging efficiency is relatively low. ", "source_asr": "无线充电效率偏低 ", "latency_s": 0.56, "lang": "zh"}
+{"key": "n25/zh_D3_S_09", "ok": true, "text": "Robot. It has completed autonomous navigation. ", "source_asr": "机器人 完成自主导航 ", "latency_s": 0.47, "lang": "zh"}
+{"key": "n25/zh_D3_S_11", "ok": true, "text": "Gene editing technology, or through ", "source_asr": "基因编辑技术或通过 ", "latency_s": 0.61, "lang": "zh"}
+{"key": "n25/zh_D3_S_02", "ok": true, "text": "This chip has very low power consumption. ", "source_asr": "这款芯片功耗很低 ", "latency_s": 0.44, "lang": "zh"}
+{"key": "n25/zh_D4_L_10", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D4_L_14", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D4_L_06", "ok": true, "text": "This museum is closed on Mondays. The adult ticket price is 80 yuan. Visitors over the age of 60 and active-duty military personnel are admitted free. ", "source_asr": "这家博物馆每周一闭馆 成人票价八十元，六十岁以上老人和现役军人免票 ", "latency_s": 0.89, "lang": "zh"}
+{"key": "n25/zh_D4_L_15", "ok": true, "text": "The scenic area implements a reservation and capacity limit system during holidays. The maximum daily capacity is 65,000 visitors. ", "source_asr": "景区在节假日期间实行预约限流，每日最大承载量为六万五千人次。 ", "latency_s": 0.67, "lang": "zh"}
+{"key": "n25/zh_D4_L_01", "ok": true, "text": "According to the latest statistical bulletin, the city's regional GDP reached 2.3 trillion yuan last year, an increase of 5.2 percent year-on-year. ", "source_asr": "根据最新的统计公报 全市去年实现地区生产总值两万三千亿元，同比增长百分之五点二 ", "latency_s": 0.78, "lang": "zh"}
+{"key": "n25/zh_D4_L_12", "ok": true, "text": "The new regulations will take effect on January 1, 2025. Violators may face a fine of up to 500,000 yuan. ", "source_asr": "新规自2025年1月1日起施行，违者最高可处50万元罚款。 ", "latency_s": 0.65, "lang": "zh"}
+{"key": "n25/zh_D4_M_09", "ok": true, "text": "He has been studying for his PhD at the University of Oxford for three years. ", "source_asr": "他在牛津大学攻读博士学位已经三年了 ", "latency_s": 0.5, "lang": "zh"}
+{"key": "n25/zh_D4_M_17", "ok": true, "text": "The conference handbook can be picked up at the check-in desk on the third floor of the hotel. ", "source_asr": "会议手册在酒店三层的签到处领取 ", "latency_s": 0.47, "lang": "zh"}
+{"key": "n25/zh_D4_M_06", "ok": true, "text": "It is expected that the coldest temperature this winter may reach minus ten degrees. ", "source_asr": "预计今年冬天最冷气温可能达到零下十度 ", "latency_s": 0.5, "lang": "zh"}
+{"key": "n25/zh_D4_M_19", "ok": true, "text": "The prize money for the champion of this competition is 500,000 yuan. ", "source_asr": "本次比赛的冠军奖金是五十万元人民币 ", "latency_s": 0.53, "lang": "zh"}
+{"key": "n25/zh_D4_M_04", "ok": true, "text": "He lives at No. 88, Tiyu East Road, Tianhe District. ", "source_asr": "他家住在天河区体育东路八十八号 ", "latency_s": 0.49, "lang": "zh"}
+{"key": "n25/zh_D4_M_14", "ok": true, "text": "The registration deadline is the 30th of this month. Please don't miss it. ", "source_asr": "报名截止日期是本月三十号，请勿错过 ", "latency_s": 0.58, "lang": "zh"}
+{"key": "n25/zh_D4_S_10", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D4_S_17", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/zh_D4_S_07", "ok": true, "text": "I live in Chaoyang District. ", "source_asr": "我住在朝阳区 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D4_S_05", "ok": true, "text": "It cost a total of 200 yuan. ", "source_asr": "总共花了两百元 ", "latency_s": 0.48, "lang": "zh"}
+{"key": "n25/zh_D4_S_12", "ok": true, "text": "The temperature is minus five degrees. ", "source_asr": "温度零下五度 ", "latency_s": 0.46, "lang": "zh"}
+{"key": "n25/zh_D4_S_13", "ok": true, "text": "This bottle of water is 500 milliliters. ", "source_asr": "这瓶水五百毫升 ", "latency_s": 0.6, "lang": "zh"}
+{"key": "nm5/en_D1_L_04", "ok": true, "text": "", "source_asr": "", "latency_s": 0.66, "lang": "en"}
+{"key": "nm5/en_D1_L_01", "ok": true, "text": "", "source_asr": "", "latency_s": 0.6, "lang": "en"}
+{"key": "nm5/en_D1_L_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.58, "lang": "en"}
+{"key": "nm5/en_D1_L_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.6, "lang": "en"}
+{"key": "nm5/en_D1_L_17", "ok": true, "text": "请关上门。如果你还没有订阅，请订阅这个频道。", "source_asr": "Please close the door. Subscribe to the channel if you haven't yet. ", "latency_s": 0.67, "lang": "en"}
+{"key": "nm5/en_D1_L_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.46, "lang": "en"}
+{"key": "nm5/en_D1_M_04", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D1_M_18", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D1_M_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.44, "lang": "en"}
+{"key": "nm5/en_D1_M_14", "ok": true, "text": "", "source_asr": "", "latency_s": 0.48, "lang": "en"}
+{"key": "nm5/en_D1_M_02", "ok": true, "text": "这次会议对我们的团队来说是一个重要的日子。", "source_asr": "This meeting is a great day for our team. ", "latency_s": 0.59, "lang": "en"}
+{"key": "nm5/en_D1_M_01", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "en"}
+{"key": "nm5/en_D1_S_03", "ok": true, "text": "闻起来很香。", "source_asr": "It smells delicious. ", "latency_s": 0.4, "lang": "en"}
+{"key": "nm5/en_D1_S_07", "ok": true, "text": "", "source_asr": "", "latency_s": 0.44, "lang": "en"}
+{"key": "nm5/en_D1_S_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.43, "lang": "en"}
+{"key": "nm5/en_D1_S_17", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "en"}
+{"key": "nm5/en_D1_S_01", "ok": true, "text": "", "source_asr": "", "latency_s": 0.36, "lang": "en"}
+{"key": "nm5/en_D1_S_09", "ok": true, "text": "这就是平衡。", "source_asr": "C'est de l'equilibre. ", "latency_s": 0.47, "lang": "en"}
+{"key": "nm5/en_D2_L_07", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D2_L_18", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D2_L_14", "ok": true, "text": "", "source_asr": "", "latency_s": 0.65, "lang": "en"}
+{"key": "nm5/en_D2_L_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.47, "lang": "en"}
+{"key": "nm5/en_D2_L_15", "ok": true, "text": "我们下去喝点水吧。", "source_asr": "Let's go down and drink some water. ", "latency_s": 0.56, "lang": "en"}
+{"key": "nm5/en_D2_L_10", "ok": true, "text": "", "source_asr": "", "latency_s": 0.44, "lang": "en"}
+{"key": "nm5/en_D2_M_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.39, "lang": "en"}
+{"key": "nm5/en_D2_M_01", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "en"}
+{"key": "nm5/en_D2_M_06", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "en"}
+{"key": "nm5/en_D2_M_14", "ok": true, "text": "", "source_asr": "", "latency_s": 0.46, "lang": "en"}
+{"key": "nm5/en_D2_M_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.54, "lang": "en"}
+{"key": "nm5/en_D2_M_05", "ok": true, "text": "", "source_asr": "", "latency_s": 0.41, "lang": "en"}
+{"key": "nm5/en_D2_S_05", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D2_S_07", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D2_S_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.44, "lang": "en"}
+{"key": "nm5/en_D2_S_04", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "en"}
+{"key": "nm5/en_D2_S_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.35, "lang": "en"}
+{"key": "nm5/en_D2_S_19", "ok": true, "text": "焦糖，这些都是关着的门。", "source_asr": "Caramel, these are closed doors. ", "latency_s": 0.56, "lang": "en"}
+{"key": "nm5/en_D3_L_04", "ok": true, "text": "电脑，", "source_asr": "电脑 ", "latency_s": 0.8, "lang": "en"}
+{"key": "nm5/en_D3_L_12", "ok": true, "text": "", "source_asr": "", "latency_s": 0.68, "lang": "en"}
+{"key": "nm5/en_D3_L_19", "ok": true, "text": "", "source_asr": "", "latency_s": 0.51, "lang": "en"}
+{"key": "nm5/en_D3_L_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.63, "lang": "en"}
+{"key": "nm5/en_D3_L_02", "ok": true, "text": "", "source_asr": "", "latency_s": 0.62, "lang": "en"}
+{"key": "nm5/en_D3_L_18", "ok": true, "text": "", "source_asr": "", "latency_s": 0.65, "lang": "en"}
+{"key": "nm5/en_D3_M_15", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "n25/en_D1_M_02", "ok": true, "text": "救援队整夜都在废墟中搜寻幸存者。", "source_asr": "Rescue teams worked through the night searching for survivors in the rubble. ", "latency_s": 0.57, "lang": "en"}
+{"key": "n25/en_D1_M_01", "ok": true, "text": "中央银行将利率上调了25个基点，以遏制通货膨胀。", "source_asr": "The central bank raised interest rates by 25 basis points to curb inflation. ", "latency_s": 0.54, "lang": "en"}
+{"key": "n25/zh_D1_M_13", "ok": true, "text": "This year, grain production is expected to reach another record high. ", "source_asr": "今年粮食产量有望再创历史新高 ", "latency_s": 0.49, "lang": "zh"}
+{"key": "n25/zh_D1_M_05", "ok": true, "text": "The expert team has launched a comprehensive assessment of the disaster-stricken areas. ", "source_asr": "专家组对受灾地区展开全面评估工作 ", "latency_s": 0.5, "lang": "zh"}
+{"key": "n25/zh_D3_M_03", "ok": true, "text": "The emergence of large language models has changed the paradigm of natural language processing. ", "source_asr": "大语言模型的出现改变了自然语言处理范式 ", "latency_s": 0.61, "lang": "zh"}
+{"key": "n25/zh_D3_M_13", "ok": true, "text": "The cost of gene sequencing has dropped significantly in recent years. ", "source_asr": "基因测序成本近年来大幅下降 ", "latency_s": 0.49, "lang": "zh"}
+{"key": "n25/zh_D4_L_10", "ok": true, "text": "In the twenty years since the company was founded, its business has covered more than 300 cities across the country, serving over 80 million users. ", "source_asr": "公司成立二十年来， 业务已覆盖全国三百多个城市，服务用户超过八千万。 ", "latency_s": 0.9, "lang": "zh"}
+{"key": "n25/zh_D4_L_14", "ok": true, "text": "This bridge is 55 kilometers long, with a designed lifespan of 100 years, and can withstand an earthquake of magnitude 8. ", "source_asr": "这座大桥全长五十五公里，设计使用寿命一百年，可抗八级地震。 ", "latency_s": 0.74, "lang": "zh"}
+{"key": "n25/zh_D4_S_10", "ok": true, "text": "It's 40 minutes from here to the airport. ", "source_asr": "从这儿到机场四十分钟 ", "latency_s": 0.52, "lang": "zh"}
+{"key": "n25/zh_D4_S_17", "ok": true, "text": "A dozen eggs is twelve. ", "source_asr": "一打鸡蛋十二个 ", "latency_s": 0.47, "lang": "zh"}
+{"key": "nm5/en_D1_M_04", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D1_M_18", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D2_L_07", "ok": true, "text": "", "source_asr": "", "latency_s": 0.46, "lang": "en"}
+{"key": "nm5/en_D2_L_18", "ok": true, "text": "", "source_asr": "", "latency_s": 0.35, "lang": "en"}
+{"key": "nm5/en_D2_S_05", "ok": true, "text": "", "source_asr": "", "latency_s": 0.43, "lang": "en"}
+{"key": "nm5/en_D2_S_07", "ok": true, "text": "我们继续吧。", "source_asr": "いきましょう ", "latency_s": 0.53, "lang": "en"}
+{"key": "nm5/en_D3_M_15", "ok": true, "text": "", "source_asr": "", "latency_s": 0.4, "lang": "en"}
+{"key": "nm5/en_D3_M_18", "ok": true, "text": "请大家放下手机，少玩点电脑。", "source_asr": "请放下手机，少玩点电脑 ", "latency_s": 0.51, "lang": "en"}
+{"key": "nm5/en_D3_M_04", "ok": true, "text": "她离开了她的女儿。", "source_asr": "She left her daughter. ", "latency_s": 0.53, "lang": "en"}
+{"key": "nm5/en_D3_M_13", "ok": true, "text": "", "source_asr": "", "latency_s": 0.39, "lang": "en"}
+{"key": "nm5/en_D3_M_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.43, "lang": "en"}
+{"key": "nm5/en_D3_M_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.4, "lang": "en"}
+{"key": "nm5/en_D3_S_10", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D3_S_12", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D3_S_07", "ok": true, "text": "", "source_asr": "", "latency_s": 0.43, "lang": "en"}
+{"key": "nm5/en_D3_S_03", "ok": true, "text": "这是一栋非常好的房子。", "source_asr": "This is a very nice house. ", "latency_s": 0.43, "lang": "en"}
+{"key": "nm5/en_D3_S_02", "ok": true, "text": "", "source_asr": "", "latency_s": 0.38, "lang": "en"}
+{"key": "nm5/en_D3_S_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.38, "lang": "en"}
+{"key": "nm5/en_D4_L_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.51, "lang": "en"}
+{"key": "nm5/en_D4_L_10", "ok": true, "text": "电脑。这是实验室中观察到的现象。", "source_asr": "电脑 这是实验室中观察到的现象 ", "latency_s": 0.56, "lang": "en"}
+{"key": "nm5/en_D4_L_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.59, "lang": "en"}
+{"key": "nm5/en_D4_L_20", "ok": true, "text": "调查显示，全球超过50%的人口无法负担平均生活成本。", "source_asr": "Surveys show that more than 50 percent of the world's population is unable to afford the average cost of living. ", "latency_s": 0.69, "lang": "en"}
+{"key": "nm5/en_D4_L_04", "ok": true, "text": "有游客进来了，有游客进来了。", "source_asr": "Some tourists coming inside, some tourists coming inside. ", "latency_s": 0.71, "lang": "en"}
+{"key": "nm5/en_D4_L_07", "ok": true, "text": "", "source_asr": "", "latency_s": 0.51, "lang": "en"}
+{"key": "nm5/en_D4_M_09", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D4_M_15", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/en_D4_M_12", "ok": true, "text": "", "source_asr": "", "latency_s": 0.51, "lang": "en"}
+{"key": "nm5/en_D4_M_06", "ok": true, "text": "他要求打不加糖的。", "source_asr": "他要求打不加糖 ", "latency_s": 0.62, "lang": "en"}
+{"key": "nm5/en_D4_M_18", "ok": true, "text": "她把钥匙忘在桌子上了。", "source_asr": "She left her keys on the table. ", "latency_s": 0.52, "lang": "en"}
+{"key": "nm5/en_D4_M_17", "ok": true, "text": "", "source_asr": "", "latency_s": 0.38, "lang": "en"}
+{"key": "nm5/en_D4_S_07", "ok": true, "text": "", "source_asr": "", "latency_s": 0.41, "lang": "en"}
+{"key": "nm5/en_D4_S_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.41, "lang": "en"}
+{"key": "nm5/en_D4_S_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.4, "lang": "en"}
+{"key": "nm5/en_D4_S_06", "ok": true, "text": "", "source_asr": "", "latency_s": 0.41, "lang": "en"}
+{"key": "nm5/en_D4_S_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.36, "lang": "en"}
+{"key": "nm5/en_D4_S_18", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "en"}
+{"key": "nm5/zh_D1_L_15", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D1_L_13", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D1_L_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.5, "lang": "zh"}
+{"key": "nm5/zh_D1_L_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.52, "lang": "zh"}
+{"key": "nm5/zh_D1_L_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.48, "lang": "zh"}
+{"key": "nm5/zh_D1_L_14", "ok": true, "text": "", "source_asr": "", "latency_s": 0.5, "lang": "zh"}
+{"key": "nm5/zh_D1_M_02", "ok": true, "text": "", "source_asr": "", "latency_s": 0.48, "lang": "zh"}
+{"key": "nm5/zh_D1_M_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "zh"}
+{"key": "nm5/zh_D1_M_20", "ok": true, "text": "We can see that there is a lot of water in the planet. ", "source_asr": "We can see that there is a lot of water in the planet. ", "latency_s": 0.49, "lang": "zh"}
+{"key": "nm5/zh_D1_M_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "zh"}
+{"key": "nm5/zh_D1_M_13", "ok": true, "text": "", "source_asr": "", "latency_s": 0.39, "lang": "zh"}
+{"key": "nm5/zh_D1_M_05", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "zh"}
+{"key": "nm5/zh_D1_S_03", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D1_S_07", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D1_S_11", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "zh"}
+{"key": "nm5/zh_D1_S_19", "ok": true, "text": "Please cut. ", "source_asr": "Bitte schneiden. ", "latency_s": 0.52, "lang": "zh"}
+{"key": "nm5/zh_D1_S_16", "ok": true, "text": "", "source_asr": "", "latency_s": 0.4, "lang": "zh"}
+{"key": "nm5/zh_D1_S_17", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "zh"}
+{"key": "nm5/zh_D2_L_15", "ok": true, "text": "They arrived yesterday. ", "source_asr": "They arrived yesterday. ", "latency_s": 0.48, "lang": "zh"}
+{"key": "nm5/zh_D2_L_05", "ok": true, "text": "", "source_asr": "", "latency_s": 0.5, "lang": "zh"}
+{"key": "nm5/zh_D2_L_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.55, "lang": "zh"}
+{"key": "nm5/zh_D2_L_19", "ok": true, "text": "", "source_asr": "", "latency_s": 0.44, "lang": "zh"}
+{"key": "nm5/zh_D2_L_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.49, "lang": "zh"}
+{"key": "nm5/zh_D2_L_12", "ok": true, "text": "", "source_asr": "", "latency_s": 0.46, "lang": "zh"}
+{"key": "nm5/zh_D2_M_18", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D2_M_20", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D2_M_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "zh"}
+{"key": "nm5/zh_D2_M_14", "ok": true, "text": "Did you bring an umbrella? ", "source_asr": "你带伞了吗 ", "latency_s": 0.43, "lang": "zh"}
+{"key": "nm5/zh_D2_M_13", "ok": true, "text": "", "source_asr": "", "latency_s": 0.42, "lang": "zh"}
+{"key": "nm5/zh_D2_M_06", "ok": true, "text": "", "source_asr": "", "latency_s": 0.41, "lang": "zh"}
+{"key": "nm5/zh_D2_S_08", "ok": true, "text": "", "source_asr": "", "latency_s": 0.38, "lang": "zh"}
+{"key": "nm5/zh_D2_S_05", "ok": true, "text": "It's been half a year. ", "source_asr": "半年了 ", "latency_s": 0.66, "lang": "zh"}
+{"key": "nm5/zh_D2_S_17", "ok": true, "text": "", "source_asr": "", "latency_s": 0.39, "lang": "zh"}
+{"key": "nm5/zh_D2_S_16", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "zh"}
+{"key": "nm5/zh_D2_S_03", "ok": true, "text": "", "source_asr": "", "latency_s": 0.37, "lang": "zh"}
+{"key": "nm5/zh_D2_S_13", "ok": true, "text": "", "source_asr": "", "latency_s": 0.52, "lang": "zh"}
+{"key": "nm5/zh_D3_L_02", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D3_L_04", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D3_L_05", "ok": true, "text": "", "source_asr": "", "latency_s": 0.6, "lang": "zh"}
+{"key": "nm5/zh_D3_L_06", "ok": true, "text": "", "source_asr": "", "latency_s": 0.57, "lang": "zh"}
+{"key": "nm5/zh_D3_L_14", "ok": true, "text": "", "source_asr": "", "latency_s": 0.65, "lang": "zh"}
+{"key": "nm5/zh_D3_L_10", "ok": true, "text": "Thank you. Please close the door. ", "source_asr": "谢谢 please close the door ", "latency_s": 0.62, "lang": "zh"}
+{"key": "nm5/zh_D3_M_03", "ok": true, "text": "This piano is coming to me. ", "source_asr": "This piano is coming to me. ", "latency_s": 0.47, "lang": "zh"}
+{"key": "nm5/zh_D3_M_13", "ok": true, "text": "Welcome to the system. This time, the number of customers served has decreased. ", "source_asr": "欢迎进入系统本次接待客户下降 ", "latency_s": 0.68, "lang": "zh"}
+{"key": "nm5/zh_D3_M_19", "ok": true, "text": "This Saturday, ", "source_asr": "本周六 ", "latency_s": 0.47, "lang": "zh"}
+{"key": "nm5/zh_D3_M_15", "ok": true, "text": "", "source_asr": "", "latency_s": 0.36, "lang": "zh"}
+{"key": "nm5/zh_D3_M_09", "ok": true, "text": "", "source_asr": "", "latency_s": 0.39, "lang": "zh"}
+{"key": "nm5/zh_D3_M_16", "ok": true, "text": "", "source_asr": "", "latency_s": 0.46, "lang": "zh"}
+{"key": "nm5/zh_D3_S_01", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D3_S_04", "ok": false, "err": "Expecting value: line 1 column 1 (char 0)"}
+{"key": "nm5/zh_D3_S_18", "ok": true, "text": "", "source_asr": "", "latency_s": 0.45, "lang": "zh"}

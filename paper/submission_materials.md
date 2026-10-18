@@ -5,8 +5,8 @@
 Dear Editors,
 
 We are pleased to submit our manuscript "Error Propagation in Cascaded
-Speech Translation under Acoustic Channel Degradations: A Black-Box
-Benchmark of Commercial Speech Intelligence APIs" for consideration as a
+Speech Translation under Acoustic Channel Degradations: A Black-Box Case
+Study of Commercial Speech Intelligence APIs" for consideration as a
 research paper in Applied Acoustics.
 
 Speech recognition and translation are increasingly consumed as cloud
@@ -23,16 +23,21 @@ processing community: how do modern recognition services respond to
 controlled acoustic degradation, and how do recognition errors induced by
 the acoustic channel propagate into downstream translation quality.
 
-The main findings are: (1) large-language-model recognisers degrade two to
-seven times more slowly under noise than specialised streaming systems, with
-measured degradation gradients of 0.2 to 0.4 percentage points per dB against
-1.7 for the specialised system in Mandarin; (2) cascade translation quality
-falls linearly with recognition error rate at 0.47 to 0.66 BLEU points per
-percentage point, with correlation above 0.98 across twelve conditions,
-providing a simple engineering rule; (3) end-to-end speech translation is not
-automatically more robust than a well-frontend cascade; and (4) a
-dual-reference scoring protocol exposes and controls the bias arising when
-machine translation is scored against machine-generated references.
+The main findings are: (1) recognition error rises as a knee-shaped function
+of noise, with the large-language-model recognisers crossing ten percent
+error at noise levels 2.5 to 4 dB lower than the specialised streaming
+system and failing below 0 dB by insertion-heavy hallucination that drives
+character error rates above 100 percent; (2) cascade translation quality
+falls linearly with recognition error rate at 0.44 to 0.54 BLEU points per
+percentage point, with sentence-level bootstrap confidence intervals within
+0.04 and a statistically zero intercept, across fifteen operating conditions
+and three frontends; (3) end-to-end speech translation is not automatically
+more robust than a well-frontended cascade, with the omni-modal path losing
+a third of its BLEU at 0 dB while a streaming end-to-end service is the most
+resilient; and (4) a dual-reference scoring protocol exposes and controls
+the bias arising when machine translation is scored against
+machine-generated references. All systems come from a single provider, so
+the study is framed as a case study pending cross-provider replication.
 
 All experiments were executed on free-tier API quotas with a fully seeded,
 reproducible pipeline, and the complete benchmark recipe will be released.
@@ -52,11 +57,11 @@ The Authors
 
 ## Highlights (3-5 bullets, max 100 characters each)
 
-- Black-box benchmark of commercial speech APIs under eight acoustic channel degradations
-- LLM-based recognisers degrade up to seven times slower than specialised streaming ASR
-- Translation quality falls linearly with recognition error, 0.47-0.66 BLEU per point
-- End-to-end speech translation is not automatically more robust than cascades
-- Dual-reference protocol exposes and controls machine-reference scoring bias
+- Black-box case study of commercial speech APIs under eight acoustic degradations
+- LLM recognisers tolerate 2.5 to 4 dB more noise before error reaches ten percent
+- Below 0 dB, LLM recognisers hallucinate, driving error rates above 100 percent
+- Translation quality falls 0.44 to 0.54 BLEU per point of recognition error
+- Dual-reference protocol exposes machine-reference bias that inverts rankings
 
 ---
 

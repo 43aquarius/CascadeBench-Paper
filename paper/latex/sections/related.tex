@@ -5,7 +5,7 @@
 
 The sensitivity of ASR to noise and channel distortions has been studied since
 the earliest statistical recognisers~\cite{lippmann1997speech}. Surveys such
-as that of Virtanen et al.~\cite{virtanen2012overview} organise this
+as that of Virtanen et al.~\cite{li2014overview} organise this
 literature around feature enhancement, model adaptation, and multi-condition
 training. Controlled evaluation infrastructure has been decisive for
 progress. The Aurora framework~\cite{pearce2000aurora} standardised noise
@@ -33,7 +33,7 @@ The cascade versus end-to-end question has accompanied speech translation
 since neural systems became practical. Early sequence-to-sequence systems
 demonstrated that audio-to-text translation without an explicit recognition
 stage is feasible~\cite{berard2016listen,weiss2017sequence}, and
-Bentivogli et al.~\cite{bentivogli2018cascade} compared the two paradigms
+Bentivogli et al.~\cite{bentivogli2021cascade} compared the two paradigms
 systematically on IWSLT data, finding that end-to-end systems could match
 cascades in translation quality while differing in error structure, with
 cascades inheriting recognition errors and end-to-end systems producing more
@@ -58,12 +58,22 @@ specifically for that setting.
 
 \subsection{Evaluation of commercial speech services}
 
-A third strand of related work evaluates commercial speech services as they
-are exposed to users. Such studies necessarily operate through public APIs,
-report error rates on fixed test material, and periodically re-run as
-services evolve. Their findings consistently show substantial differences
-between providers and between languages. Methodologically, these evaluations
-face constraints that mirror ours: no access to model internals, no control
+A third strand of related work evaluates speech services as they are
+exposed to users. Benchmarks for large audio-language models, such as
+AIR-Bench~\cite{yang2024airbench} for audio understanding and
+VoiceBench~\cite{chen2024voicebench} for LLM-based voice assistants,
+measure knowledge, comprehension, and instruction following, and they
+establish the black-box, generative-evaluation methodology that the present
+benchmark extends to the acoustic-robustness axis; neither, however,
+characterises behaviour under controlled channel degradation, and both stop
+at the response boundary rather than following errors into downstream
+tasks. The propagation of recognition errors into translation has a long
+history in the cascade literature, going back to the statistical framework
+of Ruiz and Federico~\cite{ruiz2014assessing} for relating ASR error types
+to downstream MT quality, but that line of work assumes access to the
+models and corpora involved rather than opaque commercial endpoints.
+Methodologically, black-box evaluations face constraints that mirror ours:
+no access to model internals, no control
 over model versions, and reliance on text normalisation to compare outputs
 against references. They have, however, largely concentrated on clean or
 moderately degraded audio, and on transcription accuracy alone. The broader
@@ -71,7 +81,9 @@ evaluation culture in speech and audio quality research, with its
 calibrated degradation methodology and emphasis on reproducibility,
 similarly targets the acoustic layer rather than the linguistic stages
 downstream, and it is that tradition which the present service-level
-benchmark follows. The
+benchmark follows, adding the service-level measurement that
+intelligibility metrics cannot substitute for, as the dissociation
+documented in Section~\ref{sec:results:snr} shows. The
 contribution of the present study relative to this strand is twofold. First,
 the evaluation is extended across the translation boundary, quantifying how
 recognition differences propagate into translation quality for both cascade
@@ -92,8 +104,10 @@ applies the controlled degradation methodology of the robustness literature
 to the black-box commercial setting, extends the measurement through the
 translation stage for both architectures, and adds a dual-reference scoring
 protocol that quantifies a bias source that any evaluation involving modern
-generative reference translations must confront. To our knowledge, no
-previous study has measured all of these dimensions simultaneously for the
-current generation of speech APIs, and none has reported the linear
-recognition-to-translation error pass-through relationship that
-Section~\ref{sec:results} documents.
+generative reference translations must confront. A systematic search of the speech-translation and
+audio-benchmarking literature, including the benchmarks cited above, found
+no previous study that measures all of these dimensions simultaneously for
+the current generation of speech APIs, and none that reports the linear
+recognition-to-translation error pass-through regression that
+Section~\ref{sec:results} documents; we state this as a finding of our
+search rather than as a proof of absence.

@@ -7,7 +7,9 @@ This repository accompanies the manuscript
 > *Error Propagation in Cascaded Speech Translation under Acoustic Channel Degradations: A Black-Box Benchmark of Commercial Speech Intelligence APIs*
 > — prepared for submission to **Applied Acoustics** (Elsevier).
 
-Preprint PDF: [`paper/CascadeBench_Paper_AppliedAcoustics.pdf`](paper/CascadeBench_Paper_AppliedAcoustics.pdf) (45-page review format, ~12,000 words, 7 figures, 41 references).
+Preprint PDF: [`paper/CascadeBench_Paper_AppliedAcoustics.pdf`](paper/CascadeBench_Paper_AppliedAcoustics.pdf) (revision round, 7 figures, 45 references).
+
+> **v1.1 (revision round)** — extended the noise sweep to eight levels (20 … −10 dB incl. 2.5 dB), added a third cascade (Qwen3-ASR + MT), repetition runs for run-to-run variance, an exact call-accounting table, refusal/empty-transcript tables for all systems, knee-threshold (logistic) severity analysis replacing single-range slopes, a pass-through regression with intercept + bootstrap CIs + leave-one-out + leverage checks, STOI analysis with the dissociation finding, measured MT latency, normalisation sensitivity analysis, CJK-correct PDF rendering, and reference corrections.
 
 ---
 
@@ -24,18 +26,18 @@ translation quality.
 ## What was measured
 
 - **480-sentence bilingual corpus** (Mandarin ⇄ English, 4 domains × 3 lengths × 20 sentences, symmetric across languages), synthesised with 4 Sambert voices; 40 additional sentences from disjoint voices serve as multi-talker babble sources.
-- **12 degradation conditions**: multi-talker babble at SNR 20/15/10/5/0 dB (calibrated to < 0.1 dB error), reverberation, telephone narrowbanding, 8 kbps Opus coding, packet loss, clipping, and tempo distortion.
-- **6 recognition systems** spanning three architectural families: specialised streaming (paraformer-realtime-v2, paraformer-realtime-8k-v2), audio LLM (qwen-audio-3.1-asr-flash, qwen3-asr-flash), and omni-modal (qwen3.8-omni-flash).
-- **4 translation paths**: two cascades (ASR → qwen-mt-uni) and two end-to-end (qwen3.8-omni-flash, qwen3.8-livetranslate-flash-realtime), scored against both an independent LLM reference (qwen3.8-max) and the oracle transcript translation.
-- **26,238 successful API calls**, fully seeded and checkpointed, at zero cost on complimentary quotas.
+- **15 degradation conditions**: multi-talker babble at SNR 20/15/10/5/2.5/0/−5/−10 dB (active-speech calibration), reverberation (measured T60 0.51 s, C50 +4.9 dB, DRR −27.6 dB), telephone narrowbanding, 8 kbps Opus coding, packet loss, clipping, and tempo distortion.
+- **6 recognition systems** spanning three product classes of one provider: specialised streaming (paraformer-realtime-v2, paraformer-realtime-8k-v2), audio LLM (qwen-audio-3.1-asr-flash, qwen3-asr-flash), and omni-modal (qwen3.8-omni-flash).
+- **5 translation paths**: three cascades (ASR → qwen-mt-uni) and two end-to-end (qwen3.8-omni-flash, qwen3.8-livetranslate-flash-realtime), scored against both an LLM reference (qwen3.8-max) and the oracle transcript translation.
+- **33,847 successful API calls** (original + revision extension), fully seeded and checkpointed, at zero cost on complimentary quotas.
 
 ## Key findings
 
-1. **Family-level robustness gap.** Audio-LLM recognisers degrade at 0.34–0.44 percentage points per dB (Mandarin) versus 1.70 for the specialised streaming system; at 0 dB babble the error-rate gap reaches 2–6×.
-2. **A linear error pass-through rule.** Cascade BLEU loss = 0.47–0.66 × recognition error rate (Pearson r > 0.98 across all 12 conditions) — a directly usable engineering estimation rule.
-3. **End-to-end is not automatically more robust.** At 0 dB, the end-to-end omni path loses 33 % of its clean BLEU versus 18 % for the strongest cascade frontend; the dedicated streaming translation service is the most stable (16 %).
-4. **Machine-reference scoring bias.** Scoring against a machine reference from the same model family can invert system rankings; a dual-reference protocol (independent LLM reference + oracle-transcript reference) exposes and controls this bias.
-5. **Behavioural failure modes.** qwen-audio returns empty transcripts for 5.2 % of 0 dB inputs (all other systems always emit text); the telephony-band expert model hallucinates fluent English and is evaluated on Mandarin only.
+1. **Knee-shaped noise response.** Audio-LLM recognisers cross 10 % error 2.4–2.9 dB later (Mandarin) and 4.4–4.8 dB later (English) than the specialised streaming system, then collapse more sharply; the telephone specialist needs 8.8 dB.
+2. **Hallucination below 0 dB.** LLM-ASR systems fail by insertion-heavy hallucination (CER 127–143 %), while streaming systems return silence/fragments; refusal rates reach 42–58 % at −5 dB.
+3. **A calibrated pass-through regression.** Cascade BLEU loss = 0.44–0.54 × recognition error rate (bootstrap 95 % CI ±0.04, intercept ≈ 0, stable under leave-one-out) across 15 conditions and 3 frontends.
+4. **End-to-end is not automatically more robust.** At 0 dB the omni path loses 33 % of its clean BLEU versus 18–19 % for well-frontended cascades; the streaming translation service is the most resilient (16 %) and fastest.
+5. **Two empty-output mechanisms.** Qwen-Audio refuses at protocol level (5.0 % at 0 dB); Paraformer returns silent empties (8.8 %) — an operationally meaningful distinction. Machine-reference scoring bias can invert rankings; STOI does not predict ASR error across degradation families.
 
 ## Repository structure
 
@@ -51,8 +53,9 @@ translation quality.
 
 ```bash
 pip install -r scripts/requirements.txt
-python3 scripts/analysis.py   # regenerates results/analysis_results.json from raw logs
-python3 scripts/figures.py    # regenerates all figures at 300 dpi
+python3 scripts/analysis.py       # regenerates results/analysis_results.json from the main logs
+python3 scripts/analysis_ext.py   # regenerates results/analysis_ext.json (revision-round analyses)
+python3 scripts/figures_v2.py     # regenerates all figures at 300 dpi
 ```
 
 `results/analysis_results.json` committed here was verified to be regenerated

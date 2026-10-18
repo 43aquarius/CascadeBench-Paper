@@ -229,19 +229,21 @@ def bleu(hyps, refs, target_lang="en"):
     except Exception:
         return 0.0
 
-def bleu_bidir(pairs, refmap):
+def bleu_bidir(pairs, refmap, keep_empty=False):
     """双语对称语料的BLEU: 按目标语言分向计算后宏平均
-    pairs: [(sid, hyp_text)], refmap: {sid: reference_text}"""
+    pairs: [(sid, hyp_text)], refmap: {sid: reference_text}
+    keep_empty=True 时空翻译(拒答)计入语料(有效BLEU口径)"""
     corpus = _get_corpus()
     h_zh2en, r_zh2en, h_en2zh, r_en2zh = [], [], [], []
     for sid, hyp in pairs:
         rec = corpus.get(sid)
         ref = refmap.get(sid)
-        if not rec or not ref or not hyp: continue
+        if not rec or not ref: continue
+        if not hyp and not keep_empty: continue
         if rec["lang"] == "zh":
-            h_zh2en.append(hyp); r_zh2en.append(ref)
+            h_zh2en.append(hyp or ""); r_zh2en.append(ref)
         else:
-            h_en2zh.append(hyp); r_en2zh.append(ref)
+            h_en2zh.append(hyp or ""); r_en2zh.append(ref)
     b1 = bleu(h_zh2en, r_zh2en, "en") if h_zh2en else None
     b2 = bleu(h_en2zh, r_en2zh, "zh") if h_en2zh else None
     vals = [v for v in (b1, b2) if v is not None]

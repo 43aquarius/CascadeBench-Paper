@@ -5,6 +5,9 @@
 \usepackage{multirow}
 \usepackage{tabularx}
 \usepackage{xcolor}
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif SC}
+\setCJKsansfont{Noto Sans SC}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \journal{Applied Acoustics}
 
@@ -15,40 +18,37 @@
 \begin{frontmatter}
 
 \title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
-Degradations: A Black-Box Benchmark of Commercial Speech Intelligence APIs}
+Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
 
 \author[addr1]{Anonymous Author}
 \address[addr1]{Affiliation withheld for double-blind review}
 
 \begin{abstract}
-Modern speech intelligence services are increasingly assembled from black-box
-cloud APIs, in which an automatic speech recognition (ASR) system feeds a
-machine translation (MT) engine in a cascade, or are replaced by end-to-end
-speech translation (E2E ST) models. The acoustic channels that carry speech to
-these systems are rarely clean, yet the sensitivity of each architectural
-choice to realistic channel impairments is difficult to assess because
-commercial systems can only be queried through their interfaces. This paper
-presents CascadeBench, a black-box benchmark that quantifies how eight
-canonical acoustic channel degradations, including multi-talker babble noise
-at five signal-to-noise ratios, room reverberation, telephone narrowbanding,
-low-bitrate coding, packet loss, amplitude clipping, and tempo distortion,
-propagate through the recognition and translation stages of commercial speech
-APIs. A stratified bilingual corpus of 480 Chinese and English sentences was
-synthesised with multiple neural voices, degraded in a fully controlled and
-reproducible pipeline, and processed by five recognition systems spanning three
-architectural families, together with two cascade and two end-to-end speech
-translation paths. Results show that large-language-model ASR services degrade several times more slowly under noise than specialised streaming models, with degradation slopes of 0.3 to 0.4 percentage points per dB against 1.7 for the specialised system in Mandarin, but a dedicated telephone-band model remains
-competitive only in its home band. At a signal-to-noise ratio of 0~dB the
-strongest cascade loses 18 percent of its BLEU score while the weakest loses 69
-percent, and end-to-end speech translation proves more fragile than a
-well-frontend cascade. Across twelve operating conditions, translation quality
-declines linearly with the recognition error rate, with a pass-through slope of
-0.47 to 0.66 BLEU points per percentage point of recognition error and a
-correlation above 0.98, which provides system integrators with a simple
-engineering rule for estimating translation losses. All experiments were
-executed on free-tier API quotas, and the complete benchmark recipe, including
-the corpus, perturbation code, and per-sentence transcripts, is released for
-reproduction.
+Cloud speech services are consumed as black boxes, yet the acoustic channels
+feeding them are rarely clean. We present CascadeBench, a fully seeded
+black-box benchmark that measures how twelve controlled acoustic channel
+degradations propagate through the recognition and translation stages of
+commercial speech APIs: five recognition systems spanning three product
+classes of a single provider (specialised streaming, audio-LLM, and
+omni-modal), two cascaded and two end-to-end speech translation paths, over
+a symmetric 480-sentence Mandarin--English corpus with a babble severity
+sweep from 20 to $-10$~dB. Recognition error rises as a knee-shaped
+function of noise level: the audio-LLM systems hold a flat sub-percent
+floor and tolerate 2.5 to 4~dB more noise than the specialised streaming
+system before error reaches ten percent, but collapse sharply below 0~dB,
+where insertion-heavy hallucination drives character error rates above 100
+percent. A telephone-band specialist shows no in-band advantage and is
+uniquely fragile under reverberation. Cascade translation quality falls
+linearly with recognition error rate (0.44 to 0.54 BLEU points per
+percentage point, sentence-level bootstrap 95\% confidence intervals within
+$\pm 0.04$, intercept indistinguishable from zero) across fifteen operating
+conditions. End-to-end translation is not automatically more robust: under
+0~dB babble the omni-modal path loses a third of its BLEU score, more than
+a well-frontended cascade, whereas a streaming end-to-end service is the
+most resilient path measured. A dual-reference protocol exposes a
+machine-reference scoring bias that can invert system rankings. The
+complete recipe, corpus, degraded audio, and 33{,}000 logged API responses
+are released for re-measurement as services evolve.
 \end{abstract}
 
 \begin{keyword}
@@ -67,11 +67,25 @@ acoustic channel degradations \sep cascaded systems \sep cloud APIs
 \input{sections/appendix}
 
 \section*{Data and code availability}
-The full benchmark recipe, including the sentence corpus, the perturbation
-implementations with fixed random seeds, all per-sentence model transcripts and
-translations, and the analysis scripts, will be made publicly available at a
-repository link provided upon acceptance. The data can also be reconstructed
-end to end from the documentation in this paper using free-tier API quotas.
+The complete benchmark is publicly released at
+\url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
+the sentence corpus, the seeded perturbation implementations, the full
+degraded audio tree, all per-sentence model transcripts and translations
+(33{,}000 logged API responses), the analysis scripts, and the LaTeX source
+of this manuscript. Every number and figure in the paper is regenerated
+from the released logs by the released analysis scripts. An anonymised
+snapshot for reviewers is provided with the submission.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the
+writing process}
+During the preparation of this work the authors used a large language model
+assistant in the development of the analysis scripts and in drafting
+revisions of the manuscript text, in order to accelerate the benchmark
+construction and to improve the readability of the presentation. The
+experimental measurements, the analysis decisions, and the verification of
+all reported numbers against the released logs were performed and checked by
+the authors, who take full responsibility for the content of the published
+article.
 
 \section*{Declaration of competing interest}
 The authors declare that they have no known competing financial interests or

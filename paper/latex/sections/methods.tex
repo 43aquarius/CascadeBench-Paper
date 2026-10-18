@@ -50,8 +50,8 @@ Alibaba Cloud Model Studio) using two distinct voices per language, a male
 and a female voice for Chinese and two native-sounding voices for English,
 with sentences alternating between the voices so that each voice realises 120
 sentences per language. Synthesis produced 16~kHz single-channel PCM audio.
-The 44 babble noise source tracks described below were synthesised with six
-additional voices that are disjoint from the four test voices. Using
+The 40 babble noise source tracks described below were synthesised with
+six additional voices that are disjoint from the four test voices. Using
 synthesis rather than recorded speech has two methodological advantages. The
 reference transcript is exact by construction, which removes the transcription
 noise that limits error floor measurement in recorded corpora, and the
@@ -69,7 +69,7 @@ conditions were selected to span the canonical impairment families that
 speech services encounter between a talker and a data centre.
 
 Additive babble noise is the most extensively sampled family. Babble was
-constructed by concatenating randomly selected segments from the 44 disjoint
+constructed by concatenating randomly selected segments from the 40 disjoint
 noise-source tracks described above, mixing three such streams, and
 normalising the mixture, which produces speech-shaped noise with realistic
 spectral and temporal structure rather than stationary synthetic noise. Speech-shaped interference was chosen over stationary
@@ -81,32 +81,61 @@ spectral-subtraction-style front-end that a provider may have deployed
 internally. The
 noise was scaled against the active-speech level of each utterance, measured
 as the mean energy of frames above the 60th energy percentile, to hit target
-signal-to-noise ratios of 20, 15, 10, 5, and 0~dB. Calibration was verified
+signal-to-noise ratios of 20, 15, 10, 5, 2.5, 0, $-5$, and $-10$~dB.
+Calibration was verified
 by re-measuring the realised signal-to-noise ratio of the mixed signals
-against the clean signal; the realised values matched the targets within
-0.1~dB on average. The 10~dB and 0~dB points enter the main grid, and the
-full five-point ladder forms the severity sweep on a stratified 144-sentence
-subset, 72 sentences per language, sampled evenly from every
-domain-by-length cell.
+against the clean signal; the realised values matched the active-level targets
+within 0.1~dB on average over the 20 to 0~dB ladder and within 0.6~dB at the
+$-10$~dB point. The severity convention deserves emphasis because it is not
+the only possible one: because the 60th-percentile active-level rule ignores
+inter-speech pauses, the total-power signal-to-noise ratio of the same
+signals runs 1.8 to 2.2~dB below the stated active-level values, so a
+reader comparing against total-power conventions should shift our levels
+by approximately $-2$~dB. The 10~dB and 0~dB points enter the main grid, and
+the full eight-point ladder forms the severity sweep on a stratified
+144-sentence subset, 72 sentences per language, sampled evenly from every
+domain-by-length cell. For the telephone-band recogniser, the degraded
+signals are generated at 16~kHz first and then downsampled to 8~kHz, so the
+specialist sees the same noise realisation band-limited to its native input
+bandwidth rather than noise generated inside its band.
 
 Reverberation was applied by convolving each signal with a synthetic room
 impulse response of the exponentially decaying noise
 form~\cite{allen1979image,habets2006room} with a direct-path impulse and a
-reverberation time of 0.5~s, which corresponds to an ordinary reverberant
-room rather than an extreme auditorium. Narrowband degradation resamples each
-signal to 8~kHz and back to 16~kHz, which removes the 4 to 8~kHz band exactly
-as a telephone channel does; the telephone-specialised recogniser receives
-the 8~kHz signal natively. Codec degradation encodes each signal with the
-Opus codec~\cite{valin2012definition} at 8~kbit/s mono and decodes it back,
-emulating an aggressive but deployed voice-over-IP setting. Packet loss
+reverberation time of 0.5~s. We measured the acoustic properties of the
+realised impulse responses: Schroeder $T_{60}$ is 0.51~s as designed, the
+clarity ratio $C_{50}$ is $+4.9$~dB, and the direct-to-reverberant ratio is
+$-27.6$~dB, the last reflecting the exponentially decaying diffuse tail of
+this synthesis, which concentrates reverberant energy in a spectrally flat
+late field rather than in discrete early reflections. The condition is
+therefore best read as diffuse late reverberation at a moderate clarity
+ratio rather than as an emulation of a specific small room, and its contrast
+with real recorded impulse responses, whose early-reflection structure
+colours the spectrum more strongly, is examined in
+Section~\ref{sec:limitations}. Narrowband degradation resamples each
+signal to 8~kHz and back to 16~kHz with polyphase anti-aliasing filters,
+which removes the 4 to 8~kHz band exactly as a telephone channel does; the
+telephone-specialised recogniser receives the 8~kHz signal natively. Codec
+degradation encodes each signal with the Opus codec~\cite{valin2012definition}
+at 8~kbit/s mono, in the default voip application mode of the libopus
+encoder as shipped by ffmpeg 7.1.5, and decodes it back. Measurement of the
+decoded signals shows that at this bitrate the encoder operates effectively
+as a narrowband coder: the decoded output retains less than 0.1 percent of
+clean high-band energy above 4~kHz, so the codec and narrowband conditions
+are not fully independent stressors of high-frequency content. Packet loss
 zeroes 15 percent of 20~ms frames chosen uniformly at random, emulating
 lossy transport without jitter compensation. Clipping applies hard amplitude
-limiting at 0.3 of full scale. Tempo distortion resamples the time axis by a
-factor of 1.15 with pitch preservation, emulating playback-speed variation
-or time-scale modification upstream of the service. All random draws use
-per-sentence and per-condition seeds derived deterministically from the
-sentence identifier and condition name, so the degraded signals are bitwise
-reproducible.
+limiting at 0.3 of full scale, which with a mean input peak of 0.6 clips
+about 0.6 percent of samples. Tempo distortion resamples the time axis by a
+factor of 1.15 with pitch preservation using the ffmpeg atempo filter; the
+spectral centroid is preserved within one percent, no level renormalisation
+is applied after any degradation, and the peak-normalised output convention
+follows the synthesis. All random draws use per-sentence and per-condition
+seeds derived deterministically from a CRC32 digest of the sentence
+identifier and condition name, and the released audio tree, generated with
+the same rule, is shipped alongside the logs so that the original
+measurements are exactly reproducible while fresh regenerations remain
+deterministic.
 
 Formally, for a clean signal $x[n]$ of length $N$ and a babble realisation
 $b[n]$, the mixed signal at level $\rho$~dB is
@@ -169,26 +198,36 @@ source text with explicit source and target language tags. Every call was
 executed with an automatic retry policy of up to six attempts with
 exponential backoff on throttling, timeout, and connection failures, and no
 other tuning parameters were exposed or set. The speech translation systems are the text translation
-engine qwen-mt-uni, used as the second stage of two cascades built on the
-16~kHz specialised recogniser and on the Qwen-Audio 3.1 recogniser, and two
+engine qwen-mt-uni, used as the second stage of three cascades built on the
+16~kHz specialised recogniser, on the Qwen-Audio 3.1 recogniser, and on the
+Qwen3-ASR recogniser, and two
 end-to-end paths: the omni foundation model with an audio translation
 instruction, and a dedicated streaming speech translation service
 (LiveTranslate) that internally combines a streaming frontend recogniser
 with a translation model. The internal frontend of the streaming translation
 service, which its responses expose as source transcripts, is additionally
-scored as a sixth recognition system. All API calls were executed on
+scored as a sixth recognition system on the severity sweep; the five
+purchasable recognition systems of Table~\ref{tab:systems} are therefore
+complemented by this embedded frontend wherever it is exposed. All API calls were executed on
 free-tier quotas with the stop-on-exhaustion option enabled, which both
 bounds the study at zero monetary cost and documents the practical quota
-requirements of such a measurement.
+requirements of such a measurement. All systems were accessed with their
+default decoding configurations and no exposed sampling parameters were
+overridden, so the repetition analysis of Section~\ref{sec:results:latency}
+characterises the services as a consumer actually receives them.
 
 \begin{table}[t]
 \centering
-\caption{Systems under test and their roles in the benchmark.}
+\caption{Systems under test and their roles in the benchmark. All systems
+are operated by a single provider (Alibaba Cloud Model Studio), so product
+class and vendor are confounded by design; the provider does not disclose
+the internal architectures, and the class labels follow the product
+positioning.}
 \label{tab:systems}
 \small
 \begin{tabular}{llll}
 \toprule
-System (family) & Interface & Role & Evaluated on \\
+System (product class) & Interface & Role & Evaluated on \\
 \midrule
 Paraformer-RT-v2 (specialised) & streaming ASR & recogniser & full grid \\
 Paraformer-RT-8K-v2 (specialised, 8 kHz) & streaming ASR & recogniser & Chinese subset \\
@@ -197,7 +236,7 @@ Qwen3-ASR-Flash (LLM-ASR) & audio input API & recogniser & full grid \\
 Qwen3.8-Omni-Flash (omni) & audio input API & recogniser, E2E ST & main grid \\
 LiveTranslate frontend (specialised) & streaming ST & recogniser (internal) & sweep subset \\
 qwen-mt-uni (MT) & text translation & cascade stage, oracle & full corpus \\
-Qwen3.8-Max (LLM) & text generation & independent reference & full corpus \\
+Qwen3.8-Max (LLM) & text generation & reference translations & full corpus \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -228,66 +267,150 @@ complete failures with an error rate of one.
 Translation quality is scored with corpus-level BLEU~\cite{papineni2002bleu}
 using sacreBLEU~\cite{post2018call} with the 13a tokeniser for English
 targets and the character-level tokeniser for Chinese targets, and with
-chrF~\cite{popovic2015chrf} as a second string-matching metric. Because the
+chrF~\cite{popovic2015chrf} as a second string-matching metric; sacreBLEU
+signatures are fixed in the released scripts (BLEU: effective order 1,
+case-insensitive, 13a for English and zh character tokenisation for
+Chinese). Because the
 corpus is direction-symmetric, BLEU is computed separately for the
-Chinese-to-English and English-to-Chinese halves and macro-averaged. Every
+Chinese-to-English and English-to-Chinese halves and macro-averaged, and
+the number of scored sentences $n$ is stated for every cell because
+coverage varies where frontends refuse or sessions drop. Two scoring
+protocols are distinguished wherever they differ: quality conditional on a
+non-empty translation, and effective quality in which a refused frontend
+output is scored as an empty translation. Corpus-level BLEU reacts to
+empties only through the brevity penalty, which saturates when hypotheses
+are longer than references, so the refusal-sensitive comparison in
+Section~\ref{sec:results:cascade} is anchored on chrF as well. Every
 hypothesis is scored against two reference sets. The primary reference is
-produced by Qwen3.8-Max~\cite{qwen3technical2025}, a general-purpose LLM from
-a different product family than any translation system under test, translating
-the clean reference transcripts. The secondary reference is the oracle
+produced by Qwen3.8-Max~\cite{qwen3technical2025}, the strongest
+general-purpose text LLM of the same provider, translating the clean
+reference transcripts; it shares a vendor, though not a product line, with
+the translation systems under test, and the family relationships of all
+systems and references are disclosed in
+Table~\ref{tab:systems} and revisited in
+Section~\ref{sec:results:dual}. The secondary reference is the oracle
 cascade output, that is, the cascade translation engine applied to the clean
 reference transcripts. The dual-reference design exposes a bias that
 Section~\ref{sec:results:dual} quantifies: automatic scoring against
 machine-generated references systematically favours systems from the same
 model family as the reference generator, and conclusions about absolute
 quality depend on the choice of reference, whereas conclusions about
-degradation are stable.
+degradation are stable. The text normalisation rules were developed by
+inspecting clean-condition outputs until residual mismatches ceased; a
+sensitivity analysis in Appendix~\ref{app:normalisation} re-scores the
+main grid without numeral canonicalisation and shows that the
+system ordering is preserved while clean-condition gaps compress. To
+quantify run-to-run variability of the non-deterministic LLM services, the
+Qwen-Audio and Qwen3-ASR systems were re-run twice on the 0~dB babble and
+tempo conditions; condition-level error rates vary by at most 0.9
+percentage points across the three runs, although one in five individual
+transcripts differs between runs (Section~\ref{sec:results:latency}).
 
 Latency is measured as the wall-clock round trip of each API call from
-dispatch to the complete response, recorded per call. For cascades, the
-reported end-to-end latency is the sum of the recognition and translation
-call latencies, which is the quantity a service consumer experiences when
-the two stages are invoked sequentially. Streaming systems are fed audio at
-the maximum rate their interface accepts, so the measurement reflects
-service-side processing rather than client-side throttling.
+dispatch to the complete response, recorded per call. The text translation
+stage was additionally benchmarked with 120 sequential timed calls on
+oracle sentences, because the main cascade logs do not carry per-call
+timing; cascade latency is therefore reported as the sum of the recognition
+and translation stage means, which is the quantity a consumer experiences
+when the two stages are invoked sequentially. Streaming systems are fed
+audio at the maximum rate their interface accepts, so the measurement
+reflects service-side processing rather than client-side throttling, and it
+measures whole-utterance turnaround rather than first-partial latency;
+streaming systems would show substantially lower first-partial latencies
+than the whole-utterance figures reported here, so the two interface
+classes should not be compared on absolute latency. All clients ran in one
+region close to the service endpoint; network round trips are included in
+all figures.
 
 \subsection{Experimental scale and cost}
 
-The complete measurement comprises 26,238 successful API calls: 520
-synthesis calls producing 31 minutes of source audio, 4,752 degraded
-variants per recognition system covering 4.9 hours of audio, and 7,411
-translation calls across the oracle, reference, cascade, and end-to-end
-phases. Another 3,400 calls were consumed by retry attempts and by
-connection resets of the realtime translation interface, which are counted
-here because they represent real operational behaviour of the service. The
-entire campaign ran on complimentary service quotas with the
-stop-on-exhaustion option enabled, and one system, the omni translation
-path, reached its free-tier limit before completing the severity sweep,
-which bounds the end-to-end comparison to the main grid with 84 of the 144
-sweep sentences per condition. The total wall-clock duration of data
+Table~\ref{tab:accounting} reports the exact call accounting of the complete
+campaign, including the extension conditions of the revision round. In total
+33{,}847 successful API responses were logged (26{,}238 in the original
+measurement and 7{,}609 in the extension), alongside 3{,}919 failed attempts
+that were retried or, in 24 cases, ended as protocol-level refusals of the
+Qwen-Audio system under 0~dB babble. The 1{,}544 successful LiveTranslate
+sessions cover 89.4 percent of that system's 1{,}728 targeted evaluations;
+the missing sessions are websocket drops that did not recover within the
+retry budget, and every reported LiveTranslate figure states its $n$. The
+omni system exhausted its complimentary quota before completing its grid:
+its recognition stage covers the main grid on the 144-sentence sweep subset
+(119 of 144 sentences at the tempo condition) and its end-to-end
+translation path covers 83 to 84 of the 144 sweep sentences per condition,
+which is why omni-based comparisons are restricted accordingly and flagged
+wherever they appear. The total wall-clock duration of the original data
 collection was approximately four hours with up to five systems queried in
 parallel. These figures are reported so that other laboratories can
 estimate the feasibility of replicating or extending the measurement; they
-also demonstrate that a full multi-system, multi-condition robustness
+also demonstrate that a multi-system, multi-condition robustness
 characterisation of commercial speech services is attainable at zero
 monetary cost with careful quota budgeting, which lowers the barrier for
 the periodic re-measurement that the field currently lacks.
 
+\begin{table}[t]
+\centering
+\caption{API call accounting: successful responses and unique evaluations
+per phase. Coverage notes: the 8~kHz specialist is evaluated on the Chinese
+subset; the omni system is restricted by quota exhaustion as described in
+the text.}\label{tab:accounting}
+\small
+\begin{tabular}{llrl}
+\toprule
+Phase & System & Calls & Coverage \\
+\midrule
+Synthesis & Sambert (4 test + 6 babble voices) & 520 & 480 corpus + 40 babble \\
+Recognition & Paraformer-RT-v2 & 4{,}752 & full grid + sweep \\
+Recognition & Paraformer-RT-8K & 2{,}376 & Chinese subset + zh sweep \\
+Recognition & Qwen-Audio-3.1 & 4{,}752 & full grid + sweep (24 refusals) \\
+Recognition & Qwen3-ASR & 4{,}752 & full grid + sweep \\
+Recognition & Qwen3.8-Omni & 1{,}271 & main grid on sweep subset \\
+Recognition & LiveTranslate frontend & --- & scored from LT sessions \\
+Translation & oracle / reference & 960 & 480 + 480 \\
+Translation & cascades (2 frontends) & 3{,}456 & 12 conds $\times$ 144 \\
+Translation & E2E omni & 1{,}004 & 83--84 of 144 $\times$ 12 conds \\
+Translation & E2E LiveTranslate & 1{,}544 & 89.4\% of 12 $\times$ 144 \\
+\midrule
+Extension & 4 ASR systems $\times$ 3 new SNRs & 1{,}512 & 2.5, $-5$, $-10$~dB $\times$ 144 \\
+Extension & cascades on new SNRs & 864 & 2 frontends $\times$ 3 conds $\times$ 144 \\
+Extension & Qwen3-ASR cascade (12 conds) & 1{,}728 & third cascade system \\
+Extension & E2E LiveTranslate on new SNRs & 400+ & 3 conds $\times$ 144, partial \\
+Extension & repetition runs (2 systems) & 1{,}152 & 2 conds $\times$ 2 repeats \\
+Extension & MT latency benchmark & 120 & sequential timed calls \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Statistical analysis}
 
 All aggregate error rates and quality scores are reported with 95 percent
-bootstrap confidence intervals over sentences, using 1000 resamples.
-Differences between systems within a condition are tested with the Wilcoxon
-signed-rank test~\cite{wilcoxon1945individual} on paired per-sentence errors,
-with Holm correction~\cite{holm1979simple} across the family of pairwise
-comparisons. Noise severity is modelled by ordinary least squares regression
-of the error rate on the signal-to-noise ratio, with bootstrap confidence
-intervals for the slope, and the slope is reported in percentage points per
-dB as the degradation gradient of a system. The relationship between
-recognition error and translation quality across operating conditions is
-summarised by the cascade amplification coefficient, defined as the slope of
-regressing the BLEU loss from the oracle against the mean recognition error
-rate, together with its Pearson correlation; a slope near one with high
-correlation indicates linear error pass-through, and the slope value itself
-is the pass-through rate. Signal processing and statistics use
-SciPy~\cite{virtanen2020scipy} and librosa~\cite{mcfee2015librosa}.
+bootstrap confidence intervals over sentences, using 1000 resamples. Error
+rates are sentence-level: the character error rate for Chinese targets and
+the word error rate for English targets, each computed with the standard
+Levenshtein alignment, so a Chinese character rate and an English word rate
+are pooled only as a macro-average of the two language halves, and an
+insertion-dominated transcript can push a rate above 100 percent, which
+occurs in the sub-zero-dB regime documented in
+Section~\ref{sec:results:snr}. Differences between systems within a
+condition are tested with the Wilcoxon signed-rank test~\cite{wilcoxon1945individual}
+on paired per-sentence errors, with Holm correction~\cite{holm1979simple}
+within the family of all pairwise comparisons of the same condition and
+language; because both systems are often simultaneously perfect, the
+fraction of zero differences is reported alongside (up to 83 percent under
+reverberation), and the test is then driven by the minority of sentences
+where the systems differ. Noise severity is characterised two ways: by a
+four-parameter logistic fit to the eight-point curve, from which we report
+the signal-to-noise ratio at which fitted error crosses ten percent
+together with a sentence-level bootstrap confidence interval of the
+crossing, and by the maximum fitted slope in percentage points per dB as a
+measure of how sharp the knee is. Ordinary least squares slopes over
+sub-ranges are reported only for continuity with common practice, and the
+text notes how strongly they depend on the chosen range. The relationship
+between recognition error and translation quality is summarised by a
+linear pass-through regression with explicit intercept, fitted over all
+fifteen operating conditions per cascade, with sentence-level bootstrap
+confidence intervals for slope and intercept, leave-one-condition-out
+refits, and a leverage check that excludes conditions with recognition
+error above 40 percent. Signal processing and statistics use
+SciPy~\cite{virtanen2020scipy}, librosa~\cite{mcfee2015librosa}, and
+pystoi for the short-time objective intelligibility analysis of
+Section~\ref{sec:results:snr}.
