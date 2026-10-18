@@ -1,0 +1,74 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+This paper introduced CascadeBench, a black-box benchmark that measures how
+acoustic channel degradations propagate through commercial speech
+recognition and translation services, and reported a complete measurement
+over a controlled bilingual corpus of 480 sentences, fourteen degradation
+conditions from seven families, and an eight-level noise severity sweep
+from 20 to $-10$~dB, covering five recognition
+systems from three product classes, three cascade translation paths,
+and two end-to-end speech translation paths, all accessed through their
+public interfaces on free service quotas, and validated on 150
+human-recorded utterances with measured impulse responses and real noise.
+
+The measurements support five conclusions. First, the product classes of
+commercial recognisers differ in where they fail under noise, not merely how
+fast: LLM-based recognisers hold a sub-percent floor and cross ten percent
+error 2.2 to 2.5~dB later in Mandarin and 4.4 to 4.8~dB later in English
+than the specialised streaming system, then collapse more sharply, and below
+0~dB they fail by insertion-heavy hallucination with character error rates
+above 100 percent; a replication on 150 human-recorded utterances with
+measured impulse responses and real multi-talker babble reproduces this
+knee-and-collapse structure and the hallucination regime, with two
+calibrations: real rooms at matched reverberation time prove far milder
+than the synthetic low-DRR stress response, and the LLM noise-tolerance
+advantage holds only in the near-knee, low-error regime, disappearing and
+for one LLM system reversing once error passes the ten-percent level into
+the hallucination regime. Second, robustness is
+condition- and language-specific
+rather than uniform: narrowbanding, coding, packet loss, clipping, and tempo
+changes at deployed severities are individually negligible for all systems,
+0~dB babble nearly destroys English recognition for every system while
+leaving the best Mandarin recognition low, and no system, of any class,
+transcribes reliably below 0~dB. Third, the quality of a speech translation
+cascade under degradation is governed by its recognition frontend, and the
+relationship is an empirical linear pass-through of 0.44 to 0.54
+BLEU points per percentage point of recognition error, with intercepts
+statistically indistinguishable from zero, stable under leave-one-condition-out
+refits for two of the three cascades, and honest condition-level
+uncertainty that is substantially wider than the sentence-level intervals,
+across up to fifteen conditions and three frontends; on real speech the
+same relation holds with slopes of 0.41 and 0.73 for the two translation
+directions. Fourth,
+end-to-end speech translation does not inherit
+robustness automatically: the most resilient translation path measured is a
+dedicated streaming end-to-end service, while the omni-modal end-to-end path
+is both the slowest and, under severe noise, the most fragile, and on real
+speech the streaming end-to-end path loses a larger fraction of its clean
+quality under 0~dB real babble than a well-frontended cascade, while the
+absolute BLEU ordering of the two paths remains reference-dependent. Fifth,
+black-box evaluation carries specific methodological obligations that this
+benchmark operationalises, including dual-reference scoring to control
+machine-reference affinity, exact-transcript corpora to enable sub-percent
+measurement, the reporting of response completeness alongside error rates,
+and the anchoring of service-level findings in measured signal properties,
+which here exposed a sharp dissociation between intelligibility metrics and
+recognition error across degradation families.
+
+The benchmark recipe, including the corpus, the seeded degradation pipeline,
+the degraded audio tree, all model responses, and the analysis code, is
+released so that the measurement can be re-executed and verified as
+providers update their services. The released artefacts are versioned alongside the service
+identifiers and access dates of every system, so that future re-runs can
+attribute score movements either to provider-side model updates or to
+changes in the benchmark itself, a distinction that periodic evaluation of
+moving targets requires. Together with the zero-cost execution protocol
+described in Section~\ref{sec:methods}, the release is intended to make
+robustness re-measurement a routine maintenance activity for speech
+deployments rather than a one-off research exercise. As
+speech intelligence continues to migrate into provider-operated black-box
+systems, controlled measurement of this kind, repeated over time and across
+providers, offers the community a practical substitute for the training-set
+access that classical robustness research assumed, and offers integrators
+the quantitative basis that architectural intuition alone cannot supply.

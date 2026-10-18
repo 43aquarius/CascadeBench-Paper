@@ -1,0 +1,100 @@
+\documentclass[review,number,sort&compress]{elsarticle}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif SC}
+\setCJKsansfont{Noto Sans SC}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\journal{Applied Acoustics}
+
+\newcommand{\cer}{\mathrm{CER}}
+\newcommand{\wer}{\mathrm{WER}}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
+Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
+
+\author[addr1]{Author Name}  % TODO: fill in before submission (journal uses single-anonymised review)
+\address[addr1]{Affiliation}
+
+\begin{abstract}
+Cloud speech services are consumed as black boxes, yet the acoustic channels
+feeding them are rarely clean. CascadeBench is a fully seeded black-box
+benchmark measuring how fourteen degradation conditions from seven acoustic
+families propagate through commercial speech APIs: five recognition systems
+in three product classes of one provider, three cascaded and two end-to-end
+translation paths, over a 480-sentence bilingual corpus with an eight-level babble
+sweep from 20 to $-10$~dB. Recognition error rises
+as a knee-shaped function of noise: the audio-LLM systems tolerate 2.2 to
+2.5~dB (Mandarin) and 4.4 to 4.8~dB (English) more noise than the
+specialised streaming system before error reaches ten percent, then
+collapsing below 0~dB into insertion-heavy hallucination above 100
+percent character error. Cascade loss follows an empirical pass-through of 0.4 to 0.5
+BLEU points per percentage point of recognition error, with
+condition-level uncertainty wider than sentence-level intervals. A 150-utterance real-speech replication reproduces the knee
+structure and hallucination regime, shows real-room reverberation far milder than the synthetic
+stress case, and bounds the audio-LLM advantage to the near-knee regime:
+at and below 0~dB real babble Qwen3-ASR errs more than the specialist
+streamer. End-to-end translation is not automatically more
+robust: under 0~dB babble the omni-modal path loses a third of its clean
+BLEU score, more than a well-frontended cascade, while a streaming
+end-to-end service is the most resilient path measured. A dual-reference
+protocol exposes machine-reference scoring bias that can invert rankings.
+The recipe, corpus, degraded audio, and 36{,}469 logged API responses are
+released.
+\end{abstract}
+
+\begin{keyword}
+speech recognition \sep speech translation \sep robustness benchmark \sep
+acoustic channel degradations \sep cascaded systems \sep cloud APIs
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sections/intro}
+\input{sections/related}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusions}
+\input{sections/appendix}
+
+\section*{Data and code availability}
+The complete benchmark is publicly released at
+\url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
+the sentence corpus, the seeded perturbation implementations, the full
+degraded audio tree, all per-sentence model transcripts and translations
+(36{,}469 logged API responses), the analysis scripts, and the LaTeX source
+of this manuscript. Every number and figure in the paper is regenerated
+from the released logs by the released analysis scripts. Because the
+journal operates single-anonymised review, in which author identity is
+visible to reviewers, the public link is given directly; an anonymised
+snapshot is additionally provided with the submission.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the
+writing process}
+During the preparation of this work the authors used a large language model
+assistant in the development of the analysis scripts and in drafting
+revisions of the manuscript text, in order to accelerate the benchmark
+construction and to improve the readability of the presentation. The
+experimental measurements, the analysis decisions, and the verification of
+all reported numbers against the released logs were performed and checked by
+the authors, who take full responsibility for the content of the published
+article.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper.
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}
