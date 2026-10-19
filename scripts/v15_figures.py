@@ -27,6 +27,7 @@ ROOT = _ROOT
 FIG = _FIG
 X = json.load(open(f"{ROOT}/results/analysis_ext.json"))
 V15 = json.load(open(f"{ROOT}/results/analysis_v15_real.json"))
+V15B = json.load(open(f"{ROOT}/results/analysis_v15_real2.json"))
 C = {"para16k": "#1f77b4", "para8k": "#17becf", "q31": "#d62728", "q3": "#ff7f0e",
      "omni": "#9467bd", "lt": "#2ca02c", "whisper": "#7f7f7f"}
 
@@ -62,33 +63,54 @@ arrow(84.5, 17, 89, 17.5)
 ax.set_title("CascadeBench evaluation pipeline", fontsize=12.5, pad=2)
 save(fig, "fig1_architecture")
 
-# ---------------- fig4: cascade vs e2e, 4 paths, oracle dashed line ----------------
+# ---------------- fig4 (paper Fig. 5): two panels - SNR ladder + non-noise ----------------
 tx = X["translation_ext"]
-conds = ["clean", "n20", "n15", "n10", "n5", "n25", "n0", "nm5"]
-cond_lab = ["Clean", "20", "15", "10", "5", "2.5", "0", "-5"]
-paths = [("q31", "Cascade: Qwen-Audio + MT", C["q31"], "cascade"),
-         ("para16k", "Cascade: Paraformer + MT", C["para16k"], "cascade"),
-         ("omni", "E2E: Omni-Flash", C["omni"], "e2e"),
-         ("lt", "E2E: LiveTranslate", C["lt"], "e2e")]
-fig, ax = plt.subplots(figsize=(8.4, 3.6))
-w = 0.19
-xs = np.arange(len(conds))
-for k, (key, lab, col, kind) in enumerate(paths):
-    vals = []
-    for c in conds:
-        if kind == "cascade":
-            d = tx["cascade"].get(key, {}).get(c, {}).get("cond") or tx["cascade"].get(key, {}).get(c, {}).get("eff")
-        else:
-            d = tx["e2e"].get(key, {}).get(c)
-        vals.append(d["bleu"] if d else np.nan)
-    ax.bar(xs + (k-1.5)*w, vals, w, label=lab, color=col, alpha=0.9)
-ax.axhline(55.5, color="#444", ls="--", lw=1.2)
-ax.text(7.45, 56.6, "text-translation oracle 55.5", fontsize=9, ha="right", color="#444")
-ax.set_xticks(xs); ax.set_xticklabels(cond_lab)
-ax.set_xlabel("Babble SNR (dB); other conditions tabulated in the text")
-ax.set_ylabel("BLEU (primary reference)")
-ax.set_ylim(0, 78)
-ax.legend(ncol=2, fontsize=9, loc="upper right", framealpha=0.95)
+conds_top = ["clean", "n20", "n15", "n10", "n5", "n25", "n0", "nm5"]
+lab_top = ["Clean", "20", "15", "10", "5", "2.5", "0", "-5"]
+conds_bot = ["clean", "rev", "rev_mit", "nb", "opus", "pl", "clip", "tempo"]
+lab_bot = ["Clean", "Reverb\n(synth.)", "Reverb\n(MIT RIR)", "Narrow-\nband", "Opus\n8 kbit/s",
+           "Packet\nloss", "Clipping", "Tempo\n+15%"]
+NAME5 = {"q31": "Cascade: Qwen-Audio + MT", "para16k": "Cascade: Paraformer + MT",
+         "q3": "Cascade: Qwen3-ASR + MT", "omni": "E2E: Omni-Flash", "lt": "E2E: LiveTranslate"}
+paths5 = [("q31", "cascade"), ("para16k", "cascade"), ("q3", "cascade"),
+          ("omni", "e2e"), ("lt", "e2e")]
+FE_V14KEY = {"q31": "q31", "para16k": "p16", "q3": "q3"}
+
+def get_bleu(mk, kind, cond):
+    if cond == "rev_mit":
+        fe = FE_V14KEY.get(mk)
+        if fe is None:
+            return np.nan
+        return V15B["revmit_cascade_3ref"][fe]["rev_mit_sweep"]["primary"]["bleu"]
+    if kind == "cascade":
+        d = tx["cascade"].get(mk, {}).get(cond, {}).get("cond") or tx["cascade"].get(mk, {}).get(cond, {}).get("eff")
+    else:
+        d = tx["e2e"].get(mk, {}).get(cond)
+    return d["bleu"] if d else np.nan
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8.4, 6.2), constrained_layout=True,
+                               gridspec_kw={"height_ratios": [1.25, 1.0]})
+for ax, conds, labs in [(ax1, conds_top, lab_top), (ax2, conds_bot, lab_bot)]:
+    w = 0.16
+    xs = np.arange(len(conds))
+    for k, (mk, kind) in enumerate(paths5):
+        vals = [get_bleu(mk, kind, c) for c in conds]
+        ax.bar(xs + (k - 2) * w, vals, w, label=NAME5[mk] if ax is ax2 else None,
+               color=C[mk], alpha=0.9)
+    ax.axhline(55.5, color="#444", ls="--", lw=1.1)
+    ax.set_xticks(xs); ax.set_xticklabels(labs, fontsize=9)
+    ax.set_ylim(0, 94 if ax is ax2 else 78)
+    ax.grid(axis="y", alpha=0.2, lw=0.4)
+ax1.text(7.42, 57.2, "text-translation oracle (clean transcripts) = 55.5", fontsize=9,
+         ha="right", color="#444")
+ax1.set_ylabel("BLEU (primary reference)")
+ax1.set_xlabel("Babble SNR (dB)")
+ax1.set_title("Babble-noise SNR ladder", fontsize=10.5)
+ax2.set_ylabel("BLEU (primary reference)")
+ax2.set_xlabel("Non-noise channel and coding conditions")
+ax2.set_title("Non-noise conditions (synthetic reverb vs measured MIT RIR)", fontsize=10.5)
+ax2.legend(loc="upper right", fontsize=8.5, ncol=2, framealpha=0.95)
+ax2.text(0.02, 57.2, "oracle = 55.5", fontsize=9, ha="left", color="#444")
 save(fig, "fig4_cascade_e2e")
 
 # ---------------- fig5: sentence-level distributions, enlarged ----------------
@@ -124,72 +146,90 @@ axes[0].set_ylabel("Per-sentence error (%)")
 fig.tight_layout()
 save(fig, "fig5_distribution")
 
-# ---------------- fig6: CAC 3 cascades, n= in legend, enlarged ----------------
+# ---------------- fig6 (paper Fig. 6): CAC, mild/collapsed markers, enlarged ----------------
 cac = X["cac_v2"]
-fig, ax = plt.subplots(figsize=(5.4, 4.3))
-mk_lab = {"q31": ("Qwen-Audio + MT", C["q31"]),
-          "para16k": ("Paraformer + MT", C["para16k"]),
-          "q3": ("Qwen3-ASR + MT", C["q3"])}
-for i, mk in enumerate(["q31", "para16k", "q3"]):
-    pts = cac[mk]["points"]
+fig, ax = plt.subplots(figsize=(5.8, 4.7), constrained_layout=True)
+COLLAPSE_TH = 40.0
+for mk in ["q31", "para16k", "q3"]:
+    d = cac[mk]
+    pts = d["points"]
     xs = np.array([p["asr_err"] for p in pts]); ys = np.array([p["loss"] for p in pts])
-    lab, col = mk_lab[mk]
-    ax.scatter(xs, ys, s=30, color=col, label=f"{lab} (n={len(pts)})", zorder=3,
-               edgecolor="white", lw=0.5)
+    col = C[mk]
     b, a = np.polyfit(xs, ys, 1)
-    gx = np.linspace(0, max(115, xs.max()), 50)
-    ax.plot(gx, a + b*gx, color=col, lw=1.6, alpha=0.85)
-    lo = cac[mk].get("slope_ci95") or (b*0.93, b*1.07)
-    ax.fill_between(gx, a + lo[0]*gx, a + lo[1]*gx, color=col, alpha=0.10, lw=0)
-    ci = cac[mk].get("slope_ci95")
-    txt = f"slope={b:.2f}" + (f" (95% CI {ci[0]:.2f}\u2013{ci[1]:.2f})" if ci else "")
-    ax.text(0.985, 0.06 + 0.06*i, txt, transform=ax.transAxes, ha="right",
-            fontsize=9, color=col)
+    r = d.get("pearson_r")
+    slo, shi = d["slope_ci95"]
+    ilo, ihi = d["intercept_ci95"]
+    gx = np.linspace(0, max(115, xs.max() + 5), 60)
+    ax.plot(gx, a + b * gx, color=col, lw=1.5, alpha=0.85, zorder=2)
+    ax.fill_between(gx, ilo + slo * gx, ihi + shi * gx, color=col, alpha=0.10, lw=0, zorder=1)
+    mild = xs <= COLLAPSE_TH; colp = xs > COLLAPSE_TH
+    ax.scatter(xs[mild], ys[mild], s=28, color=col, zorder=3, edgecolor="white", lw=0.5,
+               label=f"{NAME5[mk]} (n={len(pts)})")
+    ax.scatter(xs[colp], ys[colp], s=64, color=col, marker="X", zorder=4,
+               edgecolor="black", lw=0.6)
+    idx = ["q31", "para16k", "q3"].index(mk)
+    ytxt = 0.97 - 0.115 * idx
+    ax.text(0.98, ytxt, f"slope {b:.2f} (95% CI {slo:.2f}\u2013{shi:.2f}), intercept {a:+.1f}, r = {r:.3f}",
+            transform=ax.transAxes, ha="right", va="top", fontsize=9, color=col)
+ax.scatter([], [], s=28, color="#555", edgecolor="white", lw=0.5, label="Mild (error \u2264 40%)")
+ax.scatter([], [], s=64, color="#555", marker="X", edgecolor="black", lw=0.6, label="Collapsed (error > 40%)")
+ax.axvline(COLLAPSE_TH, color="#999", ls=":", lw=0.9)
+ax.text(COLLAPSE_TH + 1.5, ax.get_ylim()[1] * 0.02, "40%", fontsize=9, color="#777")
 ax.set_xlabel("Mean recognition error rate (%; refusals = 100% error)")
 ax.set_ylabel("BLEU loss from clean (points)")
-ax.set_xlim(-3, 118); ax.set_ylim(-4, 58)
-ax.legend(loc="upper left", fontsize=9.5, framealpha=0.95)
+ax.set_xlim(-4, 120); ax.set_ylim(-4, 58)
+ax.legend(loc="upper left", fontsize=9, framealpha=0.95)
+ax.grid(alpha=0.2, lw=0.4)
 save(fig, "fig6_cac")
 
-# ---------------- fig8: synthetic 8-pt curves vs real 6-level babble + whisper ----------------
+# ---------------- fig8 (paper Fig. 4): synthetic 8-pt curves vs real 6-level babble + whisper ----------------
 snr = X["snr_curves_v2"]
 lad = V15["asr_real_all"]
 RB = [("rb10", 10), ("rb5", 5), ("rb25", 2.5), ("rb0", 0), ("rbm25", -2.5), ("rbm5", -5)]
-NAME = {"para16k": "Paraformer-RT-v2", "para8k": "Paraformer-RT-8K (zh)",
-        "q31": "Qwen-Audio-3.1", "q3": "Qwen3-ASR"}
-fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.6), sharey=True)
-for ax, lang in zip(axes, ["zh", "en"]):
-    for sysname in ["para16k", "q31", "q3"]:
-        col = C[sysname]
-        pts = snr.get(sysname, {}).get(lang, [])
+NAME8 = {"para16k": "Paraformer-RT-v2", "para8k": "Paraformer-RT-8K (zh)",
+         "q31": "Qwen-Audio-3.1", "q3": "Qwen3-ASR", "whisper": "Whisper small (non-vendor, local)"}
+fig, axes = plt.subplots(1, 2, figsize=(8.6, 4.0), sharey=True, constrained_layout=True)
+for ai, lang in enumerate(["zh", "en"]):
+    ax = axes[ai]
+    for sysk in ["para16k", "para8k", "q31", "q3"]:
+        if sysk == "para8k" and lang != "zh":
+            continue
+        col = C[sysk]
+        pts = snr.get(sysk, {}).get(lang, [])
         if pts:
-            ax.plot([p["snr"] for p in pts], [p["mean"] for p in pts], color=col, lw=1.1,
-                    alpha=0.55, zorder=2)
-    for sysname in ["para16k", "q31", "q3"]:
-        col = C[sysname]
-        xs, ys = [], []
+            xs = [p["snr"] for p in pts]; ys = [p["mean"] for p in pts]
+            lo = [p["ci_lo"] for p in pts]; hi = [p["ci_hi"] for p in pts]
+            ax.plot(xs, ys, "-", color=col, lw=1.0, alpha=0.7,
+                    label=f"{NAME8[sysk]} (synth.)" if ai == 0 else None)
+            ax.fill_between(xs, lo, hi, color=col, alpha=0.07, linewidth=0)
+        xs2, ys2 = [], []
         for cond, s in RB:
-            cell = lad.get(sysname, {}).get(f"{cond}/{lang}")
+            cell = lad.get(sysk, {}).get(f"{cond}/{lang}")
             if cell:
-                xs.append(s); ys.append(cell["err"])
-        if xs:
-            ax.plot(xs, ys, color=col, lw=2.0, ls="--", marker="o", ms=4.5, zorder=4,
-                    label=NAME[sysname] if lang == "zh" else None)
-    # whisper: 4 real points
-    xs, ys = [], []
+                xs2.append(s); ys2.append(cell["err"])
+        if xs2:
+            ax.plot(xs2, ys2, "--o", color=col, lw=2.0, markersize=4.5,
+                    label=f"{NAME8[sysk]} (real)" if ai == 0 else None,
+                    markeredgecolor="white", markeredgewidth=0.6)
+    xs3, ys3 = [], []
     for cond, s in [("rb5", 5), ("rb0", 0), ("rbm5", -5)]:
         cell = lad.get("whisper", {}).get(f"{cond}/{lang}")
         if cell:
-            xs.append(s); ys.append(cell["err"])
-    if xs:
-        ax.plot(xs, ys, color=C["whisper"], lw=1.8, ls=":", marker="s", ms=5, zorder=4,
-                label="Whisper small (local)" if lang == "zh" else None)
-    ax.axhline(100, color="#999", ls="-.", lw=0.8)
+            xs3.append(s); ys3.append(cell["err"])
+    if xs3:
+        ax.plot(xs3, ys3, "--s", color=C["whisper"], lw=1.8, markersize=5,
+                label=f"{NAME8['whisper']} (real)" if ai == 0 else None,
+                markeredgecolor="white", markeredgewidth=0.6)
+    ax.axhline(100, color="#999", lw=0.7, ls=":")
+    ax.text(11, 106, "CER = 100%", ha="right", fontsize=8.5, color="#777")
+    ax.axhline(10, color="#999", lw=0.7, ls="--")
     ax.set_xlabel("SNR (dB)")
-    ax.set_title("Mandarin (AISHELL-1)" if lang == "zh" else "English (LibriSpeech)", fontsize=10.5)
-    ax.set_xlim(-11, 22); ax.set_ylim(-5, 210)
+    ax.set_title("Mandarin (AISHELL-1 test)" if lang == "zh" else "English (LibriSpeech test-clean)", fontsize=10.5)
+    ax.set_xticks([10, 5, 2.5, 0, -2.5, -5])
+    ax.set_xlim(-6.5, 11.5); ax.set_ylim(-5, 230)
+    ax.grid(alpha=0.25, lw=0.5)
 axes[0].set_ylabel("Error rate (%)")
-axes[0].legend(fontsize=8.5, loc="upper left", framealpha=0.95)
-fig.tight_layout()
+h, l = axes[0].get_legend_handles_labels()
+fig.legend(h, l, loc="upper center", bbox_to_anchor=(0.5, 1.10), ncol=3, frameon=False, fontsize=8.5)
 save(fig, "fig8_real_validation")
 print("all v1.5 figures done")

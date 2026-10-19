@@ -101,7 +101,9 @@
 - 其余条目抽查：traer2016（PNAS 113(48) E7856）、radford2023（ICML 28492–28518）、
   piczak2015（MM 1015–1018）、panayotov2015（ICASSP 5206–5210）、bu2017（APSIPA 520–524）、
   sperber2020（ACL DOI）、bentivogli2021（ACL-IJCNLP DOI）均无误。
-  **注：GLM 具体版本（写作 GLM-4.6）因 API key 已失效无法从日志复核，请您确认。**
+  **注：GLM 的具体版本因 API key 已失效无法从日志复核，v1.5 采纳 v1.4 的版本无关表述
+  （"GLM large language model, hosted API, Z.ai, accessed October 2026"）并引用 GLM-4.5
+  技术报告作为家族背景，不再断言具体版本号。**
 
 ## 第七条：修订过程语言 / 摘要长度 / 附录 / 限定语密度
 

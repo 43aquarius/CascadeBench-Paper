@@ -91,7 +91,7 @@ chk("three references in methods", "three reference sets" in texts["methods"])
 chk("GLM family-disjoint stated", "family-disjoint from every system under test" in ALL)
 chk("fig6 caption n=14,14,11", "$n=14$, 14, and 11" in t5)
 chk("fig6 clean excluded", "excluded from the fit" in t5)
-chk("fig4 dashed line", "horizontal dashed line" in t5)
+chk("fig4 dashed line", "dashed line is the" in t5)
 chk("fig8 six levels", "six SNR levels" in t5)
 
 # --- 7. revision language ---
@@ -105,8 +105,9 @@ chk("pino20 correct", "Pino, Juan" in bib and "10.21437/Interspeech.2020-2938" i
 chk("funasr authors fixed", "Gao, Zhifu and Li, Zerui and Wang, Jiaming" in bib
     and "Ming Lei" not in bib)
 chk("funasr doi", "10.21437/Interspeech.2023-1428" in bib)
-chk("glm refs added", "2508.06471" in bib and "glm46card" in bib and "qwenmtcard" in bib)
+chk("glm refs added", "2508.06471" in bib and "glm2026api" in bib and "qwenmtcard" in bib)
 chk("no park2020robust", "park2020robust" not in bib)
+chk("no version-specific GLM claim", "GLM-4.6" not in open(_os.path.join(_PAPER, "sections", "methods.tex")).read() + open(_os.path.join(_PAPER, "sections", "results.tex")).read())
 
 # --- 9. supplementary consistency ---
 chk("S4 referenced 3x", ALL.count("Supplementary Table~S4") >= 3)

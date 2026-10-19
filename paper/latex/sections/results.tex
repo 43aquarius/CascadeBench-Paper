@@ -428,15 +428,16 @@ the three-reference analysis of Section~\ref{sec:results:dual}.
 \centering
 \includegraphics[width=\textwidth]{../figures/fig8_real_validation.pdf}
 \caption{Recognition error rate versus SNR under synthetic babble (thin
-solid lines, 8-point sweep) and real multi-talker babble (thick dashed
-lines with markers, six SNR levels from $+10$ to $-5$~dB) on real recorded
-speech; the dotted grey series is the locally executed Whisper small model
-on its four tested conditions. Left: Mandarin (AISHELL-1 test); right:
-English (LibriSpeech test-clean). Real babble is the harder stressor at
-every SNR, but the system ordering, the knee structure, and the sub-0~dB
-hallucination regime (CER above 100\%, dash-dotted line) all replicate;
-Whisper small's Mandarin error already exceeds the knee at $+5$~dB, the
-mildest level it was run at.}
+solid lines with 95\% bootstrap bands, 8-point sweep) and real multi-talker
+babble (thick dashed lines with markers, six SNR levels from $+10$ to
+$-5$~dB) on real recorded speech; the grey dashed series with square
+markers is the locally executed Whisper small model on its four tested
+conditions. Left: Mandarin (AISHELL-1 test, telephone-band specialist
+Mandarin only); right: English (LibriSpeech test-clean). Real babble is
+the harder stressor at every SNR, but the system ordering, the knee
+structure, and the sub-0~dB hallucination regime (CER above 100\%,
+dotted line) all replicate; Whisper small's Mandarin error already exceeds
+the knee at $+5$~dB, the mildest level it was run at.}
 \label{fig:realval}
 \end{figure}
 
@@ -472,14 +473,16 @@ reported.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{../figures/fig4_cascade_e2e.pdf}
-\caption{Translation quality of two cascades (strongest and weakest
-frontend) and the two end-to-end speech translation paths across the
-babble sweep, scored against the same-vendor LLM reference
-(Section~\ref{sec:results:dual}); the third cascade (Qwen3-ASR frontend)
-tracks the Qwen-Audio cascade within 1.1 BLEU points throughout and is
-tabulated in Table~\ref{tab:translation} instead of plotted. The
-horizontal dashed line is the text-translation oracle on
-clean transcripts.}
+\caption{Translation quality of the three cascades and the two end-to-end
+speech translation paths. Upper panel: the babble SNR ladder. Lower panel:
+the non-noise channel and coding conditions, including the synthetic-reverb
+condition and the measured MIT-RIR bridge condition on the matched sweep
+subset (the two end-to-end paths were not run under the measured RIRs, so
+their reverb bars are absent). All bars are scored against the same-vendor
+LLM reference (Section~\ref{sec:results:dual}); the dashed line is the
+text-translation oracle on clean transcripts. Per-condition confidence
+intervals are tabulated in Table~\ref{tab:translation} and in the
+supplementary material.}
 \label{fig:cascade}
 \end{figure}
 
@@ -710,8 +713,9 @@ frontends and twelve for the Qwen3-ASR frontend, with fitted linear
 pass-through (with intercept) and 95\% confidence bands. Recognition error
 is the sweep-subset mean with refusals counted as complete failures;
 sub-zero-dB conditions extend the range beyond 100 percent through
-insertion errors. Mild conditions cluster near the origin; the fit is
-anchored chiefly by the collapsed conditions. The clean condition has zero
+insertion errors. Mild conditions (circles) cluster near the origin and
+collapsed conditions (crosses, recognition error above 40 percent) anchor
+the fit. The clean condition has zero
 loss by construction and is excluded from the fit, so the regression in
 the legend uses $n=14$, 14, and 11 points per cascade.}
 \label{fig:cac}
@@ -724,7 +728,8 @@ Because every cascade in the main grid shares one translation engine, the
 pass-through relation of Fig.~\ref{fig:cac} could in principle be an
 artefact of that engine. The second-backend validation re-translates the
 Qwen-Audio recognition outputs of the four core real-speech conditions
-with GLM-4.6, a translation engine from a second vendor, keeping the
+with the GLM model of a second vendor (Z.ai), a translation engine
+disjoint from the provider of every recognition frontend, keeping the
 recognition frontend fixed; the validation therefore isolates the engine
 contribution to the pass-through, and it does not constitute a
 vendor-independent cascade, since the recognition stage is still the
@@ -736,7 +741,8 @@ the same-family affinity of Section~\ref{sec:results:dual} measured on
 real speech; every backend looks strongest against its own reference, and
 the two off-diagonal cells differ by four BLEU points in favour of the
 GLM backend, so neither engine dominates decisively when scored away from
-its own family.
+its own family. The GLM backend's flatter profile under noise is also
+visible in its absolute scores.
 
 \begin{table}[t]
 \centering
@@ -756,8 +762,8 @@ Backend & Reference & Clean & $+5$ & 0 & $-5$ & to $-5$ \\
 \midrule
 qwen-mt-uni & oracle (same engine) & 69.1 & 66.2 & 45.8 & 7.3 & 89\% \\
 qwen-mt-uni & GLM (cross) & 32.9 & 31.2 & 22.1 & 4.9 & 85\% \\
-GLM-4.6 & oracle (cross) & 36.8 & 36.0 & 26.3 & 6.7 & 82\% \\
-GLM-4.6 & GLM (same engine) & 60.2 & 55.9 & 39.9 & 7.6 & 87\% \\
+GLM & oracle (cross) & 36.8 & 36.0 & 26.3 & 6.7 & 82\% \\
+GLM & GLM (same engine) & 60.2 & 55.9 & 39.9 & 7.6 & 87\% \\
 \bottomrule
 \multicolumn{7}{l}{\footnotesize $n$: 150 per cell except GLM backend 148 at 0~dB and 114 at $-5$~dB.} \\
 \end{tabular}
