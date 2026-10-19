@@ -10,7 +10,12 @@ from 20 to $-10$~dB, covering five recognition
 systems from three product classes, three cascade translation paths,
 and two end-to-end speech translation paths, all accessed through their
 public interfaces on free service quotas, and validated on 150
-human-recorded utterances with measured impulse responses and real noise.
+human-recorded utterances with measured impulse responses and real noise,
+with three hold-out measurements --- an open-source locally run recogniser,
+a family-disjoint third translation reference and backend, and a
+measured-RIR reverb calibration --- probing how far the findings depend on
+the single vendor that produced the systems, the references, and the
+synthesis.
 
 The measurements support five conclusions. First, the product classes of
 commercial recognisers differ in where they fail under noise, not merely how
@@ -34,7 +39,9 @@ leaving the best Mandarin recognition low, and no system, of any class,
 transcribes reliably below 0~dB. Third, the quality of a speech translation
 cascade under degradation is governed by its recognition frontend, and the
 relationship is an empirical linear pass-through of 0.44 to 0.54
-BLEU points per percentage point of recognition error, with intercepts
+BLEU points per percentage point of recognition error (condition-level 95
+percent intervals of 0.23--0.45, 0.52--0.66, and a heavily right-tailed
+0.38--3.9 for the three cascades), with intercepts
 statistically indistinguishable from zero, stable under leave-one-condition-out
 refits for two of the three cascades, and honest condition-level
 uncertainty that is substantially wider than the sentence-level intervals,
@@ -42,19 +49,34 @@ across up to fifteen conditions and three frontends; on real speech the
 same relation holds with slopes of 0.41 and 0.73 for the two translation
 directions. Fourth,
 end-to-end speech translation does not inherit
-robustness automatically: the most resilient translation path measured is a
-dedicated streaming end-to-end service, while the omni-modal end-to-end path
-is both the slowest and, under severe noise, the most fragile, and on real
+robustness automatically: the most resilient translation path measured on
+synthetic speech is a
+dedicated streaming end-to-end service, while the omni-modal end-to-end
+path is both the slowest and, under severe noise, the most fragile on the
+point estimate, and on real
 speech the streaming end-to-end path loses a larger fraction of its clean
-quality under 0~dB real babble than a well-frontended cascade, while the
+quality under 0~dB real babble than a well-frontended cascade (a paired
+contrast of $+7.9$ points whose 95 percent interval still spans zero),
+while the
 absolute BLEU ordering of the two paths remains reference-dependent. Fifth,
 black-box evaluation carries specific methodological obligations that this
-benchmark operationalises, including dual-reference scoring to control
-machine-reference affinity, exact-transcript corpora to enable sub-percent
+benchmark operationalises, including multi-reference scoring against at
+least two model families to control machine-reference affinity (here the
+relative-loss ordering proved stable across same-vendor, oracle, and
+family-disjoint GLM references, while magnitudes moved by up to eleven
+points per system), exact-transcript corpora to enable sub-percent
 measurement, the reporting of response completeness alongside error rates,
 and the anchoring of service-level findings in measured signal properties,
 which here exposed a sharp dissociation between intelligibility metrics and
-recognition error across degradation families.
+recognition error across degradation families. The three hold-out
+measurements bound the single-vendor caveat rather than removing it: the
+knee-and-collapse structure, the language-asymmetric hallucination regime,
+and the cascade relative-loss band all replicate with no vendor component
+in common, but the absolute numbers --- the knee locations, the slopes, the
+score levels --- remain measurements of one vendor's services at one access
+date, and the open-source recogniser used for the replication is a
+small, CPU-quantised model whose absolute accuracy is, as expected, well
+below the commercial systems it mirrors structurally.
 
 The benchmark recipe, including the corpus, the seeded degradation pipeline,
 the degraded audio tree, all model responses, and the analysis code, is

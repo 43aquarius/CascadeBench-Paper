@@ -59,10 +59,12 @@ uncertainty is the condition-level interval rather than the sentence-level
 one, and that the linear form saturates in the whole-utterance failure
 regime. The end-to-end versus
 cascade decision should rest on measured degradation behaviour rather than
-architectural intuition: the omni-modal end-to-end path evaluated here is
+architectural intuition: on the point estimate the omni-modal end-to-end
+path evaluated here is
 simultaneously the slowest and, under severe noise, the most fragile of the
 five translation paths, while a dedicated streaming translation service
-achieves both the smallest relative loss at 0~dB and sub-second latency.
+achieves both the smallest relative loss at 0~dB on synthetic speech and
+sub-second latency.
 
 \subsection{Why foundation-model recognisers degrade more slowly}
 
@@ -106,9 +108,10 @@ directly also shares a generation family with the strongest reference
 producer, and the advantage inverts under the secondary reference, as
 Section~\ref{sec:results:dual} shows. More importantly, robustness is not an
 architectural property but a property of the acoustic frontend wherever it
-lives. The end-to-end service with the specialised internal frontend is the
+lives. On synthetic speech the
+end-to-end service with the specialised internal frontend is the
 most resilient path we measured, while the end-to-end omni path is the most
-fragile, and the same frontend ordering that explains cascade behaviour also
+fragile on the point estimate, and the same frontend ordering that explains cascade behaviour also
 explains end-to-end behaviour. The real-speech validation adds a
 measurement-side caution to this picture: its translation reference shares
 the cascade's engine, so the absolute BLEU gap it reports between the
@@ -118,8 +121,10 @@ Section~\ref{sec:results:dual} documents, not a translation-quality
 ranking. What survives the reference choice is the relative-loss
 comparison, in which the end-to-end service loses 41.6 percent of its
 clean score under 0~dB real babble against 33.7 percent for the cascade,
-so the real-speech data reinforce the relative-fragility conclusion
-without licensing any absolute claim. For a consumer, the practical
+a paired contrast of $+7.9$ points whose 95 percent bootstrap interval
+($-0.4$ to $+15.7$) still spans zero, so the real-speech data support the
+relative-fragility reading as a tendency, without licensing either a
+statistically resolved ordering or any absolute claim. For a consumer, the practical
 question is not
 which architecture to prefer but where the provider placed its best acoustic
 model, and the answer is discoverable only by measurement of the kind this
@@ -221,10 +226,19 @@ single provider, so product class and vendor are fully confounded: the
 class-level regularities reported here are consistent with published
 training-scale explanations~\cite{radford2023robust}, but cross-provider
 replication is required before they can be attributed to architecture
-rather than to one provider's engineering, and the same confound applies to
-the reference translations, since no reference generator family-disjoint
-from all systems was available; human references or references from other
-vendors are needed to anchor absolute translation quality, although the
+rather than to one provider's engineering. This revision bounds the
+confound with three hold-out measurements --- a locally run open-source
+recogniser that replicates the knee-and-collapse and hallucination
+structure outside the vendor family, a family-disjoint GLM translation
+reference and backend over which the relative-loss ordering is stable, and
+a measured-RIR reverb calibration --- but these bound the structural
+findings only; the absolute knee locations, slopes, and score levels
+remain single-vendor measurements, and the open-source replication used a
+small quantised model, chosen for CPU reproducibility rather than
+competitive accuracy. The GLM reference is itself an LLM-generated
+reference rather than a human one, so absolute translation quality still
+lacks a human anchor; human references remain the needed anchor for
+absolute translation quality, although the
 real-speech validation sidesteps this concern for recognition, where its
 references are human transcriptions. The synthetic babble
 noise is smoother than real multi-talker cocktail-party interference,

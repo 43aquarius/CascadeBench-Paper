@@ -21,8 +21,10 @@
 \title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
 Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
 
-\author[addr1]{Author Name}  % TODO: fill in before submission (journal uses single-anonymised review)
-\address[addr1]{Affiliation}
+\author[addr1]{Chang Tan\corref{cor1}}
+\cortext[cor1]{Corresponding author.}
+\ead{aquars43@foxmail.com}
+\address[addr1]{Dalian University of Technology, Dalian 116024, China}
 
 \begin{abstract}
 Cloud speech services are consumed as black boxes, yet the acoustic channels
@@ -36,19 +38,30 @@ as a knee-shaped function of noise: the audio-LLM systems tolerate 2.2 to
 2.5~dB (Mandarin) and 4.4 to 4.8~dB (English) more noise than the
 specialised streaming system before error reaches ten percent, then
 collapsing below 0~dB into insertion-heavy hallucination above 100
-percent character error. Cascade loss follows an empirical pass-through of 0.4 to 0.5
-BLEU points per percentage point of recognition error, with
-condition-level uncertainty wider than sentence-level intervals. A 150-utterance real-speech replication reproduces the knee
+percent character error. Cascade loss follows an empirical pass-through of
+0.4 to 0.5
+BLEU points per percentage point of recognition error (point estimates
+0.44 to 0.54; condition-level 95\% intervals spanning roughly 0.2 to 0.7
+across the three cascades). A 150-utterance real-speech replication reproduces the knee
 structure and hallucination regime, shows real-room reverberation far milder than the synthetic
 stress case, and bounds the audio-LLM advantage to the near-knee regime:
 at and below 0~dB real babble Qwen3-ASR errs more than the specialist
-streamer. End-to-end translation is not automatically more
-robust: under 0~dB babble the omni-modal path loses a third of its clean
-BLEU score, more than a well-frontended cascade, while a streaming
-end-to-end service is the most resilient path measured. A dual-reference
-protocol exposes machine-reference scoring bias that can invert rankings.
-The recipe, corpus, degraded audio, and 36{,}469 logged API responses are
-released.
+streamer. End-to-end translation is not automatically more robust: under
+0~dB babble the omni-modal path loses a third of its clean BLEU score on
+the point estimate, more than a well-frontended cascade (a paired
+contrast whose significance is reference-dependent), while a streaming
+end-to-end service is the most resilient path measured on synthetic
+speech. A three-reference protocol (same-vendor, oracle, and a
+family-disjoint GLM reference) exposes machine-reference scoring bias that
+can invert rankings, while the relative-loss ordering of the translation
+paths is stable across all three references. Hold-out measurements with
+no vendor component in common --- an open-source Whisper recogniser run
+locally, and a cascade re-built on a GLM translation backend --- replicate
+the knee-and-collapse structure, the language-asymmetric hallucination
+regime, and the cascade relative-loss band, and a measured-RIR reverb
+condition calibrates the synthetic stress case against real rooms. The
+recipe, corpus, degraded audio, and 41{,}854 logged vendor API responses
+(plus 1{,}792 non-vendor calls) are released.
 \end{abstract}
 
 \begin{keyword}
@@ -71,7 +84,7 @@ The complete benchmark is publicly released at
 \url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
 the sentence corpus, the seeded perturbation implementations, the full
 degraded audio tree, all per-sentence model transcripts and translations
-(36{,}469 logged API responses), the analysis scripts, and the LaTeX source
+(38{,}494 logged API responses), the analysis scripts, and the LaTeX source
 of this manuscript. Every number and figure in the paper is regenerated
 from the released logs by the released analysis scripts. Because the
 journal operates single-anonymised review, in which author identity is

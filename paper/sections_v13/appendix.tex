@@ -239,17 +239,17 @@ Values above 100 percent arise from insertion-dominated outputs.}
 System & Lang & 20 & 15 & 10 & 5 & 2.5 & 0 & $-5$ & $-10$ \\
 \midrule
 Paraformer-v2 & zh & 0.8 & 0.8 & 0.8 & 2.5 & 9.8 & 42.4 & 101.2 & 101.9 \\
- &  & (0,1) & (0,1) & (0,1) & (1,4) & (6,14) & (36,50) & (98.6,104) & (99.5,104) \\
+ &  & (0.3,1.3) & (0.3,1.4) & (0.3,1.4) & (1.1,4.2) & (6.8,13.1) & (36.0,49.5) & (98.9,104.1) & (100.2,104.3) \\
  & en & 3.8 & 3.7 & 3.9 & 13.4 & 38.1 & 76.1 & 99.5 & 99.8 \\
- &  & (2,6) & (2,6) & (2,6) & (9,18) & (31,45) & (71,81) & (98.4,101) & (99.1,101) \\
+ &  & (1.9,6.0) & (1.9,5.9) & (2.1,6.0) & (9.3,17.6) & (32.1,43.8) & (71.3,80.8) & (99.0,99.9) & (99.4,100.0) \\
 Qwen-Audio & zh & 0.1 & 0.1 & 0.1 & 0.1 & 0.6 & 8.5 & 127.1 & 138.7 \\
- &  & (0,0) & (0,0) & (0,0) & (0,0) & (0,1) & (4,14) & (120,136) & (132,148) \\
+ &  & (0.0,0.2) & (0.0,0.2) & (0.0,0.2) & (0.0,0.2) & (0.1,1.1) & (4.4,13.8) & (110.3,145.0) & (123.6,153.9) \\
  & en & 0.9 & 1.3 & 1.5 & 2.0 & 8.5 & 39.7 & 102.6 & 105.8 \\
- &  & (0,2) & (0,3) & (0,3) & (1,4) & (5,13) & (30,50) & (99.3,107) & (102,110) \\
+ &  & (0.1,2.3) & (0.3,2.7) & (0.4,2.9) & (0.8,3.6) & (3.0,15.1) & (30.3,49.9) & (100.3,105.7) & (100.6,113.3) \\
 Qwen3-ASR & zh & 0.1 & 0.2 & 0.1 & 0.3 & 1.0 & 11.2 & 104.8 & 142.9 \\
- &  & (0,0) & (0,0) & (0,0) & (0,1) & (0,2) & (7,16) & (98,112) & (135,151) \\
- & en & 0.9 & 0.9 & 0.7 & 1.9 & 4.3 & 34.1 & 101.6 & 104.7 \\
- &  & (0,2) & (0,2) & (0,2) & (1,4) & (2,8) & (26,43) & (98.5,105) & (102,108) \\
+ &  & (0.0,0.4) & (0.0,0.5) & (0.0,0.4) & (0.0,0.7) & (0.4,1.8) & (7.1,15.6) & (97.2,115.1) & (126.5,163.4) \\
+ & en & 0.9 & 0.9 & 0.7 & 2.0 & 4.3 & 34.1 & 101.6 & 104.7 \\
+ &  & (0.0,2.2) & (0.1,2.2) & (0.0,1.9) & (0.6,3.8) & (1.7,7.4) & (25.8,43.4) & (98.1,105.5) & (100.0,112.3) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -329,7 +329,14 @@ Qwen3.8-Omni & zh/en & 0 & 0 & n/a & n/a & 0 & none \\
 Table~\ref{tab:realval} reports the complete recognition results of the
 real-speech validation (Section~\ref{sec:results:real}) with bootstrap 95\%
 confidence intervals, alongside the empty-output rates at the two hardest
-real-babble SNRs. Table~\ref{tab:realval_mt} reports the corresponding
+real-babble SNRs. Table~\ref{tab:realladder} reports the six-level
+real-babble SNR ladder added in this revision, which densifies the
+original three-point ladder ($+5$, $0$, $-5$~dB) with $+10$, $+2.5$, and
+$-2.5$~dB points generated with identically seeded babble realisations
+from the same forty-source pool, so that the ten-percent crossings
+discussed in Section~\ref{sec:results:real} are interpolated between
+levels at most 2.5~dB apart. Table~\ref{tab:realval_mt} reports the
+corresponding
 translation results. The three measured impulse responses used for the
 real-reverberation condition are a drama room at MIT campus ($T_{60} =
 0.500$~s, DRR $-0.9$~dB), a dining room ($T_{60} = 0.499$~s, DRR
@@ -353,13 +360,46 @@ transport noise at 0~dB; Ref.\ gives the empty-output rate in percent at
 \toprule
 System & Clean & RevR & RB$+5$ & RB$0$ & RB$-5$ & TN$0$ & Ref. \\
 \midrule
-Qwen-Audio zh & 1.2 (0,3) & 1.4 (0,3) & 4.7 (2,8) & 46.9 (26,72) & 150.0 (124,178) & 10.9 (4,22) & 1/29 \\
-\enspace en & 0.8 (0,1) & 1.6 (1,3) & 3.1 (2,5) & 26.0 (19,33) & 86.6 (82,91) & 4.6 (3,7) & 1/19 \\
-Qwen3-ASR zh & 1.2 (0,2) & 1.3 (0,2) & 15.0 (6,30) & 117.5 (86,154) & 207.6 (181,236) & 8.6 (5,13) & 0/0 \\
-\enspace en & 1.2 (0,2) & 1.2 (1,2) & 5.6 (4,8) & 24.1 (19,30) & 64.1 (57,72) & 5.4 (4,7) & 0/0 \\
-Paraformer-v2 zh & 4.1 (2,6) & 3.2 (2,5) & 40.1 (32,50) & 102.6 (89,118) & 164.4 (146,184) & 35.6 (30,42) & 12/7 \\
-\enspace en & 3.6 (2,5) & 4.1 (3,6) & 24.7 (21,29) & 56.7 (52,62) & 86.1 (83,89) & 30.3 (25,36) & 0/3 \\
-Paraformer-8K zh & 5.1 (3,8) & 6.3 (4,9) & 48.6 (43,55) & 78.7 (74,83) & 93.0 (89,97) & 77.4 (72,83) & 13/27 \\
+Qwen-Audio zh & 1.2 (0.2,2.6) & 1.4 (0.5,2.6) & 4.7 (2.0,7.9) & 46.9 (27.5,70.6) & 150.0 (124.4,178.3) & 10.9 (3.8,22.8) & 1/29 \\
+\enspace en & 0.8 (0.4,1.3) & 1.6 (0.5,3.2) & 3.1 (1.7,4.8) & 26.0 (19.2,33.5) & 86.6 (82.0,90.8) & 4.6 (2.7,7.3) & 1/19 \\
+Qwen3-ASR zh & 1.2 (0.4,2.4) & 1.3 (0.4,2.4) & 15.0 (6.0,27.1) & 117.5 (86.6,150.9) & 207.6 (183.0,235.3) & 8.6 (5.0,13.0) & 0/0 \\
+\enspace en & 1.2 (0.5,2.0) & 1.2 (0.6,2.0) & 5.6 (3.7,8.0) & 24.1 (19.0,29.7) & 64.1 (56.9,71.9) & 5.4 (3.5,7.4) & 0/0 \\
+Paraformer-v2 zh & 4.1 (2.3,6.3) & 3.2 (1.6,5.1) & 40.1 (32.0,49.1) & 102.6 (88.8,118.0) & 164.4 (145.9,184.2) & 35.6 (29.5,42.4) & 12/7 \\
+\enspace en & 3.6 (2.3,5.1) & 4.1 (2.7,5.4) & 24.7 (20.9,28.9) & 56.7 (51.6,61.7) & 86.1 (83.0,89.0) & 30.3 (25.1,35.8) & 0/3 \\
+Paraformer-8K zh & 5.1 (3.2,7.5) & 6.3 (4.2,8.8) & 48.6 (42.2,54.8) & 78.7 (74.0,83.4) & 93.0 (89.2,96.8) & 77.4 (71.5,82.6) & 13/27 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Real-babble SNR ladder of the real-speech validation, added in
+this revision: recognition error rate in percent (CER for Mandarin, WER
+for English) with bootstrap 95\% confidence intervals, $n = 75$ per cell,
+identically seeded babble realisations from the same forty-source pool as
+the original three-point ladder. Values above 100 percent arise from
+insertion-dominated outputs.}
+\label{tab:realladder}
+\footnotesize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{llcccccc}
+\toprule
+System & Lang & $+10$ & $+5$ & $+2.5$ & $0$ & $-2.5$ & $-5$ \\
+\midrule
+Qwen-Audio & zh & 2.0 & 4.7 & 10.7 & 46.9 & 107.3 & 150.0 \\
+ &  & (0.9,3.5) & (2.0,8.1) & (4.3,20.4) & (25.9,71.9) & (81.3,137.9) & (123.7,179.5) \\
+ & en & 1.8 & 3.1 & 8.9 & 26.0 & 72.3 & 86.6 \\
+ &  & (0.6,3.5) & (1.6,4.9) & (5.4,12.7) & (19.2,33.5) & (63.0,81.0) & (81.8,90.9) \\
+Qwen3-ASR & zh & 2.4 & 15.0 & 62.3 & 117.5 & 173.0 & 207.6 \\
+ &  & (0.9,4.5) & (5.8,28.7) & (36.2,90.7) & (86.1,152.5) & (138.9,208.1) & (179.0,237.5) \\
+ & en & 2.8 & 5.6 & 13.7 & 24.2 & 43.5 & 64.1 \\
+ &  & (1.4,4.5) & (3.5,7.9) & (9.5,17.9) & (18.9,29.3) & (35.4,51.1) & (57.0,71.1) \\
+Paraformer-v2 & zh & 12.1 & 40.1 & 64.8 & 102.6 & 131.3 & 164.4 \\
+ &  & (7.8,17.6) & (31.8,49.1) & (54.9,77.0) & (88.9,118.4) & (116.5,149.2) & (146.3,184.2) \\
+ & en & 9.5 & 24.7 & 39.5 & 56.7 & 76.8 & 86.1 \\
+ &  & (6.9,12.5) & (20.9,29.1) & (34.4,44.2) & (52.0,61.5) & (72.4,80.9) & (83.0,89.0) \\
+Paraformer-8K & zh & 27.9 & 48.6 & 60.2 & 78.7 & 86.8 & 93.1 \\
+ &  & (21.9,34.1) & (42.7,54.3) & (54.2,66.5) & (73.8,83.3) & (82.5,90.7) & (89.3,96.8) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -383,6 +423,81 @@ Path & zh$\to$en & en$\to$zh & zh$\to$en & en$\to$zh & zh$\to$en & en$\to$zh \\
 \midrule
 Cascade (Qwen-Audio $\to$ MT) & 69.2 & 68.9 & 69.7 & 69.8 & 43.7 & 47.8 \\
 End-to-end (LiveTranslate) & 44.1 & 39.8 & 44.3 & 38.7 & 20.8 & 28.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Hold-out recogniser: locally run open-source Whisper small (int8,
+CPU) against the commercial systems on the real-speech subset. Error rate
+in percent (CER for Mandarin, WER for English) with sentence-level
+bootstrap 95\% confidence intervals; ``empty'' counts outputs with no
+transcript text. Whisper covers the clean and three babble conditions;
+$n = 75$ per language per condition.}
+\label{tab:holdout_asr}
+\footnotesize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{llcccc}
+\toprule
+System & Lang & Clean & $+5$~dB & $0$~dB & $-5$~dB \\
+\midrule
+Whisper small & zh & 10.1 & 78.7 & 120.3 & 130.7 \\
+ &  & (7.5,13.1) & (60.2,100.8) & (107.5,132.7) & (119.1,144.1) \\
+ & en & 3.6 & 19.3 & 47.7 & 92.3 \\
+ &  & (2.4,5.1) & (15.3,23.5) & (40.9,55.1) & (86.0,99.1) \\
+Qwen-Audio & zh & 1.2 & 4.7 & 46.9 & 150.0 \\
+ &  & (0.2,2.5) & (2.0,8.4) & (26.0,71.9) & (124.5,178.5) \\
+ & en & 0.8 & 3.1 & 26.0 & 86.6 \\
+ &  & (0.4,1.2) & (1.6,4.8) & (19.6,33.3) & (82.3,90.7) \\
+Paraformer-v2 & zh & 4.1 & 40.1 & 102.6 & 164.4 \\
+ &  & (2.4,6.3) & (32.2,50.2) & (88.3,118.3) & (145.2,184.7) \\
+ & en & 3.6 & 24.7 & 56.7 & 86.1 \\
+ &  & (2.3,5.0) & (21.0,28.9) & (51.8,62.2) & (82.9,89.2) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Measured-RIR reverb calibration: recognition error rate in percent
+on the 480-sentence synthetic grid under the original synthetic impulse
+response (DRR $-27.6$~dB) and the measured MIT impulse responses (matched
+$T_{60} \approx 0.5$~s, DRR $-0.9$/$+1.3$/$+13.1$~dB, rotated). The
+cascade BLEU column is scored against the primary reference. The two
+end-to-end paths were not re-run (quota exhausted).}
+\label{tab:revmit}
+\small
+\begin{tabular}{lccccc}
+\toprule
+ & \multicolumn{2}{c}{CER (zh)} & \multicolumn{2}{c}{WER (en)} & BLEU \\
+System & synth. & MIT & synth. & MIT & MIT \\
+\midrule
+Qwen-Audio & 0.2 & 0.2 & 1.2 & 1.1 & 55.0 \\
+Qwen3-ASR & 0.1 & 0.2 & 0.5 & 0.5 & 54.9 \\
+Paraformer-v2 & 1.3 & 0.7 & 5.1 & 3.7 & 53.3 \\
+Paraformer-8K & 18.2 & 3.4 & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Three-reference scoring of the synthetic-grid cascades: corpus
+BLEU (macro-averaged over directions) at clean and 0~dB babble against the
+primary (Qwen3.8-Max), oracle (cascade engine), and GLM references, with
+the clean-to-0~dB percent relative loss under each. The GLM reference is
+family-disjoint from every system and both other references.}
+\label{tab:threeref}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{3}{c}{Clean BLEU} & \multicolumn{3}{c}{0~dB / rel.\ loss} \\
+Cascade & P & O & G & P & O & G \\
+\midrule
+Qwen-Audio+MT & 53.9 & 89.6 & 51.2 & 44.1 (18\%) & 68.3 (24\%) & 42.4 (17\%) \\
+Qwen3-ASR+MT & 53.2 & 94.6 & 52.6 & 43.0 (19\%) & 66.7 (30\%) & 40.6 (23\%) \\
+Paraformer+MT & 51.5 & 85.6 & 50.6 & 15.8 (69\%) & 17.4 (80\%) & 13.9 (73\%) \\
 \bottomrule
 \end{tabular}
 \end{table}

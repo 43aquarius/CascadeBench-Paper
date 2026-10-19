@@ -28,15 +28,15 @@ in parentheses. The 8~kHz specialist is evaluated on the Chinese subset only.}
 System & Clean & Babble 10 & Babble 0 & Reverb & Narrow & Codec & Loss & Clip & Tempo \\
 \midrule
 Paraformer-v2 & 2.3 & 2.8 & 58.5 & 3.2 & 2.1 & 2.4 & 3.2 & 2.5 & 2.3 \\
- & (2,3) & (2,4) & (54,63) & (2,4) & (2,3) & (2,3) & (2,4) & (2,3) & (2,3) \\
+ & (1.7,2.8) & (2.2,3.4) & (55.8,61.3) & (2.6,3.9) & (1.6,2.7) & (1.9,3.0) & (2.5,3.9) & (1.9,3.2) & (1.8,2.9) \\
 Paraformer-8K & 1.9 & 4.7 & 73.2 & 18.2 & 1.9 & 1.8 & 3.3 & 1.9 & 2.3 \\
- & (1,3) & (3,6) & (69,78) & (14,22) & (1,3) & (1,3) & (2,5) & (1,3) & (2,3) \\
+ & (1.3,2.5) & (3.6,6.0) & (70.5,75.7) & (15.7,21.1) & (1.4,2.5) & (1.3,2.4) & (2.6,4.2) & (1.3,2.5) & (1.7,3.0) \\
 Qwen-Audio-3.1 & 0.5 & 0.9 & 28.2 & 0.7 & 0.6 & 0.6 & 0.6 & 0.9 & 0.6 \\
- & (0,1) & (1,1) & (25,32) & (0,1) & (0,1) & (0,1) & (0,1) & (1,1) & (0,1) \\
+ & (0.3,0.7) & (0.6,1.3) & (24.6,31.9) & (0.4,1.0) & (0.3,0.9) & (0.4,0.9) & (0.3,0.8) & (0.5,1.3) & (0.4,0.8) \\
 Qwen3-ASR & 0.3 & 0.5 & 25.1 & 0.3 & 0.3 & 0.3 & 0.4 & 0.3 & 0.3 \\
- & (0,0) & (0,1) & (22,29) & (0,0) & (0,0) & (0,0) & (0,1) & (0,0) & (0,0) \\
+ & (0.1,0.5) & (0.3,0.9) & (22.3,28.2) & (0.1,0.5) & (0.1,0.6) & (0.1,0.6) & (0.2,0.6) & (0.1,0.5) & (0.1,0.6) \\
 Qwen3.8-Omni & 0.4 & 0.6 & 31.8 & 1.1 & 0.1 & 0.3 & 0.2 & 1.0 & 0.3 \\
- & (0,1) & (0,1) & (28,36) & (1,2) & (0,0) & (0,0) & (0,0) & (1,2) & (0,0) \\
+ & (0.0,1.0) & (0.1,1.3) & (26.8,37.3) & (0.1,2.9) & (0.0,0.3) & (0.1,0.6) & (0.0,0.5) & (0.1,2.6) & (0.0,0.7) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -101,7 +101,7 @@ more error-prone than the other domains for Qwen-Audio 3.1 on clean speech,
 at 1.25 against 0.25 percent, whereas Qwen3 ASR shows no such penalty, which
 indicates that inverse text normalisation rather than acoustics dominates
 that gap; the normalisation sensitivity analysis of
-Appendix~\ref{app:normalisation} supports the same reading. More strikingly,
+\ref{app:normalisation} supports the same reading. More strikingly,
 severe noise produces empty final transcripts in three of the five systems,
 through two distinct mechanisms. Qwen-Audio 3.1 is the only system that
 refuses at the protocol level, returning an explicit no-words error on 5.0
@@ -117,7 +117,7 @@ silent empty return is indistinguishable from a genuine silent segment, and
 this distinction is the kind of behavioural divergence that only black-box
 evaluation at controlled severity can surface. The full per-system,
 per-condition refusal rates, including the sub-zero regime where they rise
-above 40 percent, are tabulated in Appendix~\ref{app:refusal}.
+above 40 percent, are tabulated in \ref{app:refusal}.
 
 The remaining conditions merit condition-specific remarks because their
 effects are small in aggregate but structured in detail. Reverberation with
@@ -230,7 +230,7 @@ that a wrong-but-bounded view of error rates cannot represent and one that
 is particularly dangerous downstream because a hallucinated transcript is
 grammatical text that a translation stage will happily translate. In the
 same regime the streaming systems simply return fragments or silence, and
-their refusal rates rise to 42 to 58 percent (Appendix~\ref{app:refusal}).
+their refusal rates rise to 42 to 58 percent (\ref{app:refusal}).
 No system transcribes anything reliably below 0~dB, and the appropriate
 engineering response in that regime is capture improvement rather than
 model selection.
@@ -328,11 +328,19 @@ noise-tolerance claim, and the bound is worth stating precisely. The
 audio-LLM advantage is real but confined to the near-knee regime: at
 $+5$~dB both LLM systems err less than either streaming specialist
 (4.7 and 15.0 against 40.1 and 48.6\% Mandarin CER), and Qwen-Audio
-continues to hold an advantage at 0~dB (46.9 against 102.6\%), crossing
-ten percent Mandarin error at 4.4~dB while both streaming specialists
-exceed ten percent already at $+5$~dB, the highest SNR tested. Qwen3-ASR,
-by contrast, already exceeds the ten percent level at $+5$~dB (15.0\%),
-crosses at a level comparable to the specialists, and in the hallucination
+continues to hold an advantage at 0~dB (46.9 against 102.6\%). With the
+six-level real-babble ladder of this revision ($+10$, $+5$, $+2.5$, $0$,
+$-2.5$, $-5$~dB, Table~\ref{tab:realladder}), the ten-percent crossings
+can be located at one-dB resolution instead of interpolated from three
+points: Qwen-Audio crosses at 2.8~dB in Mandarin and 2.3~dB in English,
+while the 16~kHz streaming specialist exceeds ten percent already at
+$+10$~dB in Mandarin (12.1\%, its highest tested SNR) and crosses at
+9.8~dB in English, so the Qwen-Audio noise-tolerance margin over the
+specialist is at least 7.2~dB in Mandarin and 7.5~dB in English.
+Qwen3-ASR,
+by contrast, crosses at 7.0~dB in Mandarin, between the two specialists
+and far earlier than Qwen-Audio, and
+in the hallucination
 regime the ordering inverts: at $-5$~dB its Mandarin CER of 207.6\% is
 worse than the 16~kHz specialist's 164.4\%, and at 0~dB its 117.5\% is
 worse than 102.6\%. In English the inversion appears earlier: at $-5$~dB
@@ -341,10 +349,10 @@ indistinguishable. The correct summary is therefore not that the LLM
 class advantage widens under real babble, but that it holds in the
 near-knee and low-error regime and disappears, for one of the two LLM
 systems outright reverses, once error rates pass the ten-percent level
-into the hallucination regime. The three-SNR design (75 sentences per
-cell) interpolates the crossing levels rather than measuring them
-directly, so the crossings themselves carry the same interpolation caveat
-as the synthetic knees.
+into the hallucination regime. One interpolation caveat survives the
+denser ladder: the crossings are still linear interpolations between
+adjacent SNR levels, though now between levels at most 2.5~dB apart, and
+the per-cell sample remains 75 sentences.
 
 The $-5$~dB hallucination regime replicates and sharpens the synthetic
 finding, and the error-type decomposition locates it precisely. Mean
@@ -367,22 +375,24 @@ regardless of whether the babble is synthetic or recorded.
 
 The cascade conclusions also transfer, with one scoring caveat that the
 validation design itself surfaces. Cascade BLEU on real speech falls
-monotonically from 69.2/68.9 (Mandarin/English, clean) through 63.7/68.6
-at $+5$~dB and 43.7/47.8 at $0$~dB to 6.9/7.6 at $-5$~dB, and regressing
-BLEU loss on recognition error rate across the six conditions gives an
-empirical pass-through of 0.41 (Mandarin, condition-level bootstrap 95\%
-CI 0.39 to 0.67) and 0.73 (English, CI 0.60 to 0.91) with $r = 0.994$ and
+monotonically from 69.2/68.9 (Mandarin/English, clean) through 68.6/69.8
+at $+10$~dB, 63.7/68.6 at $+5$~dB, 63.3/63.0 at $+2.5$~dB, and
+43.7/47.8 at $0$~dB to 6.9/7.6 at $-5$~dB, and regressing
+BLEU loss on recognition error rate across the nine conditions gives an
+empirical pass-through of 0.43 (Mandarin, condition-level bootstrap 95\%
+CI 0.40 to 0.56) and 0.73 (English, CI 0.71 to 0.90) with $r = 0.994$ and
 0.998, bracketing the synthetic-grid values; the direction difference
 between the two slopes is itself part of the finding, and the
 condition-level intervals, not the sentence-level ones, are the honest
-uncertainty of a relation fitted over six operating points. The
+uncertainty of a relation fitted over nine operating points. The
 end-to-end comparison, by contrast, must be read through the reference
 lens established in Section~\ref{sec:results:dual}: the validation
 reference is the cascade's own engine applied to human transcripts, so it
 is same-engine with the cascade and foreign to LiveTranslate, and the
 absolute gap of 27 to 28 BLEU on clean speech (69.1 against 42.0) is
 therefore not a translation-quality measurement. Two observations
-nevertheless survive any reference choice. First, the mechanism of the
+nevertheless survive any reference choice as orderings, though not as
+magnitudes. First, the mechanism of the
 bias is visible directly: on clean real speech the cascade's ASR frontend
 reproduces the human transcript exactly on 133 of 150 sentences, and the
 engine reproduces its own reference exactly (self-BLEU 100), so the
@@ -390,25 +400,69 @@ cascade's 31-point distance from the reference on the remaining 17
 sentences shows how strongly the engine's word choice responds to
 punctuation and inverse-text-normalisation differences in its input,
 which BLEU then penalises at full weight. Second, the within-path
-relative losses are reference-invariant, and there the end-to-end path is
-the more fragile one: from clean to 0~dB real babble, LiveTranslate loses
-41.6 percent of its own clean BLEU against 33.7 percent for the cascade.
-The conclusion that end-to-end paths are not automatically more robust is
-therefore confirmed on real speech in the relative-loss sense, while the
+relative losses are computed against a fixed reference and their ordering
+is the quantity carried across references (the magnitudes themselves are
+reference-sensitive, as Section~\ref{sec:results:dual} quantifies), and
+there the end-to-end path is the more fragile one on the point estimate:
+from clean to 0~dB real babble, LiveTranslate loses 41.6 percent of its
+own clean BLEU against 33.7 percent for the cascade, a paired
+sentence-level bootstrap difference of $+7.9$ points whose 95 percent
+interval ($-0.4$ to $+15.7$) still spans zero, so the real-speech
+evidence for end-to-end fragility is a tendency, not a statistically
+resolved ordering. The conclusion that end-to-end paths are not
+automatically more robust is therefore supported on real speech in the
+point-estimate sense, while the
 absolute BLEU ordering of the two paths on this reference is reported only
 as a same-engine artefact, in line with the dual-reference analysis of
 Section~\ref{sec:results:dual}.
+
+Two further hold-out measurements, added in this revision, test whether
+these structural findings depend on the single commercial vendor that
+produced the systems, the references, and the synthesis. First, an
+open-source recogniser outside the vendor family --- Whisper small, run
+locally with int8 quantisation on CPU~\cite{radford2023robust} --- replaces
+the recogniser while everything else is held fixed across the clean and
+three real-babble conditions. Its clean-condition error rate (10.1\%
+Mandarin CER, 3.6\% English WER) is several times the commercial LLM-ASR
+rates, as expected for a locally quantised small model, and its knee sits
+higher: at $+5$~dB it already errs at 78.7\% in Mandarin, above every
+commercial system at $0$~dB, so its ten-percent crossing lies beyond the
+highest SNR tested in Mandarin and its noise tolerance is strictly weaker
+than the commercial LLM class. The failure structure, however, replicates:
+error rates exceed 100\% through insertions at 0~dB and below (120.3\%
+Mandarin CER at 0~dB, 130.7\% at $-5$~dB), the Mandarin errors are
+insertion-dominated in the hallucination regime just as for the commercial
+LLM recognisers, and the English degradation curve is deletion-dominated
+and gentler (47.7\% at 0~dB). The knee-and-collapse architecture and the
+language-asymmetric hallucination mechanism are therefore not artefacts of
+one vendor's training recipe. Second, the translation backend is swapped
+while the frontend is held fixed: the Qwen-Audio frontend's real-speech
+transcripts are re-translated by an LLM outside the vendor family
+(GLM, accessed as a hosted API), forming a cascade with no component in
+common with the vendor. Scored against the non-Qwen-family GLM reference,
+this all-external cascade loses 33.8\% of its clean BLEU from clean to
+0~dB real babble; the original vendor cascade loses 32.6\% against the
+same reference and 33.8\% against its own-engine oracle reference, and the
+crossed combinations (28.6\% and 32.6\%) stay in the same band. The
+relative-loss magnitude of the cascade under babble is thus stable to
+within a few points across two translation backends and two reference
+families, which supports the reading that the degradation is governed by
+the recognition frontend, not by the translation engine or the scoring
+reference.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{../figures/fig8_real_validation.pdf}
 \caption{Recognition error rate versus SNR under synthetic babble (thin
 solid lines, 8-point sweep with 95\% bootstrap bands) and real multi-talker
-babble (thick dashed lines with markers, three SNRs) on real recorded
-speech. Left: Mandarin (AISHELL-1 test); right: English (LibriSpeech
-test-clean). Real babble is the harder stressor at every SNR, but the
+babble (thick dashed lines with markers, six-level ladder from $+10$ to
+$-5$~dB) on real recorded speech. Left: Mandarin (AISHELL-1 test); right:
+English (LibriSpeech test-clean). The locally run open-source Whisper-small
+recogniser (dashed brown, four conditions) is included as a non-vendor
+reference system. Real babble is the harder stressor at every SNR, but the
 system ordering, the knee structure, and the sub-0~dB hallucination regime
-(CER above 100\%, dotted line) all replicate.}
+(CER above 100\%, dotted line) all replicate, including on the
+open-source recogniser.}
 \label{fig:realval}
 \end{figure}
 
@@ -444,14 +498,16 @@ reported.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{../figures/fig4_cascade_e2e.pdf}
-\caption{Translation quality of the two best cascades and the two
-end-to-end speech translation paths across the main degradation grid,
-scored against the same-vendor LLM reference
-(Section~\ref{sec:results:dual}); the third cascade (Qwen3-ASR frontend)
-tracks the Qwen-Audio cascade within 1.1 BLEU points throughout and is
-tabulated in Table~\ref{tab:translation} instead of plotted. The hatched
-bar is the text-translation oracle on
-clean transcripts.}
+\caption{Translation quality of the three cascades and the two end-to-end
+speech translation paths. Upper panel: the babble SNR ladder. Lower panel:
+the non-noise channel and coding conditions, including the original
+synthetic-reverb condition and the measured MIT-RIR reverb condition added
+in this revision (scored against the same reference; the two end-to-end
+paths were not re-run under the measured RIR, so their reverb bars are
+absent). All bars are scored against the same-vendor LLM reference
+(Section~\ref{sec:results:dual}); the dotted line is the text-translation
+oracle on clean transcripts. Per-condition confidence intervals are
+tabulated in Table~\ref{tab:translation} and \ref{app:sweep}.}
 \label{fig:cascade}
 \end{figure}
 
@@ -460,35 +516,38 @@ clean transcripts.}
 \caption{Translation quality by condition: macro-averaged BLEU against the
 primary reference (Qwen3.8-Max translations of clean transcripts) with
 sentence-level bootstrap 95\% confidence intervals, the score against the
-secondary reference (oracle cascade output), the clean-to-0~dB
-relative loss, refusal-inclusive chrF, and per-cell $n$. Cascade scores at
-0~dB are conditional on a non-empty frontend output; the refusal-inclusive
-chrF counts refused sentences as empty translations. The omni path is
-scored on its quota-limited subset and is compared with the other paths on
-the common subset in the text.}
+secondary reference (oracle cascade output), the clean-to-0~dB relative loss
+under all three references (P{}/{}O{}/{}G: primary{}/{}oracle{}/{}GLM),
+refusal-inclusive chrF, and per-cell $n$. Cascade scores at 0~dB are
+conditional on a non-empty frontend output; the refusal-inclusive chrF
+counts refused sentences as empty translations. The omni path is scored on
+its quota-limited subset and is compared with the other paths on the common
+subset in the text.}
 \label{tab:translation}
 \footnotesize
-\setlength{\tabcolsep}{1.6pt}
-\begin{tabular}{lcccccc}
+\setlength{\tabcolsep}{1.2pt}
+\begin{tabular}{lccccccc}
 \toprule
- & & \multicolumn{3}{c}{Babble 0 dB} & & \\
-System & Clean & BLEU (95\% CI) & vs & rel. & chrF & chrF \\
- & BLEU & & oracle & loss & 0~dB & clean \\
+ & & \multicolumn{3}{c}{Babble 0 dB} & & & \\
+System & Clean & BLEU (95\% CI) & vs & rel.\ loss & chrF & chrF & rel.\ G \\
+ & BLEU & & oracle & P{}/{}O & 0~dB & clean & \\
 \midrule
-Oracle MT (clean text) & 55.5 & -- & -- & -- & -- & 66.7 \\
-Cascade: Paraformer+MT & 51.5 & 15.8 & 17.4 & 69\% & 26.9 & 63.4 \\
- & (47.7,55.6) & (12.3,19.1) & & & & \\
-Cascade: Qwen-Audio+MT & 53.9 & 44.1 & 68.3 & 18\% & 53.7 & 65.0 \\
- & (50.4,57.8) & (40.1,48.3) & & & & \\
-Cascade: Qwen3-ASR+MT & 53.2 & 43.0 & 66.7 & 19\% & 53.4 & 65.4 \\
- & (49.4,57.1) & (38.7,47.9) & & & & \\
-E2E: Omni-Flash & 68.1 & 45.5 & 34.4 & 33\% & 51.6 & 73.0 \\
- & (61.3,74.6) & (38.2,50.5) & & & & \\
-E2E: LiveTranslate & 59.8 & 50.4 & 44.9 & 16\% & 56.2 & 68.5 \\
- & (56.2,63.2) & (41.8,51.4) & & & & \\
+Oracle MT (clean text) & 55.5 & -- & -- & -- & -- & 66.7 & -- \\
+Cascade: Paraformer+MT & 51.5 & 15.8 & 17.4 & 69/80 & 26.9 & 63.4 & 73 \\
+ & (48.0,55.3) & (12.4,19.3) & & & & & \\
+Cascade: Qwen-Audio+MT & 53.9 & 44.1 & 68.3 & 18/24 & 53.7 & 65.0 & 17 \\
+ & (50.6,57.6) & (40.1,48.1) & & & & & \\
+Cascade: Qwen3-ASR+MT & 53.2 & 43.0 & 66.7 & 19/30 & 53.4 & 65.4 & 23 \\
+ & (49.8,56.6) & (38.8,47.2) & & & & & \\
+E2E: Omni-Flash & 68.1 & 45.5 & 34.4 & 33/29 & 51.6 & 73.0 & 30 \\
+ & (60.7,74.3) & (38.9,50.2) & & & & & \\
+E2E: LiveTranslate & 59.8 & 50.4 & 44.9 & 16/21 & 56.2 & 68.5 & 17 \\
+ & (56.1,63.6) & (45.7,54.9) & & & & & \\
 \bottomrule
-\multicolumn{7}{l}{\footnotesize $n$: cascades 144 clean, 135--144 non-empty at 0~dB; omni 84; LiveTranslate 144/132;}\\
-\multicolumn{7}{l}{\footnotesize CIs from 300 sentence-bootstrap resamples.}
+\multicolumn{8}{l}{\footnotesize $n$: cascades 144 clean, 135--144 non-empty at 0~dB; omni 84; LiveTranslate 144/132;}\\
+\multicolumn{8}{l}{\footnotesize CIs from 1{,}000 sentence-level bootstrap resamples on the same subset as the point estimate.}\\
+\multicolumn{8}{l}{\footnotesize rel.\ G: clean-to-0~dB percent loss against the GLM reference, generated outside the}\\
+\multicolumn{8}{l}{\footnotesize vendor family of every system under test (Section~\ref{sec:results:dual}).}
 \end{tabular}
 \end{table}
 
@@ -505,26 +564,37 @@ contribution of the translation engine, since every cascade shares one
 backend; the frontend comparison is within-backend and valid, but a claim
 that the frontend dominates the choice of engine would require varying the
 engine too. The second qualifies the common expectation that end-to-end
-systems avoid cascade error propagation and are therefore more robust. At
-0~dB the omni end-to-end path loses a third of its BLEU score, more than
-the well-frontended cascades lose at 18 and 19 percent. Its apparent
-absolute lead over the cascades is, however, an artefact of two
-confounds: its clean score of 68.1 is measured on a quota-limited subset
-of 84 sentences and carries reference affinity
-(Section~\ref{sec:results:dual}), and on the sentences common to both
+systems avoid cascade error propagation and are therefore more robust. On
+the point estimate the omni path loses a third of its clean BLEU score at
+0~dB, more than the well-frontended cascades lose at 18 and 19 percent.
+Its apparent absolute lead over the cascades is, however, an artefact of
+two confounds: its clean score of 68.1 is measured on a quota-limited
+subset of 84 sentences and carries reference affinity
+(Section~\ref{sec:results:dual}), and on the 82 sentences common to both
 paths the 0~dB picture reverses, with the Qwen-Audio cascade at 47.1
-against omni 45.5, a paired difference whose bootstrap interval ($-11.3$
-to $+5.5$) spans zero. The defensible statement is therefore about
-degradation behaviour, not absolute ranking: the omni path degrades more
-than the well-frontended cascades at 0~dB. The streaming
-LiveTranslate service is the most degradation-resilient of the paths,
-losing 16 percent at 0~dB, which is consistent with the behaviour of its
-internal frontend recogniser documented in
-Section~\ref{sec:results:frontend}. End-to-end designs do not inherit
-robustness automatically; they inherit the robustness of whatever acoustic
-frontend their provider trained internally, which in this measurement is
-better than the specialised streaming ASR but not automatically better
-than the best cascade.
+against omni 45.7, a paired difference of 1.4 points whose bootstrap
+interval ($-5.4$ to $+9.2$) spans zero. Restricted to the same common
+sentences, the relative-loss contrast is 33.0 percent for the omni path
+against 11.0 percent for the cascade, the cascade figure being flattered
+by the exclusion of its broken front-end sentences (its full-subset loss
+is 18 percent); a paired sentence-level bootstrap of this contrast gives
+$+22.2$ points with a 95 percent interval of $+10.9$ to $+32.9$ against
+the primary reference, but $+11.2$ points with an interval of $-3.4$ to
+$+24.6$ against the oracle reference, which spans zero. The fragility of
+the end-to-end path is therefore a point-estimate tendency whose
+statistical resolution depends on the reference, not an established
+ordering; the real-speech replication of
+Section~\ref{sec:results:real} reaches the same verdict ($+7.3$ points,
+interval $-1.0$ to $+15.0$, spanning zero). The streaming
+LiveTranslate service is the most degradation-resilient path on
+synthetic speech, losing 16 percent at 0~dB, which is consistent with the
+behaviour of its internal frontend recogniser documented in
+Section~\ref{sec:results:frontend}; on real speech its point-estimate
+loss exceeds the cascade's (Section~\ref{sec:results:real}). End-to-end
+designs do not inherit robustness automatically; they inherit the
+robustness of whatever acoustic frontend their provider trained
+internally, which in this measurement is better than the specialised
+streaming ASR but not automatically better than the best cascade.
 
 The condition-wise structure of Fig.~\ref{fig:cascade} adds three nuances to
 this picture. First, apart from the 0~dB point the cascade built on the LLM
@@ -537,14 +607,39 @@ service shows the same flatness with a single exception: its narrowband
 score of 60.1 sits marginally above its clean score, and its packet-loss and
 tempo scores are likewise within half a point of clean, so its 0~dB loss is
 the only substantive degradation it suffers. Third, the omni end-to-end path
-exhibits a small but consistent anomaly: its packet-loss and tempo scores,
-at 71.1 and 70.0, exceed its clean score of 68.1. Inspection of the outputs
-suggests that under these mild distortions the model produces slightly more
-concise translations that happen to align better with the reference style,
-rather than genuinely better translations; the effect is within the
-reference-sensitivity margin documented in Section~\ref{sec:results:dual}
-and is a further argument for treating small absolute differences between
-heterogeneous systems with caution.
+exhibits a small anomaly: its packet-loss and tempo scores,
+at 71.1 and 70.0, exceed its clean score of 68.1. Inspection of the
+outputs suggests, but cannot verify, that under these mild distortions the
+model produces slightly more concise translations that happen to align
+better with the reference style, rather than genuinely better
+translations; the effect is within the reference-sensitivity margin
+documented in Section~\ref{sec:results:dual}, and the omni complimentary
+quota was exhausted before a re-run could test the hypothesis, so the
+anomaly is reported as unexplained pending re-measurement. It is a further
+argument for treating small absolute differences between heterogeneous
+systems with caution.
+
+The reverb bars of the lower panel also carry a calibration added in this
+revision. The original synthetic-reverb condition convolves the corpus with
+a synthetic impulse response whose direct-to-reverberant ratio is an
+extreme $-27.6$~dB, and the limitation was flagged as such in the previous
+version. The new condition re-runs the same 480-sentence synthetic grid
+through three measured impulse responses from the MIT IR Survey (T60 of
+0.495 to 0.500~s, matched to the synthetic condition, but with everyday
+DRRs of $-0.9$, $+1.3$, and $+13.1$~dB, rotated across sentences). The
+broadband systems barely move: the Qwen-Audio cascade's reverb error rate
+was already 0.2/1.2 percent (Mandarin/English) and stays at 0.2/1.1 under
+the measured RIR, the Qwen3-ASR cascade at 0.1/0.5 to 0.2/0.5, and the
+16~kHz specialist improves from 1.3/5.1 to 0.7/3.7. The telephone-band
+specialist, however, improves from 18.2 to 3.4 percent Mandarin CER, a
+five-fold reduction, and the cascade BLEU scores against the primary
+reference rise by two to three points for all three cascades (52.4 to
+55.0, 53.3 to 54.9, 50.7 to 53.3). The earlier reading of the synthetic
+reverb condition is therefore confirmed and bounded: for broadband systems
+the main-grid reverb condition was already mild, while the extreme DRR
+inflated only the narrow-band model's reverberation penalty, so the
+synthetic condition should be read as a stress case for telephony-band
+front-ends rather than as a typical room.
 
 Decomposing the 0~dB collapse by direction sharpens the frontend story. The
 specialist cascade loses 25.9 BLEU points in the Chinese-to-English
@@ -579,11 +674,37 @@ translation against machine-generated references, and it is sharpened here
 by the fact that all systems and both reference generators come from one
 vendor, so no reference in this study is family-disjoint from every system
 under test; the primary reference at least comes from a different product
-line than any translation path. Two safeguards make the present conclusions
-robust to this effect. Degradation losses are computed within a system
-against a fixed reference, so the percentage losses reported above do not
-depend on the choice, and the ordering of relative losses at 0~dB, at 69,
-33, 19, 18, and 16 percent, is preserved under both references. We
+line than any translation path. What survives the change of reference is
+the ordering of degradation, not its magnitudes. Degradation losses are
+computed within a system against a fixed reference, so they are
+well-defined under either reference, and the relative-loss ordering of the
+paths at 0~dB is stable across the two references in its broad structure
+-- the specialist cascade loses most (69 percent against the primary
+reference, 80 against the oracle), LiveTranslate least (16 and 21), and
+the two well-frontended cascades remain in the 18-to-30 band -- with one
+qualification: the omni path and the Qwen3-ASR cascade, separated by 14
+points against the primary reference (33 against 19), converge to within
+half a point of each other (29.0 against 29.5) under the oracle reference.
+The magnitudes, by contrast, shift materially: the Qwen-Audio cascade
+loses 18 percent against the primary reference but 24 percent against the
+oracle, the omni path 33 but 29, LiveTranslate 16 but 21, and the
+omni-versus-cascade gap in relative loss narrows from about 15 to about 5
+percentage points. A third reference, generated in this revision by an LLM
+outside the vendor family (GLM) from the same clean transcripts, extends
+the check from two references to three, with the third family-disjoint
+from every system under test and from both other references. The ordering
+survives unchanged: against the GLM reference the clean-to-0~dB relative
+losses are 17 percent for the Qwen-Audio cascade, 23 for the Qwen3-ASR
+cascade, and 73 for the specialist cascade, against 18, 19, and 69 against
+the primary reference and 24, 30, and 80 against the oracle, so the
+ordering (specialist far worst, the two LLM-frontended cascades within a
+few points of each other) is identical under all three references, while
+the magnitudes roam across a six-to-eleven-point band per system. The same
+holds on the real-speech subset, where the vendor cascade's clean-to-0~dB
+relative loss is 33.8 percent against the same-engine oracle reference and
+32.6 percent against the GLM reference. Conclusions that rest on relative
+losses should therefore be stated as orderings that are stable across the
+three references now tested, not as reference-independent magnitudes. We
 recommend that future black-box translation evaluations score against at
 least two references generated by different model families from each other
 and from every system under test, state the family relationships
@@ -605,9 +726,13 @@ strongly linear across this range: the Pearson correlation is 1.00 for the
 Qwen-Audio cascade, 0.995 for the specialist cascade, and 0.994 for the
 Qwen3-ASR cascade. Three cautions, however, separate this empirical
 relation from a law, and each is quantified rather than asserted. First,
-the correlation is concentrated in a few high-error conditions: the points
-cluster near the origin for the nine mild conditions, so the line is
-anchored chiefly by the four to five collapsed conditions, which is why
+the correlation is concentrated in a few high-error conditions: the
+points cluster near the origin for the ten to eleven mild conditions of
+each cascade, so the line is anchored chiefly by the collapsed ones --
+three points for the Qwen-Audio cascade (0~dB and the two sub-zero-dB
+sweep points), four for the specialist cascade (which also collapses at
+2.5~dB), and only one for the Qwen3-ASR cascade, whose sweep stops at
+$-5$~dB -- which is why
 leave-one-condition-out refits are stable for the first two cascades
 (slopes move by less than 0.03) but not for the third, where dropping the
 0~dB condition moves the Qwen3-ASR slope from 0.47 to 0.74. Second, the
@@ -656,8 +781,11 @@ frontends and twelve for the Qwen3-ASR frontend, with fitted linear
 pass-through (with intercept) and 95\% confidence bands. Recognition error
 is the sweep-subset mean with refusals counted as complete failures;
 sub-zero-dB conditions extend the range beyond 100 percent through
-insertion errors. Mild conditions cluster near the origin; the fit is
-anchored chiefly by the collapsed conditions.}
+insertion errors. Small dots mark the mild conditions (mean recognition
+error at most 40 percent, left of the dotted vertical line); large
+crosses mark the collapsed conditions, which anchor the fit: three points
+for the Qwen-Audio cascade, four for the specialist cascade, and one for
+the Qwen3-ASR cascade.}
 \label{fig:cac}
 \end{figure}
 
@@ -741,7 +869,7 @@ indicative. Latency therefore reinforces rather than reverses the accuracy
 picture: the paths that degrade least under noise, the well-frontended
 cascades and the streaming translation service, are also among the fastest,
 while the slowest path, the omni end-to-end model, is the most fragile
-under severe noise in this measurement.
+under severe noise in this measurement, on the point estimate.
 
 \begin{table}[t]
 \centering

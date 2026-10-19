@@ -209,19 +209,43 @@ utterances. Second, real multi-talker babble is constructed with exactly
 the same three-stream mixing algorithm as the synthetic babble, but from
 40 real recorded utterances (20 AISHELL-1 training speakers and 20
 LibriSpeech dev-other speakers, all disjoint from the test speakers),
-mixed with the target speech at SNRs of $+5$, $0$, and $-5$~dB. Third,
+mixed with the target speech at SNRs of $+10$, $+5$, $+2.5$, $0$, $-2.5$,
+and $-5$~dB, the three intermediate points ($+10$, $+2.5$, $-2.5$~dB)
+having been added in this revision so that the ten-percent crossings are
+interpolated between levels at most 2.5~dB apart. Third,
 real non-speech transport noise, drawn from the train category of the
 ESC-50 environmental sound corpus~\cite{piczak2015esc}, is mixed at 0~dB
 SNR to probe whether the noise-type conclusions transfer beyond
 speech-shaped interference. Acoustic verification of all degraded signals
-follows the main protocol: median STOI is 0.77 for real reverberation and
-0.71, 0.62, 0.50 for real babble at $+5$, $0$, $-5$~dB.
+follows the main protocol: median STOI is 0.77 for real reverberation,
+0.81, 0.71, 0.66, 0.62, 0.55, 0.50 for real babble at $+10$, $+5$,
+$+2.5$, $0$, $-2.5$, $-5$~dB, and 0.61 for transport noise.
 
 Four recognition systems (both audio-LLM systems and both streaming
 specialists) and the Qwen-Audio--cascade and LiveTranslate end-to-end
-paths are evaluated on all six conditions (clean, real reverb, three
-real-babble SNRs, transport noise); the omni system is excluded because
-its complimentary quota was exhausted. Translation references for the
+paths are evaluated on all nine conditions (clean, real reverb, six
+real-babble SNRs, transport noise), with LiveTranslate restricted to the
+three conditions of the original round (clean, real reverb, $0$~dB babble)
+by its session quota; the omni system is excluded because
+its complimentary quota was exhausted. Three further hold-out components
+are added in this revision. First, an open-source recogniser outside the
+vendor family, Whisper small~\cite{radford2023robust}, is run locally with
+int8 quantisation on CPU over the clean and three real-babble conditions
+($+5$, $0$, $-5$~dB), giving a fully reproducible non-commercial
+recognition baseline whose logs, prompts, and quantisation settings are
+released. Second, a third translation reference and an alternative
+cascade translation backend are produced by an LLM outside the vendor
+family (GLM, accessed as a hosted API~\cite{glm2026api}): the same 480 clean synthetic
+transcripts and 150 clean real transcripts used for the primary reference
+are re-translated as a family-disjoint reference, and the Qwen-Audio
+frontend's real-speech transcripts are re-translated to form a cascade
+with no component in common with the vendor. Third, the synthetic-grid
+reverb condition is re-generated with the same three measured MIT impulse
+responses (matched $T_{60}$, everyday DRRs, same rotation) applied to the
+full 480-sentence synthetic corpus, and all four vendor recognisers plus
+their cascade translation stage are re-run on it, so that the extreme-DRR
+synthetic reverb can be calibrated against measured rooms on identical
+speech. Translation references for the
 validation subset are produced by the oracle protocol: the cascade
 translation engine applied to the human ground-truth transcripts, so the
 recognition stage is the only difference between the cascade and its own
@@ -230,13 +254,14 @@ within the cascade, but it also means that the reference and the cascade
 share one translation engine: absolute BLEU comparisons against this
 reference favour the cascade over any end-to-end path by construction, so
 the end-to-end comparison in Section~\ref{sec:results:real} is drawn in
-terms of within-path relative losses, which are invariant to the reference
-choice, and absolute gaps are interpreted only jointly with the
-reference-affinity analysis of Section~\ref{sec:results:dual}. All 4{,}650
-validation API calls follow the main logging,
-retry, and scoring infrastructure, and the complete preparation pipeline
-(dataset selection, impulse-response measurement, babble construction) is
-seeded and released alongside the main corpus.
+terms of within-path relative losses, whose ordering is carried across
+references, and absolute gaps are interpreted only jointly with the
+reference-affinity analysis of Section~\ref{sec:results:dual}. All
+validation API calls (10{,}035 vendor calls plus 1{,}192 GLM calls) follow
+the main logging, retry, and scoring infrastructure, and the complete
+preparation pipeline (dataset selection, impulse-response measurement,
+babble construction, Whisper configuration) is seeded and released
+alongside the main corpus.
 
 \subsection{Systems under test}
 
@@ -351,7 +376,7 @@ empties only through the brevity penalty, which saturates when hypotheses
 are longer than references, so the refusal-sensitive comparison in
 Section~\ref{sec:results:cascade} is anchored on chrF as well. Every
 hypothesis is scored against two reference sets. The primary reference is
-produced by Qwen3.8-Max~\cite{qwen3technical2025}, the strongest
+produced by Qwen3.8-Max~\cite{qwen3maxcard}, the strongest
 general-purpose text LLM of the same provider, translating the clean
 reference transcripts; it shares a vendor, though not a product line, with
 the translation systems under test, and the family relationships of all
@@ -366,7 +391,7 @@ model family as the reference generator, and conclusions about absolute
 quality depend on the choice of reference, whereas conclusions about
 degradation are stable. The text normalisation rules were developed by
 inspecting clean-condition outputs until residual mismatches ceased; a
-sensitivity analysis in Appendix~\ref{app:normalisation} re-scores the
+sensitivity analysis in \ref{app:normalisation} re-scores the
 main grid without numeral canonicalisation and shows that the
 system ordering is preserved while clean-condition gaps compress. To
 quantify run-to-run variability of the non-deterministic LLM services, the
@@ -399,16 +424,17 @@ real-speech validation, in two columns that separate the two natural
 counting conventions: \emph{successful calls} counts every logged successful
 API response, and \emph{unique evaluations} counts distinct
 (system, condition, sentence) triples after later re-runs have superseded
-earlier responses. In total 36{,}469 successful API responses were
+earlier responses. In total 38{,}494 successful API responses were
 logged (26{,}238 in the original measurement, 5{,}581 in the extension,
-and 4{,}650 in the real-speech validation), alongside 1{,}820 failed
+and 6{,}675 in the real-speech validation), alongside 1{,}820 failed
 attempts that were retried where the quota allowed. The 875-call difference
 between the two columns in the original phase consists of re-runs of the
 clipping, packet-loss, and tempo conditions whose later logs superseded the
 earlier ones in analysis. Twenty-four logged responses are protocol-level
 no-words refusals of the Qwen-Audio system under 0~dB babble; they are
-counted as successful calls, scored as empty transcripts, and tabulated
-separately in Appendix~\ref{app:refusal}. The 1{,}544 unique successful
+counted as successful calls and as unique evaluations, scored as empty
+transcripts, and tabulated
+separately in \ref{app:refusal}. The 1{,}544 unique successful
 LiveTranslate evaluations of the main grid cover 89.5 percent of that
 system's 1{,}728 targets, and the extension added 251 of 432 targeted
 sessions; all 450 targeted LiveTranslate sessions
@@ -454,7 +480,7 @@ Translation & cascades (2 frontends) & 3{,}456 & 3{,}456 & 12 conds $\times$ 144
 Translation & E2E omni & 1{,}004 & 1{,}004 & 83--84 of 144 $\times$ 12 conds \\
 Translation & E2E LiveTranslate & 1{,}571 & 1{,}544 & 89.5\% of 12 $\times$ 144 \\
 \midrule
-\multicolumn{2}{l}{Original phase subtotal} & 26{,}238 & 25{,}363 & \\
+\multicolumn{2}{l}{Original phase subtotal} & 26{,}238 & 25{,}387 & \\
 \midrule
 Extension & 4 ASR $\times$ 3 new SNRs & 1{,}512 & 1{,}512 & 2.5/$-5$/$-10$~dB $\times$ 144 \\
 Extension & cascades on new SNRs & 858 & 858 & 2 frontends $\times$ 3 conds $\times$ 144 \\
@@ -469,10 +495,17 @@ Real validation & 4 ASR systems $\times$ 6 conds & 3{,}150 & 3{,}150 & 150 utts;
 Real validation & cascade (Qwen-Audio $\to$ MT) & 900 & 900 & 150 utts $\times$ 6 conds \\
 Real validation & oracle MT (true transcripts) & 150 & 150 & reference generation \\
 Real validation & E2E LiveTranslate & 450 & 450 & 3 conds $\times$ 150 utts \\
+Real validation & 4 ASR $\times$ 3 new babble SNRs & 1{,}575 & 1{,}575 & $+10$/$+2.5$/$-2.5$~dB $\times$ 150 \\
+Real validation & cascade on new babble SNRs & 450 & 450 & 150 utts $\times$ 3 conds \\
+Real validation & measured-RIR reverb (rev-mit) & 1{,}680 & 1{,}680 & 480 utts $\times$ 4 ASR \\
+Real validation & cascade MT on rev-mit & 1{,}680 & 1{,}680 & 480 utts $\times$ 4 ASR \\
 \midrule
-\multicolumn{2}{l}{Real validation subtotal} & 4{,}650 & 4{,}650 & \\
+\multicolumn{2}{l}{Real validation subtotal} & 10{,}035 & 10{,}035 & \\
 \midrule
-\multicolumn{2}{l}{Total successful responses} & 36{,}469 & 35{,}618 & \\
+\multicolumn{2}{l}{Total successful responses} & 41{,}854 & 41{,}003 & \\
+\midrule
+\multicolumn{5}{l}{\footnotesize Non-vendor components, logged but outside the vendor API accounting: Whisper-small local inference (600 calls,} \\
+\multicolumn{5}{l}{\footnotesize CPU, int8), GLM hosted-API translation (1{,}192 calls: third reference 630, backend-swap cascade 562).} \\
 \multicolumn{2}{l}{Failed attempts (retried where quota allowed)} & 1{,}820 & --- & \\
 \bottomrule
 \end{tabular}

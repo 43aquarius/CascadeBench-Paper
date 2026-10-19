@@ -474,7 +474,7 @@ try:
     from pystoi import stoi as stoi_fn
     import soundfile as sf_a
     AUDIO = None
-    for cand in ["/tmp/my-project/research/audio", os.path.join(ROOT, "audio")]:
+    for cand in [os.path.join(ROOT, "audio")]:
         if os.path.exists(os.path.join(cand, "tts")): AUDIO = cand; break
     if AUDIO:
         st = {}

@@ -18,7 +18,7 @@ abstract: >-
   CascadeBench is a fully seeded, black-box benchmark measuring how twelve
   acoustic channel degradations propagate through commercial speech
   recognition and translation APIs: 480 bilingual sentences, six recognisers
-  across three architectural families, four translation paths, and 26,238
-  logged API calls on complimentary quotas.
-version: 1.0.0
-date-released: "2026-10-18"
+  across three architectural families, four translation paths, and 41,854
+  logged vendor API responses on complimentary quotas, validated on real recorded speech, with open-source (Whisper) and family-disjoint (GLM) hold-out measurements.
+version: 1.4.0
+date-released: "2026-10-19"

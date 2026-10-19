@@ -87,7 +87,7 @@
 }
 
 @inproceedings{gao2023funasr,
-  author    = {Gao, Zhifu and Zhang, Shiliang and Li, Ming Lei and Lei, Zhijie and McLoughlin, Ian},
+  author    = {Gao, Zhifu and Zhang, Shiliang and Lei, Mingli and Lei, Ming and Yan, Zhijie and Wang, Yabin and Wang, Lirong and McLoughlin, Ian},
   title     = {{FunASR}: A fundamental end-to-end speech recognition toolkit},
   booktitle = {Proceedings of INTERSPEECH 2023},
   pages     = {5314--5318},
@@ -95,7 +95,7 @@
 }
 
 @article{gao2023paraformer,
-  author  = {Gao, Zhifu and Zhang, Shiliang and McLoughlin, Ian and Li, Ming Lei and Lei, Zhijie and Yan, Zhijie and Wang, Lirong},
+  author  = {Gao, Zhifu and Zhang, Shiliang and McLoughlin, Ian and Lei, Mingli and Lei, Zhijie and Yan, Zhijie and Wang, Lirong},
   title   = {San-{ASR}: An open-source speech recognition toolkit for industrial deployment},
   journal = {arXiv preprint arXiv:2303.03207},
   year    = {2023}
@@ -139,10 +139,10 @@
 }
 
 @inproceedings{bentivogli2021cascade,
-  author    = {Bentivogli, Luisa and Cettolo, Mauro and Gaido, Marco and Negri, Matteo and Turchi, Marco},
+  author    = {Bentivogli, Luisa and Cettolo, Mauro and Gaido, Marco and Karakanta, Alina and Martinelli, Alberto and Negri, Matteo and Turchi, Marco},
   title = {Cascade versus Direct Speech Translation: Do the Differences Still Make a Difference?},
   booktitle = {Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing},
-  pages = {2892--2903},
+  pages = {2873--2887},
   year = {2021},
   doi = {10.18653/v1/2021.acl-long.224}
 }
@@ -242,12 +242,11 @@
   year    = {2024}
 }
 
-@inproceedings{park2020robust,
-  author    = {Park, Jiho and Lee, Yunsu and Lee, Jonghoon and Cho, Seokhee},
-  title     = {Robust self-training for end-to-end speech translation},
-  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL)},
-  pages     = {2877--2882},
-  year      = {2020}
+@article{pino2020self,
+  author  = {Pino, Juan and Xu, Qiantong and Ma, Xutai and Dousti, Mohammad Javad and Tang, Yun},
+  title   = {Self-training for end-to-end speech translation},
+  journal = {arXiv preprint arXiv:2010.03142},
+  year    = {2020}
 }
 
 @article{virtanen2020scipy,
@@ -341,18 +340,16 @@
 
 
 @article{chen2024voicebench,
-  author = {Chen, Yichen and Zhang, Yu and Wang, Xingyu and Wang, Shun and Zhang, Yicheng and others},
+  author = {Chen, Yiming and Yue, Xianghu and Zhang, Chen and Gao, Xiaoxue and Tan, Robby T. and Li, Haizhou},
   title = {{VoiceBench}: Benchmarking {LLM}-Based Voice Assistants},
   journal = {arXiv preprint arXiv:2410.17196},
-  note = {Evaluates voice assistants on knowledge, reasoning, and instruction following},
   year = {2024}
 }
 
 @article{yang2024airbench,
-  author = {Yang, Qifan and Zhang, Chendi and Wu, Yuchen and Chen, Jiameng and Li, Zhicheng and Liu, Jie and Chng, Eng Siong and Chen, Xiong},
+  author = {Yang, Qian and Xu, Jin and Liu, Wenrui and Chu, Yunfei and Jiang, Ziyue and Zhou, Xiaohuan and Leng, Yichong and Lv, Yuanjun and Zhao, Zhou and Zhou, Chang and Zhou, Jingren},
   title = {{AIR-Bench}: Benchmarking Large Audio-Language Models via Generative Comprehension},
-  journal = {arXiv preprint arXiv:2408.10513},
-  note = {Benchmark of audio understanding for large audio-language models},
+  journal = {arXiv preprint arXiv:2402.07729},
   year = {2024}
 }
 
@@ -360,7 +357,8 @@
   author = {Ruiz, Nicholas and Federico, Marcello},
   title = {Assessing the Impact of Speech Recognition Errors on Machine Translation Quality},
   booktitle = {Proceedings of the 11th Conference of the Association for Machine Translation in the Americas (AMTA)},
-  note = {Statistical framework relating ASR error types to downstream MT quality in cascades},
+  pages = {261--274},
+  address = {Vancouver, Canada},
   year = {2014}
 }
 
@@ -379,8 +377,8 @@
   volume = {113},
   number = {48},
   pages = {E7856--E7865},
-  note = {Includes the release of 271 measured real-world impulse responses (MIT IR Survey)},
-  year = {2016}
+  year = {2016},
+  doi = {10.1073/pnas.1612524113}
 }
 
 @inproceedings{piczak2015esc,
@@ -405,5 +403,21 @@
   title = {{Qwen3.8-Omni} {Flash} model card},
   howpublished = {\url{https://help.aliyun.com/zh/model-studio/qwen-omni-api}},
   note = {Service documentation; version accessed October 2026},
+  year = {2026}
+}
+
+@misc{qwen3maxcard,
+  author = {{Alibaba Cloud Model Studio}},
+  title = {{Qwen3.8-Max} model card},
+  howpublished = {\url{https://help.aliyun.com/zh/model-studio/qwen-max-api}},
+  note = {Service documentation; version accessed October 2026},
+  year = {2026}
+}
+
+@misc{glm2026api,
+  author = {{Z.ai}},
+  title = {{GLM} large language model, hosted {API}},
+  howpublished = {\url{https://z.ai}},
+  note = {API documentation; version accessed October 2026},
   year = {2026}
 }
