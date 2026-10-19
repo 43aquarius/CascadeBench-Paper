@@ -44,9 +44,11 @@ same streaming service and the LLM-frontend cascades lead the field, so the
 two objectives point to the same shortlist. Swapping the recognition stage
 of a cascade from the specialised streaming system to the LLM recogniser is
 worth 28 BLEU points at 0~dB (44.1 against 15.8) on an identical translation backend, a far
-larger effect than any measurement noise in this study, though the present
-design holds the translation engine fixed and therefore cannot rank frontend
-changes against engine changes. The pass-through regression of
+larger effect than any measurement noise in this study, and the
+second-backend validation of Section~\ref{sec:results:backend} shows that
+swapping the translation engine instead, while holding the frontend fixed,
+barely moves the relative-loss trajectory, so within the measured class the
+frontend is the dominant term. The pass-through regression of
 Section~\ref{sec:results:cac}, at roughly half a BLEU point per percentage
 point of recognition error with an intercept that is statistically
 indistinguishable from zero and numerically within a point of it, allows an
@@ -54,14 +56,17 @@ integrator to rank candidate frontends with recognition-only measurements,
 which are cheaper to run and easier to interpret than full-pipeline
 evaluations, and to forecast translation quality degradation from a
 measured or contracted recognition error rate, with the caveats that the
-coefficient is calibrated on one translation engine, that its honest
+main-grid coefficient is calibrated on one translation engine (the
+second-backend fit on a disjoint engine gives 0.34 to 0.55 on the shared
+conditions), that its honest
 uncertainty is the condition-level interval rather than the sentence-level
 one, and that the linear form saturates in the whole-utterance failure
 regime. The end-to-end versus
 cascade decision should rest on measured degradation behaviour rather than
 architectural intuition: the omni-modal end-to-end path evaluated here is
 simultaneously the slowest and, under severe noise, the most fragile of the
-five translation paths, while a dedicated streaming translation service
+end-to-end paths and more fragile in point estimate than the LLM-frontend
+cascades, while a dedicated streaming translation service
 achieves both the smallest relative loss at 0~dB and sub-second latency.
 
 \subsection{Why foundation-model recognisers degrade more slowly}
@@ -76,15 +81,24 @@ under codec, packet-loss, clipping, and tempo distortions, which barely
 affect any system. This pattern is consistent with robustness arising from
 exposure to diverse recording conditions during pre-training rather than
 from any explicit enhancement front-end. Second, the advantage is
-language-asymmetric, with Chinese recognition remaining usable at 0~dB
+language-asymmetric in these measurements, with Chinese recognition
+remaining usable at 0~dB
 while English recognition of the same systems fails at 37 to 50 percent,
 and, as Section~\ref{sec:results:snr} notes, part of the contrast may
 reflect the character-level versus word-level scoring scales rather than
-raw robustness alone. Providers
-disclose neither training mixture nor per-language capacity, so the asymmetry
+raw robustness alone. The Whisper baseline of
+Section~\ref{sec:results:real} shows that this tolerance asymmetry is an
+engine property rather than a general law -- the open-weights model is
+dominated by Mandarin errors already at $+5$~dB real babble where its
+English output errs at 19.3 percent -- whereas the asymmetry that does
+replicate across engines is one of failure structure, Mandarin
+insertion-dominated hallucination against English deletion-dominated loss.
+Providers
+disclose neither training mixture nor per-language capacity, so the asymmetries
 can only be documented, not explained, at the black-box level; the
 documentation itself is actionable, since it implies that multilingual
-deployments should be derated per language rather than per provider. It also implies a concrete procurement test: a
+deployments should be derated per language and per engine rather than per
+provider. It also implies a concrete procurement test: a
 noise probe around each system's knee, a few hundred sentences of the target
 language in the 0 to 5~dB window, places a candidate service on the
 robustness scale documented here, and repeating the probe per deployment
@@ -103,12 +117,15 @@ degraded channels in the black-box setting and qualify it in two ways. The
 end-to-end advantage in absolute quality against the same-vendor primary reference is
 real but partly a family artefact, since the omni system that translates
 directly also shares a generation family with the strongest reference
-producer, and the advantage inverts under the secondary reference, as
+producer, and the advantage inverts under the oracle reference and shrinks
+under the family-disjoint GLM reference, as
 Section~\ref{sec:results:dual} shows. More importantly, robustness is not an
 architectural property but a property of the acoustic frontend wherever it
 lives. The end-to-end service with the specialised internal frontend is the
 most resilient path we measured, while the end-to-end omni path is the most
-fragile, and the same frontend ordering that explains cascade behaviour also
+fragile of the end-to-end paths and degrades more than the LLM-frontend
+cascades in point estimate, with a reference-dependent margin, and the same
+frontend ordering that explains cascade behaviour also
 explains end-to-end behaviour. The real-speech validation adds a
 measurement-side caution to this picture: its translation reference shares
 the cascade's engine, so the absolute BLEU gap it reports between the
@@ -128,7 +145,8 @@ benchmark performs.
 \subsection{Methodological implications for black-box evaluation}
 
 Three methodological observations generalise beyond the specific services
-tested. The dual-reference protocol of Section~\ref{sec:results:dual}
+tested. The three-reference protocol of Section~\ref{sec:results:dual}, in
+which one reference is family-disjoint from every system under test,
 demonstrates that machine-generated evaluation references can reorder
 systems in a way that tracks reference-generator affinity rather than
 translation quality, and that degradation-relative conclusions are the
@@ -169,7 +187,9 @@ frontend $0.54 \times 59.2 - 1.0$, about 31 points, against a measured
 regime but, as Section~\ref{sec:results:cac} quantifies, it is an
 empirical interpolation over the measured conditions rather than a law:
 its condition-level uncertainty spans 0.23 to 0.45 for the Qwen-Audio
-cascade, it is calibrated on one translation engine, and it must not be
+cascade, its main-grid coefficient is calibrated on one translation
+engine (the second-backend validation reproduces the relation at 0.34 to
+0.55 on the shared real-speech conditions), and it must not be
 extrapolated to recognition errors beyond the measured range, where BLEU
 loss saturates while recognition error can grow without bound. The same
 arithmetic applied to the measured
@@ -189,11 +209,14 @@ experimental variable, since Section~\ref{sec:results:dual} shows that the
 reference generator can reorder systems. It should separate degradation
 gradients, which generalise across severity, from point estimates, which do
 not, and it should report response completeness alongside accuracy. The
-present study points to four directions for follow-up work: replication
-across providers to separate family effects from provider effects, extension
-to spontaneous and accented speech, sweep-based characterisation of the
-currently fixed-severity conditions, and human-reference scoring of the
-translation stage to anchor the machine-reference comparisons. As foundation
+present study points to four directions for follow-up work: extension of
+the cross-vendor components beyond their current footholds -- a
+full-strength non-vendor recogniser swept across the complete babble
+ladder and a second backend re-translating all nine real-speech
+conditions -- replication
+across further providers to separate family effects from provider effects,
+extension to spontaneous and accented speech, and human-reference scoring
+of the translation stage to anchor the machine-reference comparisons. As foundation
 model services begin to expose streaming speech interfaces with embedded
 recognition, the measurement approach demonstrated here, treating each
 service as an opaque function from degraded audio to text and scoring the
@@ -216,26 +239,41 @@ recordings and reproduces the degradation structure, but it covers 150
 utterances from two read-speech corpora, not spontaneous or accented
 speech, so the clean-condition levels remain indicative rather than
 population estimates. The most consequential design
-constraint is that all systems, references, and the synthesis come from a
-single provider, so product class and vendor are fully confounded: the
-class-level regularities reported here are consistent with published
+constraint is that the main grid -- every recognition system, the synthesis,
+and two of the three references -- comes from a single provider, so product
+class and vendor are fully confounded there: the class-level regularities
+reported here are consistent with published
 training-scale explanations~\cite{radford2023robust}, but cross-provider
 replication is required before they can be attributed to architecture
-rather than to one provider's engineering, and the same confound applies to
-the reference translations, since no reference generator family-disjoint
-from all systems was available; human references or references from other
-vendors are needed to anchor absolute translation quality, although the
-real-speech validation sidesteps this concern for recognition, where its
-references are human transcriptions. The synthetic babble
-noise is smoother than real multi-talker cocktail-party interference,
+rather than to one provider's engineering. The validation components
+loosen this confound only partway and only for structural conclusions:
+Whisper small is an open-weights model of the 2023 generation, executed
+locally on four of the nine real-speech conditions, so it serves as a
+failure-structure probe rather than a performance baseline and cannot
+localise its own knee within the tested range; the GLM backend swaps the
+translation engine on three non-clean operating points of a single
+frontend, enough to show that the pass-through is not a single-engine
+artefact but not enough to make the coefficient engine-independent; and
+every recognition frontend of every cascade remains the provider's, so no
+cascade measured here is vendor-independent. The reference situation
+improved but remains machine-anchored: the GLM reference is family-disjoint
+from every system under test, which removes the reference-affinity confound
+from relative-loss comparisons, yet all three references are still
+machine-generated, and neither human reference translations nor a learned
+reference-free metric (COMET class) was available within the zero-cost
+constraint, so absolute translation quality remains provisional; human
+references are the single addition that would most strengthen the absolute
+claims, although the real-speech validation sidesteps this concern for
+recognition, where its references are human transcriptions. The synthetic
+babble noise is smoother than real multi-talker cocktail-party interference,
 which includes semantic competition and stronger nonstationarity; the
-real-babble validation condition confirms that this gap makes synthetic
+six-level real-babble ladder confirms that this gap makes synthetic
 babble the milder stressor, shifting the degradation knee upward by
 roughly 3--6~dB, without changing the system ordering or the collapse
 structure. Similarly, the reverberation condition uses a synthetic
 exponentially decaying response whose diffuse tail yields a
 direct-to-reverberant ratio of $-27.6$~dB, far below the $+7.3$~dB survey
-median for everyday spaces; the measured-impulse-response validation
+median for everyday spaces; the measured-impulse-response bridge condition
 shows real rooms at matched $T_{60}$ to be markedly milder, so the
 synthetic reverberation results should be read as a stress case at the
 reverberant extreme. Severity levels

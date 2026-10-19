@@ -1,0 +1,418 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\title{Supplementary Material for\\
+``Error Propagation in Cascaded Speech Translation under Acoustic Channel
+Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs''}
+\author{Chang Tan\thanks{Dalian University of Technology, Dalian, China.}}
+\date{}
+
+\begin{document}
+\maketitle
+
+This supplementary document collects the extended numeric tables of the
+benchmark. All numbers are regenerated from the released API logs by the
+released analysis scripts. Cross-references of the form ``the main text''
+refer to the sections of the accompanying manuscript.
+
+\section{Complete pairwise significance results}
+\label{supp:significance}
+
+Table~\ref{tab:pairwise} reports the pairwise Wilcoxon signed-rank
+comparisons between recognition systems that remain significant at the
+Holm-corrected level within the family of all pairwise comparisons of the
+same condition and language, so the table lists only significant results
+by construction. Two protocol notes are needed to read it correctly.
+First, comparisons among the three general-purpose recognisers are computed
+on the full 480-sentence main grid, 240 sentences per language, whereas
+every comparison involving the omni system is computed on the 144-sentence
+sweep subset, 72 per language, because that system never ran the full grid;
+the two blocks of the table are same-subset within themselves, and the
+omni rows state their subset explicitly. Second, the fraction of zero
+paired differences is substantial in mild conditions, 72 to 83 percent
+under reverberation and narrowband, so significance there is carried by
+the minority of sentences where the systems differ. The consistency of the
+ordering is itself informative: within every condition and language,
+the two LLM-ASR systems occupy the leading positions and the specialised
+streaming recogniser the trailing position, with the exception that
+Qwen3-ASR leads Qwen-Audio 3.1 in English under reverberation, clipping,
+narrowband, and 0~dB noise, where the refusal behaviour of the latter
+penalises it, while the omni system is statistically inseparable from the
+Qwen systems in English under noise and reverberation on its subset.
+
+\begin{table}[h]
+\centering
+\caption{Significant Holm-corrected pairwise Wilcoxon comparisons by
+condition and language. Cells give the mean error rates in percent of the
+two systems compared. Upper block: full main grid, $n{=}240$ per language.
+Lower block: 144-sentence sweep subset, $n{=}72$ per language (omni
+system).}\label{tab:pairwise}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llll}
+\toprule
+Condition, language & Comparison & Means (\%) & $p$ \\
+\midrule
+0 dB, zh & Qwen-Audio vs Paraformer-RT & 6.3 vs 41.6 & $<0.001$ \\
+0 dB, zh & Qwen3-ASR vs Paraformer-RT & 13.1 vs 41.6 & $<0.001$ \\
+0 dB, zh & Qwen-Audio vs Qwen3-ASR & 6.3 vs 13.1 & $<0.001$ \\
+0 dB, en & Qwen-Audio vs Paraformer-RT & 50.2 vs 75.5 & $<0.001$ \\
+0 dB, en & Qwen3-ASR vs Paraformer-RT & 37.1 vs 75.5 & $<0.001$ \\
+0 dB, en & Qwen-Audio vs Qwen3-ASR & 50.2 vs 37.1 & $<0.001$ \\
+Reverb, zh & Qwen-Audio vs Paraformer-RT & 0.2 vs 1.3 & $<0.001$ \\
+Reverb, zh & Qwen3-ASR vs Paraformer-RT & 0.1 vs 1.3 & $<0.001$ \\
+Reverb, en & Qwen3-ASR vs Paraformer-RT & 0.5 vs 5.1 & $<0.001$ \\
+Reverb, en & Qwen-Audio vs Qwen3-ASR & 1.2 vs 0.5 & $0.011$ \\
+Narrow, zh & Qwen-Audio vs Paraformer-RT & 0.1 vs 0.7 & $<0.001$ \\
+Narrow, zh & Qwen3-ASR vs Paraformer-RT & 0.1 vs 0.7 & $<0.001$ \\
+Narrow, en & Qwen3-ASR vs Paraformer-RT & 0.5 vs 3.6 & $<0.001$ \\
+Narrow, en & Qwen-Audio vs Paraformer-RT & 1.0 vs 3.6 & $<0.001$ \\
+Narrow, en & Qwen-Audio vs Qwen3-ASR & 1.0 vs 0.5 & $0.015$ \\
+Clip, en & Qwen3-ASR vs Paraformer-RT & 0.4 vs 4.4 & $<0.001$ \\
+Clip, en & Qwen-Audio vs Paraformer-RT & 1.6 vs 4.4 & $<0.001$ \\
+Clip, en & Qwen-Audio vs Qwen3-ASR & 1.6 vs 0.4 & $<0.001$ \\
+\midrule
+\multicolumn{4}{l}{\footnotesize Sweep-subset comparisons involving the omni system ($n{=}72$ per language):} \\
+0 dB, zh & Qwen-Audio vs Omni & 8.5 vs 20.2 & $<0.001$ \\
+0 dB, zh & Qwen3-ASR vs Omni & 11.2 vs 20.2 & $<0.001$ \\
+0 dB, zh & Paraformer-RT vs Omni & 42.4 vs 20.2 & $<0.001$ \\
+0 dB, en & Qwen3-ASR vs Omni & 34.1 vs 43.3 & $0.018$ \\
+0 dB, en & Paraformer-RT vs Omni & 76.1 vs 43.3 & $<0.001$ \\
+Reverb, zh & Paraformer-RT vs Omni & 1.3 vs 0.1 & $0.003$ \\
+Reverb, en & Paraformer-RT vs Omni & 5.0 vs 2.2 & $0.002$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Numeric results of the severity sweep}
+\label{supp:sweep}
+
+Table~\ref{tab:sweep} reports the complete error rates of the eight-level
+severity sweep with confidence intervals, and Table~\ref{tab:ltfrontend}
+reports the internal frontend recogniser of the streaming translation
+service on the same subset. Three details of the sweep data deserve note.
+The confidence intervals at 0~dB and below are wide for every system,
+spanning ten percentage points or more, which reflects the bimodal
+sentence-level behaviour documented in the sentence-level variability
+section of the main text. The crossover between the classes occurs between
+5 and 0~dB for both languages, and at 5~dB the specialised system already
+shows its first significant departure from its clean score while the
+LLM-ASR systems remain within 0.3 points of theirs in Mandarin. The
+internal frontend of the streaming translation service has partial
+coverage in some sweep conditions, 52 to 134 of 144 sessions, because its
+websocket transport dropped sessions that did not recover within the
+retry budget; its zero score at 5~dB rests on 52 completed sessions and is
+a small-sample fluctuation rather than evidence of an operating point
+better than clean. The sub-zero conditions, 2.5, $-5$, and $-10$~dB, were
+run with identically seeded babble realisations, and their per-point
+sample sizes equal those of the original ladder, 72 sentences per language
+per level.
+
+\begin{table}[h]
+\centering
+\caption{Recognition error rates in percent on the severity sweep subset,
+144 sentences per level, with bootstrap 95 percent confidence intervals.
+Values above 100 percent arise from insertion-dominated outputs.}
+\label{tab:sweep}
+\footnotesize
+\setlength{\tabcolsep}{1.9pt}
+\begin{tabular}{llcccccccc}
+\toprule
+System & Lang & 20 & 15 & 10 & 5 & 2.5 & 0 & $-5$ & $-10$ \\
+\midrule
+Paraformer-v2 & zh & 0.8 & 0.8 & 0.8 & 2.5 & 9.8 & 42.4 & 101.2 & 101.9 \\
+ &  & (0,1) & (0,1) & (0,1) & (1,4) & (6,14) & (36,50) & (98.6,104) & (99.5,104) \\
+ & en & 3.8 & 3.7 & 3.9 & 13.4 & 38.1 & 76.1 & 99.5 & 99.8 \\
+ &  & (2,6) & (2,6) & (2,6) & (9,18) & (31,45) & (71,81) & (98.4,101) & (99.1,101) \\
+Qwen-Audio & zh & 0.1 & 0.1 & 0.1 & 0.1 & 0.6 & 8.5 & 127.1 & 138.7 \\
+ &  & (0,0) & (0,0) & (0,0) & (0,0) & (0,1) & (4,14) & (120,136) & (132,148) \\
+ & en & 0.9 & 1.3 & 1.5 & 2.0 & 8.5 & 39.7 & 102.6 & 105.8 \\
+ &  & (0,2) & (0,3) & (0,3) & (1,4) & (5,13) & (30,50) & (99.3,107) & (102,110) \\
+Qwen3-ASR & zh & 0.1 & 0.2 & 0.1 & 0.3 & 1.0 & 11.2 & 104.8 & 142.9 \\
+ &  & (0,0) & (0,0) & (0,0) & (0,1) & (0,2) & (7,16) & (98,112) & (135,151) \\
+ & en & 0.9 & 0.9 & 0.7 & 1.9 & 4.3 & 34.1 & 101.6 & 104.7 \\
+ &  & (0,2) & (0,2) & (0,2) & (1,4) & (2,8) & (26,43) & (98.5,105) & (102,108) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Error rate in percent of the streaming translation service
+internal frontend recogniser, with session counts; coverage is partial
+where the websocket transport dropped sessions.}
+\label{tab:ltfrontend}
+\footnotesize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{lcccccccc}
+\toprule
+Condition & Clean & 20 dB & 15 dB & 10 dB & 5 dB & 2.5 dB & 0 dB & $-5$ dB \\
+\midrule
+Error (\%) & 1.0 & 0.8 & 0.2 & 0.9 & 0.0 & 4.0 & 25.4 & 100.8 \\
+95\% CI & (0.3,1.7) & (0.3,1.6) & (0.0,0.6) & (0.3,1.6) & (0.0,0.0) & (1.9,6.7) & (19.8,31.4) & (98.4,104.1) \\
+$n$ & 144 & 134 & 64 & 144 & 52 & 144 & 144 & 107 \\
+\midrule
+Condition & Reverb & Narrow & Codec & Loss & Clip & Tempo & $-10$ dB & \\
+\midrule
+Error (\%) & 0.8 & 0.8 & 0.7 & 0.8 & 0.8 & 1.0 & --- & \\
+95\% CI & (0.3,1.5) & (0.3,1.6) & (0.2,1.4) & (0.3,1.5) & (0.3,1.6) & (0.4,1.8) & --- & \\
+$n$ & 144 & 144 & 144 & 144 & 142 & 142 & 0 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Response completeness: refusals and empty transcripts}
+\label{supp:refusal}
+
+Table~\ref{tab:refusal} reports the fraction of utterances for which each
+system's final response contains no transcript, split by the two
+mechanisms: protocol-level refusals, where the API returns an explicit
+no-words error, and silent empties, where a successful response carries an
+empty string. The distinction matters operationally: an explicit error can
+be caught by the caller and retried or escalated, whereas a silent empty
+return is indistinguishable from a genuinely silent audio segment. In the
+main grid only the 0~dB condition produces empty outputs; in the sub-zero
+extension they become a dominant failure mode for the streaming systems,
+with 42 to 58 percent of utterances returning nothing at $-5$~dB, while
+the LLM systems increasingly return hallucinated text instead. No failed
+API call, of any kind, ever recovered to a different outcome on retry
+within the six-attempt budget, and the 24 protocol refusals of the
+Qwen-Audio system at 0~dB were stable across repetition runs, so the
+behaviour is deterministic in the input rather than an artefact of
+transient service conditions.
+
+\begin{table}[h]
+\centering
+\caption{Empty final transcripts in percent of evaluated utterances, by
+mechanism (R: protocol refusal; S: silent empty). Main grid conditions
+report the full 480-sentence grid (240 per language); sub-zero conditions
+report the 144-sentence sweep subset (72 per language).}
+\label{tab:refusal}
+\footnotesize
+\setlength{\tabcolsep}{2.3pt}
+\begin{tabular}{llcccccc}
+\toprule
+System & Lang & 2.5 dB & 0 dB & $-5$ dB & $-10$ dB & Reverb & Mechanism \\
+\midrule
+Paraformer-RT-v2 & zh & 4.2 (S) & 2.5 (S) & 41.7 (S) & 43.1 (S) & 0 & silent \\
+ & en & 4.2 (S) & 15.0 (S) & 58.3 (S) & 52.8 (S) & 0 & \\
+Paraformer-RT-8K & zh & 1.4 (S) & 0.8 (S) & 8.3 (S) & 15.3 (S) & 0.8 (S) & silent \\
+Qwen-Audio-3.1 & zh & 0 & 0.8 (R) & 23.6 (R) & 29.2 (R) & 0 & refusal \\
+ & en & 0 & 9.2 (R) & 33.3 (R) & 27.8 (R) & 0 & \\
+Qwen3-ASR & zh/en & 0 & 0 & 0 & 0 & 0 & none \\
+Qwen3.8-Omni & zh/en & 0 & 0 & n/a & n/a & 0 & none \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Real-speech validation: complete numeric results}
+\label{supp:real}
+
+The three measured impulse responses used for the real-reverberation
+condition and the measured-RIR bridge condition are a drama room at MIT
+campus ($T_{60} = 0.500$~s, DRR $-0.9$~dB), a dining room ($T_{60} =
+0.499$~s, DRR $+1.3$~dB), and a classroom ($T_{60} = 0.495$~s, DRR
+$+13.1$~dB); for context, the median reverberation time of the 228 survey
+responses that admitted reliable measurement was 0.4~s (interquartile
+range 0.25--0.62~s) and the median direct-to-reverberant ratio was
+$+7.3$~dB (IQR $+4.1$--$+11.2$~dB).
+
+Table~\ref{tab:realval} reports the complete recognition results of the
+real-speech validation with bootstrap 95\% confidence intervals over the
+nine conditions, together with the interpolated SNR at which each system's
+error crosses ten percent on the six-level real-babble ladder (values
+above the highest tested level are marked $>+10$; Whisper small was run
+only from $+5$~dB downward, so its crossing is marked $>+5$).
+Table~\ref{tab:realmtpath} reports the corresponding translation results:
+the cascade under its oracle reference across all nine conditions, and the
+end-to-end comparison on the three conditions covered by the LiveTranslate
+quota. The end-to-end comparison on this reference is subject to the
+same-engine affinity analysed in the main text and is interpreted there in
+relative-loss terms.
+
+\begin{table}[h]
+\centering
+\caption{Real-speech validation: recognition error rate in percent
+(CER for Mandarin, WER for English) with bootstrap 95\% confidence
+intervals, $n = 75$ per cell. RB denotes real multi-talker babble, TN real
+transport noise at 0~dB; Cross-10\% gives the interpolated babble SNR at
+which the error rate passes ten percent.}
+\label{tab:realval}
+\scriptsize
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{lccccccccccc}
+\toprule
+System & Clean & RevR & RB$+10$ & RB$+5$ & RB$+2.5$ & RB$0$ & RB$-2.5$ & RB$-5$ & TN$0$ & Cross-10\% \\
+\midrule
+\input{supp_tables/tab_s5_realval} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Real-speech validation, translation quality: corpus BLEU of the
+Qwen-Audio cascade against the oracle reference (the cascade engine on
+human transcripts) over all nine conditions, and of the LiveTranslate
+end-to-end path on its three covered conditions; zh$\to$en and en$\to$zh
+are reported separately, $n = 75$ per cell.}
+\label{tab:realmtpath}
+\small
+\begin{tabular}{lcc}
+\toprule
+\multicolumn{3}{l}{\emph{Cascade (Qwen-Audio $\to$ qwen-mt-uni), oracle reference:}} \\
+Condition & zh$\to$en & en$\to$zh \\
+\midrule
+\input{supp_tables/tab_s6_cascade} \\
+\midrule
+\multicolumn{3}{l}{\emph{End-to-end (LiveTranslate), same reference:}} \\
+Condition & zh$\to$en & en$\to$zh \\
+\midrule
+Clean & 44.1 & 39.8 \\
+Reverb (real) & 44.3 & 38.7 \\
+RB $0$~dB & 20.8 & 28.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Whisper small: complete results}
+\label{supp:whisper}
+
+Table~\ref{tab:whisper} reports the complete Whisper small results on its
+four tested real-speech conditions: error rates with bootstrap confidence
+intervals, the silent-empty rate, and the Levenshtein decomposition of the
+error mass into insertions, deletions, and substitutions over normalised
+text (characters for Mandarin, words for English). The insertion fraction
+is the insertion count divided by the total error mass. The Mandarin
+insertion dominance at $+5$~dB (244 insertions against 83 deletions)
+reflects repetition-loop hallucination; English error mass remains
+deletion-led at every condition.
+
+\begin{table}[h]
+\centering
+\caption{Whisper small (local execution, default decoding): error rate in
+percent with bootstrap 95\% confidence intervals, silent-empty rate in
+percent, and error-mass decomposition (insertion/deletion/substitution
+counts and insertion fraction), $n = 75$ per cell.}
+\label{tab:whisper}
+\small
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{llcccccc}
+\toprule
+Condition & Lang & Error (\%, 95\% CI) & Empty (\%) & Ins & Del & Sub & Ins.\ frac. \\
+\midrule
+\input{supp_tables/tab_s7_whisper} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Measured-RIR bridge condition: complete results}
+\label{supp:revmit}
+
+Table~\ref{tab:revmitasr} reports recognition error under the synthetic
+exponentially decaying reverberation response and under the three measured
+survey responses at matched $T_{60}$, on the full 480-sentence corpus.
+Table~\ref{tab:revmitcas} reports the corresponding cascade BLEU under all
+three references on the sweep subset (matched $n{=}144$; the 8~kHz
+specialist covers the Chinese half, $n{=}72$), with the synthetic-response
+condition in the final columns. Full-corpus measured-RIR values differ
+from the sweep-matched values by at most 1.3 BLEU and are included in the
+released analysis output.
+
+\begin{table}[h]
+\centering
+\caption{Recognition error rate in percent under the synthetic
+reverberation response (DRR $-27.6$~dB) and the measured survey responses
+(DRR $-0.9$ to $+13.1$~dB) at matched $T_{60} = 0.5$~s, full 480-sentence
+corpus.}
+\label{tab:revmitasr}
+\small
+\begin{tabular}{lll}
+\toprule
+System, language & Synthetic RIR & Measured RIRs \\
+\midrule
+\input{supp_tables/tab_s8_revmit_asr} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Cascade BLEU under the three references (primary / oracle / GLM)
+on the measured-RIR bridge condition (sweep subset, $n{=}144$; 8~kHz
+specialist Chinese half, $n{=}72$) and under the synthetic reverberation
+response on the same subset. The main grid contains no 8~kHz cascade, so
+its synthetic columns are omitted.}
+\label{tab:revmitcas}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{3}{c}{Measured RIRs} & \multicolumn{3}{c}{Synthetic RIR} \\
+Frontend & primary & oracle & GLM & primary & oracle & GLM \\
+\midrule
+\input{supp_tables/tab_s8_revmit_cascade} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Three-reference absolute scores and paired tests}
+\label{supp:threeref}
+
+Table~\ref{tab:threeref} reports the absolute clean and 0~dB BLEU scores
+of the five translation paths under all three references, complementing
+the relative-loss columns of the main translation table.
+Table~\ref{tab:paired} reports the paired sentence-level bootstrap
+comparisons between the omni path and the two LLM-frontend cascades at
+0~dB on their common subset, both as absolute BLEU differences and as
+relative-loss differences, under each reference.
+
+\begin{table}[h]
+\centering
+\caption{Absolute BLEU of the five translation paths under the three
+references (sweep subset; cascades conditional on non-empty frontend
+output at 0~dB). $n$: cascades 144 clean, 135--144 at 0~dB; omni 84;
+LiveTranslate 144/132.}
+\label{tab:threeref}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{3}{c}{Clean} & \multicolumn{3}{c}{Babble 0~dB} \\
+Path & primary & oracle & GLM & primary & oracle & GLM \\
+\midrule
+\input{supp_tables/tab_s9_threeref} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Paired bootstrap comparisons at 0~dB on the omni path's common
+subset ($n = 82$--$84$): difference (omni minus cascade) with 95\%
+confidence intervals, under each reference. Positive relative-loss
+differences mean the omni path loses a larger fraction of its clean
+score.}
+\label{tab:paired}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+Comparison & vs primary & vs oracle & vs GLM \\
+\midrule
+\input{supp_tables/tab_s9_paired} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

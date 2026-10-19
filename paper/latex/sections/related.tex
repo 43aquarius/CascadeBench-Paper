@@ -41,7 +41,7 @@ fluent but occasionally freer output. The survey of Sperber and
 Paulik~\cite{sperber2020speech} synthesises this literature, including work on
 robustness of end-to-end systems to noisy input. Subsequent research
 addressed noise robustness of end-to-end ST through self-training and data
-selection~\cite{park2020robust}. These studies evaluate models that the
+selection~\cite{pino20_interspeech}. These studies evaluate models that the
 researchers train themselves on public corpora. Robustness of the end-to-end component in
 particular has been treated as a training-data problem, with noise-augmented
 source audio, self-training on noisy transcripts, and domain adaptation as
@@ -102,8 +102,9 @@ cascade-versus-end-to-end literature addresses research models rather than
 provider-operated systems. CascadeBench combines the three perspectives. It
 applies the controlled degradation methodology of the robustness literature
 to the black-box commercial setting, extends the measurement through the
-translation stage for both architectures, and adds a dual-reference scoring
-protocol that quantifies a bias source that any evaluation involving modern
+translation stage for both architectures, and adds a three-reference scoring
+protocol, with one reference family-disjoint from every system under test,
+that quantifies a bias source that any evaluation involving modern
 generative reference translations must confront. A systematic search of the speech-translation and
 audio-benchmarking literature, including the benchmarks cited above, found
 no previous study that measures all of these dimensions simultaneously for

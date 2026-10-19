@@ -97,15 +97,18 @@ knee, and below 0~dB they fail by insertion-heavy hallucination that drives
 character error rates above 100 percent. The end-to-end translation paths,
 often assumed to be more robust
 than cascades because they avoid error propagation, do not inherit
-robustness automatically: the omni-modal path loses more of its clean
-quality under severe noise than a well-frontend cascade, while a streaming
+robustness automatically: the omni-modal path is the most fragile of the
+end-to-end paths and, in point estimate under every scoring reference,
+loses more of its clean
+quality under severe noise than the LLM-frontend cascades, with a
+reference-dependent margin, while a streaming
 end-to-end service is the most resilient path measured. Across up to fifteen
 operating conditions, the BLEU score of every cascade measured
 falls linearly with its recognition error rate, an empirical pass-through of
 0.44 to 0.54 BLEU points per percentage point whose condition-level
-uncertainty is wider than its sentence-level confidence intervals, which
-gives integrators a calibrated
-engineering rule, calibrated on one translation engine, for estimating
+uncertainty is wider than its sentence-level confidence intervals and which
+survives re-fitting on a second vendor's translation engine, giving
+integrators an empirical rule for estimating
 translation losses from recognition
 quality alone. Finally, the benchmark surfaces behavioural differences that
 are invisible in clean-audio evaluations, including two distinct
@@ -119,13 +122,19 @@ the first systematic measurement of acoustic degradation propagation across
 recognition and translation stages for commercial black-box speech APIs,
 covering three product classes of one provider and both cascade and
 end-to-end translation designs, which we frame as a case study pending
-cross-provider replication. It introduces a fully reproducible benchmark
+cross-provider replication. It validates the central design on real recorded
+speech under measured impulse responses and a six-level real-babble ladder,
+bridges the synthetic reverberation condition with the same measured room
+responses, and extends beyond the primary vendor with an open-weights
+locally executed recogniser and a second vendor's translation engine in
+both the reference and the backend role. It introduces a fully reproducible benchmark
 recipe in which the test material, the degradations, and every model response
 are controlled, logged, and released, so that the measurements can be
 repeated as providers update their models. And it distils the measurements
 into quantitative design guidance, including noise-failure thresholds per
 product class, the error pass-through regression for cascades, and a
-dual-reference protocol that exposes and controls the systematic bias that
+three-reference protocol with one family-disjoint reference that exposes
+and controls the systematic bias that
 arises when automatic translation quality is scored against references
 produced by models related to one of the systems under test.
 

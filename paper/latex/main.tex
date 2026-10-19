@@ -5,6 +5,7 @@
 \usepackage{multirow}
 \usepackage{tabularx}
 \usepackage{xcolor}
+\usepackage{xurl}
 \usepackage{xeCJK}
 \setCJKmainfont{Noto Serif SC}
 \setCJKsansfont{Noto Sans SC}
@@ -20,35 +21,36 @@
 \title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
 Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
 
-\author[addr1]{Anonymous Author}
-\address[addr1]{Affiliation withheld for double-blind review}
+\author[addr1]{Chang Tan}  % single-anonymised review: author identity visible to reviewers
+\address[addr1]{Dalian University of Technology, Dalian, China}
 
 \begin{abstract}
 Cloud speech services are consumed as black boxes, yet the acoustic channels
-feeding them are rarely clean. We present CascadeBench, a fully seeded
-black-box benchmark that measures how twelve controlled acoustic channel
-degradations propagate through the recognition and translation stages of
-commercial speech APIs: five recognition systems spanning three product
-classes of a single provider (specialised streaming, audio-LLM, and
-omni-modal), two cascaded and two end-to-end speech translation paths, over
-a symmetric 480-sentence Mandarin--English corpus with a babble severity
-sweep from 20 to $-10$~dB. Recognition error rises as a knee-shaped
-function of noise level: the audio-LLM systems hold a flat sub-percent
-floor and tolerate 2.5 to 4~dB more noise than the specialised streaming
-system before error reaches ten percent, but collapse sharply below 0~dB,
-where insertion-heavy hallucination drives character error rates above 100
-percent. A telephone-band specialist shows no in-band advantage and is
-uniquely fragile under reverberation. Cascade translation quality falls
-linearly with recognition error rate (0.44 to 0.54 BLEU points per
-percentage point, sentence-level bootstrap 95\% confidence intervals within
-$\pm 0.04$, intercept indistinguishable from zero) across fifteen operating
-conditions. End-to-end translation is not automatically more robust: under
-0~dB babble the omni-modal path loses a third of its BLEU score, more than
-a well-frontended cascade, whereas a streaming end-to-end service is the
-most resilient path measured. A dual-reference protocol exposes a
-machine-reference scoring bias that can invert system rankings. The
-complete recipe, corpus, degraded audio, and 33{,}000 logged API responses
-are released for re-measurement as services evolve.
+feeding them are rarely clean. CascadeBench is a fully seeded black-box
+benchmark measuring how fourteen degradation conditions from seven acoustic
+families propagate through commercial speech APIs: five recognition systems
+in three product classes of one provider, three cascaded and two end-to-end
+translation paths, over a 480-sentence bilingual corpus with an eight-level
+babble sweep from 20 to $-10$~dB. Recognition error rises
+as a knee-shaped function of noise: the audio-LLM systems tolerate 2.2 to
+2.5~dB (Mandarin) and 4.4 to 4.8~dB (English) more noise than the
+specialised streaming system before error reaches ten percent, then
+collapse below 0~dB into insertion-heavy hallucination above 100
+percent character error. Cascade loss follows an empirical pass-through of
+0.4 to 0.5 BLEU points per percentage point of recognition error, which
+survives re-fitting on a second vendor's translation engine. A
+150-utterance real-speech validation with a six-level real-babble ladder
+reproduces the knee structure and hallucination regime, shows rooms with
+measured impulse responses far milder than the synthetic stress case, and
+bounds the audio-LLM advantage to the near-knee regime. End-to-end
+translation is not automatically more robust: the omni-modal path is the
+most fragile of the end-to-end paths and degrades more than the
+LLM-frontend cascades in point estimate, with a reference-dependent
+margin. Three-reference scoring, with one reference family-disjoint from
+every system, shows that relative-loss rankings are stable across
+references except for a sub-point inversion under the same-engine
+reference. The recipe, corpus, degraded audio, and 43{,}046 logged API
+responses are released.
 \end{abstract}
 
 \begin{keyword}
@@ -71,10 +73,16 @@ The complete benchmark is publicly released at
 \url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
 the sentence corpus, the seeded perturbation implementations, the full
 degraded audio tree, all per-sentence model transcripts and translations
-(33{,}000 logged API responses), the analysis scripts, and the LaTeX source
+(43{,}046 logged API responses), the analysis scripts, and the LaTeX source
 of this manuscript. Every number and figure in the paper is regenerated
-from the released logs by the released analysis scripts. An anonymised
-snapshot for reviewers is provided with the submission.
+from the released logs by the released analysis scripts. Extended numeric
+tables (complete pairwise significance results, severity-sweep numerics,
+refusal tabulations, and the complete real-speech, Whisper, measured-RIR,
+and second-backend results) are provided as supplementary material.
+Because the
+journal operates single-anonymised review, in which author identity is
+visible to reviewers, the public link is given directly; an anonymised
+snapshot is additionally provided with the submission.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the
 writing process}
