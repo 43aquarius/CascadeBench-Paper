@@ -78,7 +78,7 @@ def flac_bytes_to_wav(b):
 
 # ---------- 1) 合成语料电平基准 ----------
 def synth_level():
-    files = sorted(glob.glob("/tmp/my-project/research/audio/perturbed/clean/*.wav"))
+    files = sorted(glob.glob(os.path.join(ROOT, "audio", "perturbed", "clean", "*.wav")))
     sample = files[::40]  # ~24 个
     vals = [active_rms(load_wav(f)) for f in sample]
     med = float(np.median(vals))
