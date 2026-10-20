@@ -1,6 +1,6 @@
 # CascadeBench: Code and Data Availability
 
-## Repository structure (to be released upon acceptance)
+## Repository structure (publicly released)
 
 ```
 cascadebench/
@@ -22,9 +22,12 @@ cascadebench/
 │   ├── v15_table5.py           # three-reference Table 5 + paired bootstraps
 │   ├── v15_real.py / v15_real2.py   # real-speech ladder, slopes, GLM backend matrix, measured-RIR bridge
 │   ├── v15_whisper.py          # Whisper small errors + insertion/deletion decomposition
+│   ├── v151_babble_ladder.py   # six-level babble ladder verification (v1.5.1)
+│   ├── v151_reallloss.py       # real-speech relative losses, paired bootstrap (v1.5.1)
 │   ├── v15_figures.py          # publication figures (v1.5)
 │   ├── v15_supptables.py       # supplementary table bodies (S5-S12)
-│   └── v15_selfcheck.py        # 67-item numeric/wording consistency check
+│   └── v15_selfcheck.py        # 68-item numeric/wording consistency check
+│       (plus v151_selfcheck.py, 54 items, v1.5.1)
 ├── results/                    # per-sentence JSONL logs for every system call
 │   ├── tts_log.jsonl
 │   ├── asr_{system}.jsonl      # transcripts + latency per call

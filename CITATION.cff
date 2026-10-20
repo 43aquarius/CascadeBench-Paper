@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this benchmark, please cite the paper and this repository."
-title: "Error Propagation in Cascaded Speech Translation under Acoustic Channel Degradations: A Black-Box Benchmark of Commercial Speech Intelligence APIs"
+title: "Error Propagation in Cascaded Speech Translation under Acoustic Channel Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs"
 type: dataset
 authors:
   - name: CascadeBench Authors
@@ -15,10 +15,17 @@ keywords:
 license: MIT
 repository-code: "https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics"
 abstract: >-
-  CascadeBench is a fully seeded, black-box benchmark measuring how twelve
-  acoustic channel degradations propagate through commercial speech
-  recognition and translation APIs: 480 bilingual sentences, six recognisers
-  across three architectural families, four translation paths, and 41,854
-  logged vendor API responses on complimentary quotas, validated on real recorded speech, with open-source (Whisper) and family-disjoint (GLM) hold-out measurements.
-version: 1.4.0
-date-released: "2026-10-19"
+  CascadeBench is a fully seeded, black-box case study measuring how fourteen
+  acoustic channel degradations from seven families propagate through the
+  recognition and translation services of one commercial provider: five
+  recognition systems in three product classes, three cascaded and two
+  end-to-end translation paths, 480 bilingual sentences, and 43,046 logged
+  API responses on complimentary quotas. A 150-utterance real-speech
+  validation with a six-level real-babble ladder, measured room impulse
+  responses, an open-weights recogniser (Whisper small), and a
+  family-disjoint second-vendor reference and backend (GLM) replicate the
+  knee-and-collapse structure, bound the audio-LLM advantage to the
+  near-knee regime, and validate the recognition-to-translation
+  pass-through relation beyond the provider's own stack.
+version: 1.5.1
+date-released: "2026-10-20"
