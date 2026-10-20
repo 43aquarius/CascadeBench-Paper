@@ -3,6 +3,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{rotating}
 \usepackage{multirow}
 \usepackage{xcolor}
 \usepackage{xurl}
@@ -241,24 +242,25 @@ quota. The end-to-end comparison on this reference is subject to the
 same-engine affinity analysed in the main text and is interpreted there in
 relative-loss terms.
 
-\begin{table}[h]
+\begin{sidewaystable}
 \centering
 \caption{Real-speech validation: recognition error rate in percent
 (CER for Mandarin, WER for English) with bootstrap 95\% confidence
-intervals, $n = 75$ per cell. RB denotes real multi-talker babble, TN real
-transport noise at 0~dB; Cross-10\% gives the interpolated babble SNR at
+intervals, $n = 75$ per cell. Columns $+10$ to $-5$ are real multi-talker
+babble SNR levels in dB; TN denotes real transport noise at 0~dB;
+Cross-10\% gives the interpolated babble SNR at
 which the error rate passes ten percent.}
 \label{tab:realval}
-\scriptsize
-\setlength{\tabcolsep}{2.2pt}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccccccccccc}
 \toprule
-System & Clean & RevR & RB$+10$ & RB$+5$ & RB$+2.5$ & RB$0$ & RB$-2.5$ & RB$-5$ & TN$0$ & Cross-10\% \\
+System & Clean & RevR & $+10$ & $+5$ & $+2.5$ & $0$ & $-2.5$ & $-5$ & TN & Cross-10\% \\
 \midrule
 \input{supp_tables/tab_s5_realval} \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{sidewaystable}
 
 \begin{table}[h]
 \centering
@@ -404,13 +406,43 @@ confidence intervals, under each reference. Positive relative-loss
 differences mean the omni path loses a larger fraction of its clean
 score.}
 \label{tab:paired}
-\small
-\setlength{\tabcolsep}{4pt}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccc}
 \toprule
 Comparison & vs primary & vs oracle & vs GLM \\
 \midrule
 \input{supp_tables/tab_s9_paired} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:realpaired} reports the corresponding paired comparison on
+the real-speech validation: relative losses from clean to 0~dB real babble
+for the streaming end-to-end path and the Qwen-Audio cascade on their
+common 150-sentence subset, under the two available references, with
+paired sentence-level bootstrap confidence intervals (1000 resamples) for
+the difference. Under both references the interval crosses zero, and
+under the family-disjoint reference the two losses are equal to a tenth
+of a point.
+
+\begin{table}[t]
+\centering
+\caption{Real-speech paired relative-loss comparison (common subset,
+$n = 150$, 75 sentences per language): corpus BLEU at clean and 0~dB real
+babble, relative loss in percent, and the paired difference (end-to-end
+minus cascade) with 95\% bootstrap confidence intervals. The same-engine
+reference is the cascade's own engine applied to the human transcripts;
+the family-disjoint reference is GLM applied to the same transcripts.}
+\label{tab:realpaired}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lccccccc}
+\toprule
+ & \multicolumn{3}{c}{LiveTranslate (E2E)} & \multicolumn{3}{c}{Qwen-Audio cascade} & Diff. \\
+Reference & clean & 0~dB & loss\% & clean & 0~dB & loss\% & (95\% CI) \\
+\midrule
+\input{supp_tables/tab_s12_realpaired} \\
 \bottomrule
 \end{tabular}
 \end{table}

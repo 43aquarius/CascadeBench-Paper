@@ -101,7 +101,7 @@ more error-prone than the other domains for Qwen-Audio 3.1 on clean speech,
 at 1.25 against 0.25 percent, whereas Qwen3 ASR shows no such penalty, which
 indicates that inverse text normalisation rather than acoustics dominates
 that gap; the normalisation sensitivity analysis of
-Appendix~\ref{app:normalisation} supports the same reading. More strikingly,
+\ref{app:normalisation} supports the same reading. More strikingly,
 severe noise produces empty final transcripts in three of the five systems,
 through two distinct mechanisms. Qwen-Audio 3.1 is the only system that
 refuses at the protocol level, returning an explicit no-words error on 5.0
@@ -188,13 +188,17 @@ of knee sharpness.
 
 The crossing thresholds separate the classes more informatively than
 slopes. In Mandarin the specialised streaming system crosses ten percent
-error at 2.5~dB (95\% CI 2.3 to 3.3), the telephone specialist at 8.8~dB
-(8.2 to 9.4), and the two LLM-ASR systems at $-0.1$ and 0.3~dB, a tolerance
-advantage of 2.2 to 2.5~dB over the streaming generalist and 8.5 to 8.9~dB
+error at 2.48~dB (95\% CI 2.26 to 3.23), the telephone specialist at
+8.82~dB (8.17 to 9.31), and the two LLM-ASR systems at $-0.06$ and
+0.29~dB, a tolerance
+advantage of 2.19 to 2.54~dB over the streaming specialist and 8.53 to
+8.88~dB
 over the telephone specialist. In English the ordering is the same but the
-margins widen: the streaming system crosses at 6.8~dB (5.0 to 7.9) against
-2.4~dB (2.1 to 3.4) for Qwen-Audio and 2.0~dB (1.7 to 2.3) for Qwen3-ASR,
-a 4.4 to 4.8~dB advantage. The LLM-ASR curves also have the sharpest knees:
+margins widen: the streaming system crosses at 6.79~dB (4.93 to 7.91)
+against
+2.38~dB (2.02 to 3.38) for Qwen-Audio and 2.02~dB (1.73 to 2.31) for
+Qwen3-ASR,
+a 4.41 to 4.77~dB advantage. The LLM-ASR curves also have the sharpest knees:
 their fitted maximum slopes reach 21 to 36 percentage points per dB
 against 10 to 21 for the specialised systems. Two honesty notes attach to
 these fitted maxima. First, the fitted knee positions of the two LLM-ASR
@@ -288,10 +292,10 @@ depending strongly on the fitted range.}
  & \multicolumn{2}{c}{SNR@10\% (dB)} & \multicolumn{2}{c}{Max slope} & \multicolumn{2}{c}{Steep.\ seg.} & \multicolumn{2}{c}{OLS 20--0} \\
 System & zh & en & \multicolumn{2}{c}{(pp/dB)} & \multicolumn{2}{c}{(pp/dB)} & \multicolumn{2}{c}{(pp/dB)} \\
 \midrule
-Paraformer-RT-v2 & 2.5\,(2.3,3.3) & 6.8\,(5.0,7.9) & 20.8 & 16.1 & 13.0 & 15.2 & $-1.44$ & $-2.97$ \\
-Paraformer-RT-8K & 8.8\,(8.2,9.4) & n/a & 10.4 & n/a & 9.9 & n/a & $-3.31$ & n/a \\
-Qwen-Audio-3.1 & $-0.1$\,($-0.2,0.6$) & 2.4\,(2.1,3.4) & 35.5 & 21.3 & 23.7 & 12.6 & $-0.26$ & $-1.31$ \\
-Qwen3-ASR & 0.3\,($-0.1,1.0$) & 2.0\,(1.7,2.3) & 25.2 & 25.0 & 18.7 & 13.5 & $-0.35$ & $-1.06$ \\
+Paraformer-RT-v2 & 2.48\,(2.26,3.23) & 6.79\,(4.93,7.91) & 20.8 & 16.1 & 13.0 & 15.2 & $-1.44$ & $-2.97$ \\
+Paraformer-RT-8K & 8.82\,(8.17,9.31) & n/a & 10.4 & n/a & 9.9 & n/a & $-3.31$ & n/a \\
+Qwen-Audio-3.1 & $-0.06$\,($-0.25,0.68$) & 2.38\,(2.02,3.38) & 35.5 & 21.3 & 23.7 & 12.6 & $-0.26$ & $-1.31$ \\
+Qwen3-ASR & 0.29\,($-0.11,0.92$) & 2.02\,(1.73,2.31) & 25.2 & 25.0 & 18.7 & 13.5 & $-0.35$ & $-1.06$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -327,23 +331,30 @@ reverberant smearing, is the system most affected by that choice.
 
 Real multi-talker babble reproduces the knee-and-collapse structure of
 Fig.~\ref{fig:snr} with a harder noise floor
-(Fig.~\ref{fig:realval}), and the six-level ladder measures the crossings
+(Fig.~\ref{fig:realval}), and the six-level ladder, tabulated in full in
+Appendix~\ref{app:babble}, measures the crossings
 directly rather than interpolating them from a three-level tail. Qwen-Audio
 crosses ten percent Mandarin error at 2.8~dB (English 2.3~dB), Qwen3-ASR at
 7.0~dB (English 3.6~dB), while both streaming specialists already exceed
 ten percent Mandarin error at $+10$~dB, the mildest level tested, so their
 crossing levels lie outside the measured range. Qwen3-ASR is therefore
-better than both specialists at every tested babble level but clearly
-worse than Qwen-Audio, a three-way ordering that a three-level babble
-ladder cannot resolve. The class-level advantage on real
+better than both specialists at the milder tested levels but clearly
+worse than Qwen-Audio, and its position against the specialists at
+harsher levels is language-dependent: in English it stays below the
+16~kHz specialist at every tested level (64.1 against 86.1 percent at
+$-5$~dB), whereas in Mandarin it is already behind the telephone-band
+specialist at $+2.5$~dB (62.3 against 60.2 percent) and behind both
+specialists from $0$~dB downward. This level- and language-dependent
+structure is exactly what a three-level babble ladder cannot resolve. The
+class-level advantage on real
 babble is larger than on synthetic babble: Qwen-Audio holds sub-15\%
 Mandarin error at $+5$~dB (4.7\%) where both specialists already err at 40.1
 and 48.6 percent, and the LLM noise-tolerance advantage, 2.2 to 2.5~dB over
 the streaming specialist on synthetic babble, exceeds seven dB here. The
 advantage is nonetheless confined to the near-knee regime: at $0$~dB
 Qwen-Audio errs at 46.9\% (Mandarin) against 102.6\% for the 16~kHz
-specialist, but Qwen3-ASR at 117.5\% is already worse than that specialist,
-and at $-5$~dB every system except the telephone-band specialist exceeds
+specialist, and at $-5$~dB every system except the telephone-band
+specialist exceeds
 130 percent, so the correct summary is not that the LLM class advantage
 widens without bound, but that it holds in the near-knee and low-error
 regime and disappears, for one of the two LLM systems outright reverses,
@@ -407,21 +418,30 @@ reference is the cascade's own engine applied to human transcripts, so it
 is same-engine with the cascade and foreign to LiveTranslate, and the
 absolute gap of 27 to 28 BLEU on clean speech (69.1 against 42.0) is
 therefore not a translation-quality measurement. Two observations
-nevertheless survive any reference choice. First, the mechanism of the
+follow, one reference-independent and one quantifying the reference
+sensitivity itself. First, the mechanism of the
 bias is visible directly: on clean real speech the cascade's ASR frontend
 reproduces the human transcript exactly on 133 of 150 sentences, and the
 engine reproduces its own reference exactly (self-BLEU 100), so the
 cascade's 31-point distance from the reference on the remaining 17
 sentences shows how strongly the engine's word choice responds to
 punctuation and inverse-text-normalisation differences in its input,
-which BLEU then penalises at full weight. Second, the within-path
-relative losses are stable across reference choices, and there the
-end-to-end path is the more fragile one: from clean to 0~dB real babble,
-LiveTranslate loses 41.6 percent of its own clean BLEU against 33.7
-percent for the cascade. The conclusion that end-to-end paths are not
-automatically more robust is therefore confirmed on real speech in the
-relative-loss sense, while the absolute BLEU ordering of the two paths on
-this reference is reported only as a same-engine artefact, in line with
+which BLEU then penalises at full weight. Second, the relative-loss
+comparison between the two paths is itself reference-sensitive, and a
+paired sentence-level bootstrap (1000 resamples over the 150 sentences)
+keeps every difference compatible with zero: from clean to 0~dB real
+babble under the same-engine reference, LiveTranslate loses 41.6 percent
+of its own clean BLEU against 33.7 percent for the cascade (difference
+$+7.9$ points, 95\% CI $-1.5$ to $+16.7$), while under the
+family-disjoint GLM reference the two paths are statistically
+indistinguishable, losing 32.6 and 32.7 percent respectively (difference
+$-0.1$, CI $-9.0$ to $+9.0$; Supplementary Table~S12). The real-speech
+data are therefore consistent with the synthetic-grid finding that
+end-to-end paths are not automatically more robust -- the streaming
+end-to-end path is the more fragile one in point estimate under the
+same-engine reference -- but they do not establish that fragility at the
+sentence level, and the absolute BLEU ordering of the two paths on this
+reference is reported only as a same-engine artefact, in line with
 the three-reference analysis of Section~\ref{sec:results:dual}.
 
 \begin{figure}[t]
@@ -778,10 +798,13 @@ so swapping the translation engine moves absolute scores by tens of BLEU
 points but barely moves the relative-loss trajectory. Second, refitting
 the pass-through relation on the GLM backend's three non-clean operating
 points gives slopes of 0.34 (Mandarin) and 0.55 (English), against 0.38 and
-0.72 for the provider engine on the same conditions and 0.43 and 0.72 for
+0.72 for the provider engine on the same conditions -- the English
+coefficient about a quarter shallower -- and 0.43 and 0.72 for
 the nine-condition real-speech fit of
-Section~\ref{sec:results:real}; the relation therefore survives an engine
-swap at the same order of magnitude, with the GLM backend's shallower
+Section~\ref{sec:results:real}; the relation is therefore reproduced on
+a disjoint engine at the same order of magnitude (a three-point fit,
+whose per-point correlation carries no inferential weight at $n=3$),
+with the GLM backend's shallower
 slopes consistent with its flatter absolute-quality profile under noise.
 Third, the caveat cuts both ways: the second backend is measured on three
 non-clean operating points of one frontend only, so it establishes that

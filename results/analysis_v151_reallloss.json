@@ -1,0 +1,43 @@
+{
+ "common_n": 150,
+ "n_zh": 75,
+ "n_en": 75,
+ "point_estimates": {
+  "oracle": {
+   "lt_clean": 41.99,
+   "lt_rb0": 24.51,
+   "lt_relloss_pct": 41.6,
+   "cas_clean": 69.08,
+   "cas_rb0": 45.77,
+   "cas_relloss_pct": 33.7,
+   "diff_pct": 7.9
+  },
+  "glm": {
+   "lt_clean": 37.28,
+   "lt_rb0": 25.13,
+   "lt_relloss_pct": 32.6,
+   "cas_clean": 32.88,
+   "cas_rb0": 22.14,
+   "cas_relloss_pct": 32.7,
+   "diff_pct": -0.1
+  }
+ },
+ "paired_bootstrap": {
+  "oracle": {
+   "n_boot": 1000,
+   "diff_ci95": [
+    -1.5,
+    16.7
+   ],
+   "crosses_zero": true
+  },
+  "glm": {
+   "n_boot": 1000,
+   "diff_ci95": [
+    -9.0,
+    9.0
+   ],
+   "crosses_zero": true
+  }
+ }
+}

@@ -47,9 +47,12 @@ refits for two of the three cascades, and honest condition-level
 uncertainty that is substantially wider than the sentence-level intervals,
 across up to fifteen conditions and three frontends; on real speech the
 same relation holds with slopes of 0.43 (Mandarin) and 0.72 (English) over
-nine conditions, and it survives swapping the translation engine for a
-second vendor's model, which moves absolute scores by tens of BLEU points
-but leaves the relative-loss trajectory nearly unchanged. Fourth,
+nine conditions, and a three-point re-fit on a second vendor's engine
+reproduces the relation at the same order of magnitude (slopes 0.34 and
+0.55 on the shared conditions), an engine swap that moves absolute scores
+by tens of BLEU points but leaves the relative-loss trajectory nearly
+unchanged -- a fit that establishes the relation is not a single-engine
+artefact, not that its coefficient is engine-independent. Fourth,
 end-to-end speech translation does not inherit
 robustness automatically: the most resilient translation path measured is a
 dedicated streaming end-to-end service, while the omni-modal end-to-end
@@ -57,9 +60,13 @@ path is the slowest and the most fragile of the end-to-end paths, degrading
 more than the LLM-frontend cascades at 0~dB in point estimate under every
 reference, with a margin that shrinks to under one point against the
 Qwen3-ASR cascade under the oracle reference and whose paired interval
-crosses zero there; on real speech the streaming end-to-end path likewise
+crosses zero there; on real speech the streaming end-to-end path
+likewise
 loses a larger fraction of its clean quality under 0~dB real babble than a
-well-frontended cascade, while the absolute BLEU ordering of the two paths
+well-frontended cascade in point estimate under the same-engine
+reference, with a paired interval that crosses zero and losses that
+converge to equality under the family-disjoint reference, while the
+absolute BLEU ordering of the two paths
 remains reference-dependent. Fifth,
 black-box evaluation carries specific methodological obligations that this
 benchmark operationalises, including three-reference scoring with one

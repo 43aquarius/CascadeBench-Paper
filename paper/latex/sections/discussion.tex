@@ -57,7 +57,8 @@ which are cheaper to run and easier to interpret than full-pipeline
 evaluations, and to forecast translation quality degradation from a
 measured or contracted recognition error rate, with the caveats that the
 main-grid coefficient is calibrated on one translation engine (the
-second-backend fit on a disjoint engine gives 0.34 to 0.55 on the shared
+second-backend three-point fit on a disjoint engine gives 0.34 to 0.55 on
+the shared
 conditions), that its honest
 uncertainty is the condition-level interval rather than the sentence-level
 one, and that the linear form saturates in the whole-utterance failure
@@ -132,11 +133,15 @@ the cascade's engine, so the absolute BLEU gap it reports between the
 streaming end-to-end service and the cascade (27 to 28 points on clean
 speech) is a same-engine artefact of the kind that
 Section~\ref{sec:results:dual} documents, not a translation-quality
-ranking. What survives the reference choice is the relative-loss
-comparison, in which the end-to-end service loses 41.6 percent of its
-clean score under 0~dB real babble against 33.7 percent for the cascade,
-so the real-speech data reinforce the relative-fragility conclusion
-without licensing any absolute claim. For a consumer, the practical
+ranking. The relative-loss comparison is itself reference-sensitive on
+real speech: the end-to-end service loses 41.6 percent of its clean
+score under 0~dB real babble against 33.7 percent for the cascade under
+the same-engine reference -- a point-estimate difference whose paired
+bootstrap interval crosses zero -- but under the family-disjoint GLM
+reference the two losses converge to 32.6 and 32.7 percent, so the
+real-speech data are consistent with, without establishing, the
+relative-fragility conclusion, and they license no absolute claim. For a
+consumer, the practical
 question is not
 which architecture to prefer but where the provider placed its best acoustic
 model, and the answer is discoverable only by measurement of the kind this
@@ -188,7 +193,7 @@ regime but, as Section~\ref{sec:results:cac} quantifies, it is an
 empirical interpolation over the measured conditions rather than a law:
 its condition-level uncertainty spans 0.23 to 0.45 for the Qwen-Audio
 cascade, its main-grid coefficient is calibrated on one translation
-engine (the second-backend validation reproduces the relation at 0.34 to
+engine (the second-backend three-point fit reproduces the relation at 0.34 to
 0.55 on the shared real-speech conditions), and it must not be
 extrapolated to recognition errors beyond the measured range, where BLEU
 loss saturates while recognition error can grow without bound. The same

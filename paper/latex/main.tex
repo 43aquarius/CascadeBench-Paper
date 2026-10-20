@@ -21,7 +21,9 @@
 \title{Error Propagation in Cascaded Speech Translation under Acoustic Channel
 Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
 
-\author[addr1]{Chang Tan}  % single-anonymised review: author identity visible to reviewers
+\author[addr1]{Chang Tan\corref{cor1}}
+\ead{aquars43@foxmail.com}
+\cortext[cor1]{Corresponding author.}
 \address[addr1]{Dalian University of Technology, Dalian, China}
 
 \begin{abstract}
@@ -37,8 +39,10 @@ as a knee-shaped function of noise: the audio-LLM systems tolerate 2.2 to
 specialised streaming system before error reaches ten percent, then
 collapse below 0~dB into insertion-heavy hallucination above 100
 percent character error. Cascade loss follows an empirical pass-through of
-0.4 to 0.5 BLEU points per percentage point of recognition error, which
-survives re-fitting on a second vendor's translation engine. A
+0.4 to 0.5 BLEU points per percentage point of recognition error; a
+three-point re-fit on a second vendor's translation engine reproduces the
+relation at the same order of magnitude, without showing the coefficient
+to be engine-independent. A
 150-utterance real-speech validation with a six-level real-babble ladder
 reproduces the knee structure and hallucination regime, shows rooms with
 measured impulse responses far milder than the synthetic stress case, and
