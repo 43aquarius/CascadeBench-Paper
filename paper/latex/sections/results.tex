@@ -365,21 +365,51 @@ real-speech conditions, clarifies which of these regularities are
 engine-specific. On clean audio it is usable (10.1\% Mandarin CER, 3.6\%
 English WER), but at $+5$~dB real babble it errs at 78.7 percent Mandarin
 against 19.3 percent English, so its ten-percent crossing level lies above
-the mildest tested babble SNR and its knee position cannot be localised
-within the measured range; the data neither confirm nor refute the knee
-structure for this model. What the Whisper outputs do show is the failure
-structure. In the high-error region its Mandarin transcripts develop the
+the mildest tested babble SNR; with only four conditions it is a
+failure-structure probe rather than a curve, and its knee position is
+localised instead by the larger open-weights model run for exactly that
+purpose. The 809M-parameter Whisper large-v3-turbo, executed locally on
+all six real-babble levels plus the clean anchor with the same runtime,
+decoding, and prompt, provides the non-vendor curve
+(Appendix~D, Supplementary Table~S13). On clean real speech it is usable
+but clearly below the provider's accuracy (5.9\% Mandarin CER, 2.5\%
+English WER). On the Mandarin ladder it errs at 14.9 percent already at
+$+10$~dB (95\% CI 11.5 to 18.6) and rises to 105.3 percent at 0~dB, so
+its ten-percent crossing lies above the mildest tested level, in the band
+of the two streaming specialists: at least 3~dB worse than Qwen3-ASR
+(crossing at 7.0~dB) and at least 7~dB worse than Qwen-Audio (2.8~dB).
+In English the crossing is at 4.4~dB, 0.8~dB above Qwen3-ASR and 5.4~dB
+below the 16~kHz specialist, that is, between the two product classes.
+The near-knee robustness of the provider's audio-LLM recognisers is
+therefore not a generic property of current large speech models: on this
+ladder the open-weights system sits with the specialists in Mandarin and
+partway between the classes in English. What the Whisper outputs do show is the failure
+structure. In the high-error region Whisper small's Mandarin transcripts develop the
 same insertion-loop hallucinations as the provider's LLM recognisers --
 insertions outnumber deletions by 244 to 83 in the $+5$~dB Mandarin error
 mass, and the canonical repetition-loop transcript, a single two-character
 word repeated to length, appears verbatim -- while its English outputs
 remain deletion-dominated, and its silent-empty rate rises from 5.3 percent
-at $+5$~dB to 25.3 percent at $-5$~dB in Mandarin. The language asymmetry
+at $+5$~dB to 25.3 percent at $-5$~dB in Mandarin. Large-v3-turbo shows
+the same asymmetry along its full curve: the Mandarin insertion fraction
+of its error mass rises from 0.08 at $+10$~dB to 0.27 at $-2.5$~dB while
+English stays deletion-dominated (deletion fraction up to 0.38), and its
+Mandarin error exceeds 100 percent from 0~dB down, so the sub-zero
+dB hallucination regime replicates on a second model family outside the
+vendor; its silent-empty rate, by contrast, is zero in every condition,
+against Qwen-Audio's 29.3 percent Mandarin refusal rate at $-5$~dB, so the
+refusal behaviour is engine-specific while the failure structure is not.
+At $-5$~dB the open model errs at 70.7 percent (English) and 120.3 percent
+(Mandarin) against a provider range of 64.1 to 86.6 percent English and
+93.1 to 207.6 percent Mandarin, so its collapse is milder than most but
+not all provider systems -- the provider's advantage is a near-knee
+phenomenon rather than a whole-ladder one. The language asymmetry
 that replicates across engines is therefore one of failure structure --
 Mandarin insertion-dominated against English deletion-dominated -- and not
 one of noise tolerance: the provider's LLM recognisers are more
 noise-tolerant in Mandarin than in English on the synthetic grid, whereas
-Whisper small is dominated by Mandarin errors already at $+5$~dB, so
+both Whisper models are dominated by Mandarin errors on the real ladder,
+so
 language-specific tolerance levels are engine properties rather than a
 general law.
 
@@ -452,12 +482,16 @@ solid lines with 95\% bootstrap bands, 8-point sweep) and real multi-talker
 babble (thick dashed lines with markers, six SNR levels from $+10$ to
 $-5$~dB) on real recorded speech; the grey dashed series with square
 markers is the locally executed Whisper small model on its four tested
-conditions. Left: Mandarin (AISHELL-1 test, telephone-band specialist
+conditions, and the green dashed series with triangle markers the locally
+executed Whisper large-v3-turbo model on all six levels. Left: Mandarin (AISHELL-1 test, telephone-band specialist
 Mandarin only); right: English (LibriSpeech test-clean). Real babble is
 the harder stressor at every SNR, but the system ordering, the knee
 structure, and the sub-0~dB hallucination regime (CER above 100\%,
 dotted line) all replicate; Whisper small's Mandarin error already exceeds
-the knee at $+5$~dB, the mildest level it was run at.}
+the knee at $+5$~dB, the mildest level it was run at, while
+large-v3-turbo localises the non-vendor knee above $+10$~dB in Mandarin
+(the specialist band) and at 4.4~dB in English, between the two product
+classes.}
 \label{fig:realval}
 \end{figure}
 

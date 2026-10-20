@@ -28,10 +28,14 @@ and LibriSpeech test speakers, real multi-talker babble and transport noise,
 and measured room impulse responses from the MIT IR Survey) that reproduces
 the knee and hallucination structure and calibrates the synthetic
 reverberation condition as an extreme direct-to-reverberant stress case;
-(2) an open-weights recogniser (Whisper small) executed locally on the same
-real-speech conditions, which shows that the Mandarin-insertion /
-English-deletion failure structure replicates outside the vendor while
-noise-tolerance levels do not; and (3) a second-vendor translation engine
+(2) open-weights recognisers (Whisper small and the 809M-parameter
+Whisper large-v3-turbo) executed locally on the same real-speech
+conditions, which show that the Mandarin-insertion / English-deletion
+failure structure replicates outside the vendor while noise-tolerance
+levels do not, and which localise the non-vendor knee on the full
+six-level babble ladder -- in the specialist band in Mandarin and between
+the two product classes in English, so the audio-LLM robustness advantage
+is provider-specific rather than generic; and (3) a second-vendor translation engine
 (GLM, Z.ai) used both as a family-disjoint scoring reference and as an
 alternative cascade backend, which reproduces the pass-through relation at
 the same order of magnitude and bounds reference-affinity effects on the

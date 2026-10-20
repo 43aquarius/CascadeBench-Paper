@@ -36,7 +36,7 @@ chk("1,192 present", "1{,}192" in texts["methods"])
 chk("2,025 present", "2{,}025" in texts["methods"])
 chk("3,874 failed present", "3{,}874" in texts["methods"])
 chk("3,333 + 541 split", "3{,}333" in texts["methods"] and "541" in texts["methods"])
-chk("600 whisper local", "600 Whisper transcriptions" in texts["methods"])
+chk("whisper local count", "1{,}650 Whisper transcriptions" in texts["methods"])
 chk("unique total 42,171", "42{,}171" in texts["methods"])
 
 # --- 2. Table 5 three references ---
@@ -52,7 +52,7 @@ for s in ["15.8\\,(12.3,19.1) & 69\\% & 80\\% & 73\\%",
 chk("omni scoped in results", "most fragile of the end-to-end paths" in t5)
 chk("oracle swap in results", "29.0 against 29.5" in t5)
 chk("oracle swap in dual section", "swap adjacent positions" in t5)
-chk("oracle swap in abstract", "sub-point inversion" in main)
+chk("oracle swap in abstract", "sub-point same-engine inversion" in main)
 chk("oracle swap in conclusions", "sub-point inversion" in texts["conclusions"])
 chk("relloss paired CI q31", "+11.7 points, 95\\% CI $-5.6$ to $+25.8$" in t5)
 chk("relloss paired CI q3", "$+4.4$, CI $-9.2$ to $+18.4$" in t5)

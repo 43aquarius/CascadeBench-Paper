@@ -12,7 +12,7 @@ and two end-to-end speech translation paths, all accessed through their
 public interfaces on free service quotas; the central design was validated
 on 150 human-recorded utterances under measured impulse responses and a
 six-level real-babble ladder, a measured-RIR bridge condition on the
-synthetic corpus, an open-weights locally executed recogniser, and a
+synthetic corpus, open-weights locally executed recognisers, and a
 second-vendor translation engine used as both a family-disjoint reference
 and an alternative cascade backend.
 
@@ -31,8 +31,13 @@ noise-tolerance advantage holds only in the near-knee, low-error regime --
 disappearing and for one LLM system reversing once error passes the
 ten-percent level -- and is larger against real babble than synthetic
 babble, and the Mandarin-insertion, English-deletion failure structure
-replicates on an open-weights model outside the vendor, while
-language-specific tolerance levels do not. Second, robustness is
+replicates on open-weights models outside the vendor, while
+language-specific tolerance levels do not: on the full six-level ladder
+the 809M-parameter Whisper large-v3-turbo crosses ten percent Mandarin
+error above the mildest tested level -- the specialist band -- and at
+4.4~dB in English, between the two product classes, so the provider's
+near-knee audio-LLM advantage is not a generic property of current large
+speech models. Second, robustness is
 condition- and language-specific
 rather than uniform: narrowbanding, coding, packet loss, clipping, and tempo
 changes at deployed severities are individually negligible for all systems,

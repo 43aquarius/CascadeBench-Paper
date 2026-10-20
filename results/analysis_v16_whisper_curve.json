@@ -1,0 +1,321 @@
+{
+ "model": "whisper-large-v3-turbo (int8, CPU, beam 1)",
+ "source_log": "results/d3_asr_whisper_lg3t.jsonl",
+ "n_ok": 1050,
+ "ladder": {
+  "rb10/en": {
+   "err": 3.3,
+   "ci": [
+    2.0,
+    4.9
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb10/zh": {
+   "err": 14.9,
+   "ci": [
+    11.5,
+    18.6
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb5/en": {
+   "err": 8.5,
+   "ci": [
+    5.9,
+    11.9
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb5/zh": {
+   "err": 45.9,
+   "ci": [
+    36.0,
+    55.8
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb25/en": {
+   "err": 15.0,
+   "ci": [
+    10.8,
+    19.8
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb25/zh": {
+   "err": 76.1,
+   "ci": [
+    61.5,
+    93.8
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb0/en": {
+   "err": 24.8,
+   "ci": [
+    20.1,
+    29.8
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rb0/zh": {
+   "err": 105.3,
+   "ci": [
+    92.3,
+    119.4
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rbm25/en": {
+   "err": 46.7,
+   "ci": [
+    39.2,
+    55.0
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rbm25/zh": {
+   "err": 136.8,
+   "ci": [
+    120.0,
+    155.7
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rbm5/en": {
+   "err": 70.7,
+   "ci": [
+    63.6,
+    78.2
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "rbm5/zh": {
+   "err": 120.3,
+   "ci": [
+    109.8,
+    131.6
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "clean_r/en": {
+   "err": 2.5,
+   "ci": [
+    1.3,
+    4.1
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  },
+  "clean_r/zh": {
+   "err": 5.9,
+   "ci": [
+    3.8,
+    8.4
+   ],
+   "n": 75,
+   "empty_pct": 0.0
+  }
+ },
+ "babble_cross10": {
+  "zh": {
+   "points": [
+    {
+     "snr": 10,
+     "err": 14.9
+    },
+    {
+     "snr": 5,
+     "err": 45.9
+    },
+    {
+     "snr": 2.5,
+     "err": 76.1
+    },
+    {
+     "snr": 0,
+     "err": 105.3
+    },
+    {
+     "snr": -2.5,
+     "err": 136.8
+    },
+    {
+     "snr": -5,
+     "err": 120.3
+    }
+   ],
+   "cross10": "above-highest"
+  },
+  "en": {
+   "points": [
+    {
+     "snr": 10,
+     "err": 3.3
+    },
+    {
+     "snr": 5,
+     "err": 8.5
+    },
+    {
+     "snr": 2.5,
+     "err": 15.0
+    },
+    {
+     "snr": 0,
+     "err": 24.8
+    },
+    {
+     "snr": -2.5,
+     "err": 46.7
+    },
+    {
+     "snr": -5,
+     "err": 70.7
+    }
+   ],
+   "cross10": 4.4
+  }
+ },
+ "decomp": {
+  "rb10/en": {
+   "ins": 3,
+   "del": 6,
+   "sub": 35,
+   "n": 75,
+   "ins_frac": 0.068,
+   "del_frac": 0.136,
+   "empty_pct": 0.0
+  },
+  "rb10/zh": {
+   "ins": 12,
+   "del": 16,
+   "sub": 125,
+   "n": 75,
+   "ins_frac": 0.078,
+   "del_frac": 0.105,
+   "empty_pct": 0.0
+  },
+  "rb5/en": {
+   "ins": 12,
+   "del": 23,
+   "sub": 74,
+   "n": 75,
+   "ins_frac": 0.11,
+   "del_frac": 0.211,
+   "empty_pct": 0.0
+  },
+  "rb5/zh": {
+   "ins": 56,
+   "del": 66,
+   "sub": 330,
+   "n": 75,
+   "ins_frac": 0.124,
+   "del_frac": 0.146,
+   "empty_pct": 0.0
+  },
+  "rb25/en": {
+   "ins": 23,
+   "del": 50,
+   "sub": 121,
+   "n": 75,
+   "ins_frac": 0.119,
+   "del_frac": 0.258,
+   "empty_pct": 0.0
+  },
+  "rb25/zh": {
+   "ins": 133,
+   "del": 171,
+   "sub": 460,
+   "n": 75,
+   "ins_frac": 0.174,
+   "del_frac": 0.224,
+   "empty_pct": 0.0
+  },
+  "rb0/en": {
+   "ins": 46,
+   "del": 69,
+   "sub": 218,
+   "n": 75,
+   "ins_frac": 0.138,
+   "del_frac": 0.207,
+   "empty_pct": 0.0
+  },
+  "rb0/zh": {
+   "ins": 222,
+   "del": 202,
+   "sub": 671,
+   "n": 75,
+   "ins_frac": 0.203,
+   "del_frac": 0.184,
+   "empty_pct": 0.0
+  },
+  "rbm25/en": {
+   "ins": 84,
+   "del": 248,
+   "sub": 322,
+   "n": 75,
+   "ins_frac": 0.128,
+   "del_frac": 0.379,
+   "empty_pct": 0.0
+  },
+  "rbm25/zh": {
+   "ins": 369,
+   "del": 288,
+   "sub": 720,
+   "n": 75,
+   "ins_frac": 0.268,
+   "del_frac": 0.209,
+   "empty_pct": 0.0
+  },
+  "rbm5/en": {
+   "ins": 132,
+   "del": 344,
+   "sub": 578,
+   "n": 75,
+   "ins_frac": 0.125,
+   "del_frac": 0.326,
+   "empty_pct": 0.0
+  },
+  "rbm5/zh": {
+   "ins": 223,
+   "del": 323,
+   "sub": 725,
+   "n": 75,
+   "ins_frac": 0.175,
+   "del_frac": 0.254,
+   "empty_pct": 0.0
+  },
+  "clean_r/en": {
+   "ins": 3,
+   "del": 4,
+   "sub": 27,
+   "n": 75,
+   "ins_frac": 0.088,
+   "del_frac": 0.118,
+   "empty_pct": 0.0
+  },
+  "clean_r/zh": {
+   "ins": 7,
+   "del": 3,
+   "sub": 52,
+   "n": 75,
+   "ins_frac": 0.113,
+   "del_frac": 0.048,
+   "empty_pct": 0.0
+  }
+ }
+}

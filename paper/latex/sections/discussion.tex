@@ -87,11 +87,14 @@ remaining usable at 0~dB
 while English recognition of the same systems fails at 37 to 50 percent,
 and, as Section~\ref{sec:results:snr} notes, part of the contrast may
 reflect the character-level versus word-level scoring scales rather than
-raw robustness alone. The Whisper baseline of
-Section~\ref{sec:results:real} shows that this tolerance asymmetry is an
-engine property rather than a general law -- the open-weights model is
-dominated by Mandarin errors already at $+5$~dB real babble where its
-English output errs at 19.3 percent -- whereas the asymmetry that does
+raw robustness alone. The Whisper baselines of
+Section~\ref{sec:results:real} show that this tolerance asymmetry is an
+engine property rather than a general law -- the smaller open-weights
+model is dominated by Mandarin errors already at $+5$~dB real babble
+where its English output errs at 19.3 percent, and the larger
+large-v3-turbo model confirms the opposite ordering along its full
+six-level curve, crossing ten percent above $+10$~dB in Mandarin but at
+4.4~dB in English -- whereas the asymmetry that does
 replicate across engines is one of failure structure, Mandarin
 insertion-dominated hallucination against English deletion-dominated loss.
 Providers
@@ -252,10 +255,16 @@ training-scale explanations~\cite{radford2023robust}, but cross-provider
 replication is required before they can be attributed to architecture
 rather than to one provider's engineering. The validation components
 loosen this confound only partway and only for structural conclusions:
-Whisper small is an open-weights model of the 2023 generation, executed
-locally on four of the nine real-speech conditions, so it serves as a
-failure-structure probe rather than a performance baseline and cannot
-localise its own knee within the tested range; the GLM backend swaps the
+the open-weights hold-outs are Whisper models of the 2023--2024
+generations executed locally -- Whisper small on four conditions, and
+large-v3-turbo, the distillation of the largest Whisper model, on the
+full six-level ladder -- so they localise the non-vendor knee (in the
+specialist band in Mandarin, between the classes in English) and show
+that the failure structure replicates outside the vendor, but they are
+encoder--decoder models rather than audio-LLMs of the provider's
+generation, so the near-knee advantage of the audio-LLM class remains a
+single-vendor observation pending a same-generation non-vendor system; the
+GLM backend swaps the
 translation engine on three non-clean operating points of a single
 frontend, enough to show that the pass-through is not a single-engine
 artefact but not enough to make the coefficient engine-independent; and

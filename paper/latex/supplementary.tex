@@ -447,4 +447,43 @@ Reference & clean & 0~dB & loss\% & clean & 0~dB & loss\% & (95\% CI) \\
 \end{tabular}
 \end{table}
 
+\section{Whisper large-v3-turbo: complete real-babble ladder}
+\label{supp:whisperturbo}
+
+Table~\ref{tab:whisperturbo} reports the complete ladder of the locally
+executed Whisper large-v3-turbo model on the real-speech validation: the
+clean anchor, all six real-babble levels, error rates with bootstrap
+confidence intervals, silent-empty rates, and the error-mass decomposition
+over the same normalisation as every other system. The model never returns
+an empty transcript in any condition, in contrast to both the provider's
+refusal behaviour under deep noise and Whisper small's silent empties. Its
+Mandarin error mass shifts towards insertions as noise deepens (insertion
+fraction 0.08 at $+10$~dB against 0.27 at $-2.5$~dB) while its English
+error mass remains deletion-led at every level (deletion fraction up to
+0.38), matching the failure-structure asymmetry of the provider systems
+and of Whisper small. The ten-percent crossing derived from these cells
+lies above the mildest tested level in Mandarin (14.9 percent error
+already at $+10$~dB) and at 4.4~dB in English, as discussed in
+Section~4.4 and Appendix~D of the main paper.
+
+\begin{table}[t]
+\centering
+\caption{Whisper large-v3-turbo (local execution, greedy decoding,
+Mandarin initial prompt): error rate in percent with bootstrap 95\%
+confidence intervals, silent-empty rate in percent, and error-mass
+decomposition (insertion/deletion/substitution counts and insertion
+fraction) on the clean anchor and the six-level real-babble ladder,
+$n = 75$ per cell.}
+\label{tab:whisperturbo}
+\small
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{llcccccc}
+\toprule
+Condition & Lang & Error (\%, 95\% CI) & Empty (\%) & Ins & Del & Sub & Ins.\ frac. \\
+\midrule
+\input{supp_tables/tab_s13_whisper_turbo} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \end{document}

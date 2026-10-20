@@ -229,13 +229,19 @@ specialists) and the Qwen-Audio--cascade and LiveTranslate end-to-end
 paths are evaluated on all real-speech conditions (clean, real reverb, the
 six real-babble SNRs, transport noise); the omni system is excluded because
 its complimentary quota was exhausted. Two external components extend the
-validation beyond the single vendor of the main grid. The open-weights
-Whisper small model~\cite{radford2023robust} is executed locally with the
-faster-whisper int8 CPU runtime and its default decoding configuration,
-with an explicit Mandarin initial prompt, on the clean
-and three hardest babble conditions as a non-vendor recognition baseline;
-it makes no API calls and its per-call latencies (median 3.9~s, up to 34~s on
-the hardest conditions) confirm local execution. The GLM large language
+validation beyond the single vendor of the main grid. Two open-weights Whisper
+models~\cite{radford2023robust} are executed locally with the
+faster-whisper int8 CPU runtime and greedy decoding, with an explicit
+Mandarin initial prompt, as non-vendor recognition baselines: Whisper small
+on the clean and three hardest babble conditions (four conditions, 600
+transcriptions), and Whisper large-v3-turbo, the four-decoder-layer
+809M-parameter distillation of Whisper large-v3~\cite{whisperturbo2024},
+on all six real-babble SNR levels plus the clean anchor (seven conditions,
+1{,}050 transcriptions), so that the knee position of a non-vendor
+open-weights recogniser can be localised on the same ladder as the provider
+systems. Neither model makes any API calls; their per-call latencies
+(Whisper small: median 3.9~s, up to 34~s on the hardest conditions;
+large-v3-turbo: median 16~s on two CPU cores) confirm local execution. The GLM large language
 model of a second vendor (Z.ai), accessed as a hosted
 API~\cite{glm2026api,glm2025tech}, is used in two roles: as a third
 translation
@@ -276,9 +282,11 @@ of Qwen-Audio 3.1 Flash~\cite{chu2024qwen2audio,qwenaudio31card} and Qwen3-ASR F
 input models built on large language model backbones. The multimodal family
 consists of Qwen3.8-Omni Flash, a general-purpose omni-modal foundation
 model~\cite{qwen2.5omni2025,qwenomni38card} queried with a transcription instruction. The
-external components are Whisper small~\cite{radford2023robust}, the
-open-weights recognition model, run locally with the faster-whisper int8
-CPU runtime, and the GLM large language model of a second vendor
+external components are two open-weights recognition models of the Whisper
+family~\cite{radford2023robust} executed locally with the faster-whisper
+int8 CPU runtime -- Whisper small, and the 809M-parameter large-v3-turbo
+distillation of Whisper large-v3~\cite{whisperturbo2024} -- and the GLM
+large language model of a second vendor
 (Z.ai)~\cite{glm2026api}, from the GLM foundation-model
 family~\cite{glm2025tech}, used as a reference generator and as an
 alternative cascade backend. All
@@ -347,6 +355,7 @@ qwen-mt-uni (MT) & text API & cascade stage & full corpus \\
 Qwen3.8-Max (LLM) & text API & primary ref. & full corpus \\
 \midrule
 Whisper small (open weights) & local & recog., validation & real subset \\
+Whisper large-v3-turbo (open weights) & local & recog., validation & real babble ladder \\
 GLM (Z.ai, second vendor) & text API & ref.\ + backend & both corpora \\
 \bottomrule
 \end{tabular}
@@ -452,8 +461,10 @@ six-condition design and 2{,}025 for extending the real-babble ladder from
 three to six SNR levels), 3{,}360 for the measured-impulse-response bridge
 condition on the synthetic corpus, and 1{,}192 for the second-vendor tasks
 (630 GLM reference translations and 562 GLM backend re-translations).
-Alongside these, 600 Whisper transcriptions were computed locally without
-API access, and 3{,}874 failed attempts were logged, of which 3{,}333 are
+Alongside these, 1{,}650 Whisper transcriptions were computed locally
+without API access (600 with Whisper small on four conditions and 1{,}050
+with Whisper large-v3-turbo on the six-level real-babble ladder plus the
+clean anchor), and 3{,}874 failed attempts were logged, of which 3{,}333 are
 LiveTranslate websocket sessions that dropped without recovery and 541 are
 API-level failures (throttling, timeouts, protocol errors) that were
 retried where the quota allowed. The 875-call difference
@@ -492,8 +503,9 @@ specialist is evaluated on the Chinese subset; the omni system is restricted
 by quota exhaustion as described in the text; the measured-RIR bridge
 condition applies the three survey impulse responses to the synthetic
 corpus, so it is a synthetic-speech condition and is reported separately
-from the real-speech validation; Whisper runs are local and carry no API
-cost.}\label{tab:accounting}
+from the real-speech validation; Whisper runs are local, carry no API
+cost, and comprise 600 Whisper small and 1{,}050 Whisper large-v3-turbo
+transcriptions.}\label{tab:accounting}
 \footnotesize
 \setlength{\tabcolsep}{1.7pt}
 \begin{tabular}{llrrl}
@@ -542,7 +554,7 @@ Second vendor & GLM backend re-translation & 562 & 562 & 4 conds, Qwen-Audio \\
 \midrule
 \multicolumn{2}{l}{Total successful responses} & 43{,}046 & 42{,}171 & \\
 \multicolumn{2}{l}{Failed attempts (3{,}333 LT drops + 541 API)} & 3{,}874 & --- & \\
-\multicolumn{2}{l}{Local Whisper runs (no API access)} & --- & --- & 600 transcriptions \\
+\multicolumn{2}{l}{Local Whisper runs (no API access)} & --- & --- & 1{,}650 transcriptions \\
 \bottomrule
 \end{tabular}
 \end{table}

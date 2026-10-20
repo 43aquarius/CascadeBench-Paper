@@ -22,6 +22,10 @@ cascadebench/
 │   ├── v15_table5.py           # three-reference Table 5 + paired bootstraps
 │   ├── v15_real.py / v15_real2.py   # real-speech ladder, slopes, GLM backend matrix, measured-RIR bridge
 │   ├── v15_whisper.py          # Whisper small errors + insertion/deletion decomposition
+│   ├── run_whisper_lg3t.py     # Whisper large-v3-turbo runner (six-level ladder + clean)
+│   ├── v16_whisper_curve.py    # turbo ladder, crossings, decomposition
+│   ├── v16_suptable.py         # S13 table rows from the analysis JSON
+│   ├── v16_selfcheck.py        # v1.6 round self-check (45 items)
 │   ├── v151_babble_ladder.py   # six-level babble ladder verification (v1.5.1)
 │   ├── v151_reallloss.py       # real-speech relative losses, paired bootstrap (v1.5.1)
 │   ├── v15_figures.py          # publication figures (v1.5)
@@ -38,6 +42,8 @@ cascadebench/
 │   ├── mt_e2e_lt.jsonl         # end-to-end translations (streaming path)
 │   ├── d3_asr_*.jsonl          # real-speech recognition (4 vendor systems, 9 conditions)
 │   ├── d3_asr_whisper.jsonl    # real-speech recognition (Whisper small, local, 4 conditions)
+│   ├── d3_asr_whisper_lg3t.jsonl # real-speech recognition (large-v3-turbo, local, 7 conditions)
+│   ├── analysis_v16_whisper_curve.json # turbo ladder + cross-10% + decomposition
 │   ├── d3_mt_*.jsonl           # real-speech cascade/oracle/end-to-end translations
 │   ├── revmit_asr_*.jsonl      # measured-RIR bridge condition, recognition (4 systems)
 │   ├── revmit_mt_cascade.jsonl # measured-RIR bridge condition, cascades (4 frontends)
@@ -74,11 +80,13 @@ qwen-audio-3.1-asr-flash, qwen3-asr-flash, qwen3.8-omni-flash,
 qwen3.8-livetranslate-flash-realtime, qwen-mt-uni, qwen3.8-max, and Sambert
 voices sambert-zhida-v1, sambert-zhixiao-v1, sambert-brian-v1,
 sambert-beth-v1 for synthesis, with six additional voices for babble noise
-sources. The validation components are Whisper small (open weights,
-executed locally with default decoding) and GLM-4.6 (Zhipu AI / Z.ai,
+sources. The validation components are Whisper small and Whisper
+large-v3-turbo (open weights, executed locally with greedy decoding) and
+GLM (Zhipu AI / Z.ai,
 public text API, accessed October 2026), used as a family-disjoint
 reference generator and as an alternative cascade backend. In total
-43,046 successful API responses, 600 local Whisper transcriptions, and
+43,046 successful API responses, 1,650 local Whisper transcriptions
+(600 small + 1,050 large-v3-turbo), and
 3,874 failed attempts (3,333 LiveTranslate websocket drops plus 541
 API-level failures) are logged.
 

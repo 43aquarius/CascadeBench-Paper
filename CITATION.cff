@@ -22,10 +22,13 @@ abstract: >-
   end-to-end translation paths, 480 bilingual sentences, and 43,046 logged
   API responses on complimentary quotas. A 150-utterance real-speech
   validation with a six-level real-babble ladder, measured room impulse
-  responses, an open-weights recogniser (Whisper small), and a
+  responses, open-weights recognisers (Whisper small and the
+  large-v3-turbo distillation run on the full ladder, which localises the
+  non-vendor knee in the specialist band in Mandarin and between the two
+  product classes in English), and a
   family-disjoint second-vendor reference and backend (GLM) replicate the
   knee-and-collapse structure, bound the audio-LLM advantage to the
   near-knee regime, and validate the recognition-to-translation
   pass-through relation beyond the provider's own stack.
-version: 1.5.1
+version: 1.6.0
 date-released: "2026-10-20"

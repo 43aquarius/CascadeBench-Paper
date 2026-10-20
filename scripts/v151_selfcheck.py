@@ -59,7 +59,7 @@ chk("appendix D present", "Six-level real-babble recognition ladder" in texts["a
 chk("app:babble label", "\\label{app:babble}" in texts["appendix"])
 chk("tab:babble referenced in results", "\\ref{app:babble}" in t5)
 chk("appendix D q3 row", "Qwen3-ASR & 2.4 & 15.0 & 62.3 & 117.5 & 173.0 & 207.6 & 7.0" in texts["appendix"])
-chk("appendix D cross-ref to S5/S7", "Supplementary Tables~S5 and~S7" in texts["appendix"])
+chk("appendix D cross-ref to S5/S7(/S13)", "Supplementary Tables~S5, S7, and~S13" in texts["appendix"])
 
 # --- 5. real-speech paired bootstrap (user point 3) ---
 chk("paired bootstrap in 4.4", "paired sentence-level bootstrap (1000 resamples over the 150 sentences)" in t5)
@@ -79,7 +79,7 @@ chk("S12 data row glm", "37.3 & 25.1 & 32.6 & 32.9 & 22.1 & 32.7 & $-0.1$ ($-9.0
 
 # --- 6. GLM backend three-point wording (user point 4) ---
 chk("abstract three-point", "three-point re-fit on a second vendor's engine" in main)
-chk("abstract engine-independence caveat", "engine-independence of the coefficient is not" in main)
+chk("abstract engine-independence caveat", "engine-independence is not" in main)
 chk("intro three-point", "three-point re-fit on a second vendor's translation engine" in texts["intro"])
 chk("4.7 same order magnitude", "reproduced on\na disjoint engine at the same order of magnitude (a three-point fit" in t5)
 chk("4.7 english quarter shallower", "the English\ncoefficient about a quarter shallower" in t5)
