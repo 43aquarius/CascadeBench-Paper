@@ -1,0 +1,58 @@
+Cover Letter — Applied Acoustics submission
+
+Dear Editors,
+
+Please find enclosed our manuscript "Error Propagation in Cascaded Speech
+Translation under Acoustic Channel Degradations: A Black-Box Case Study of
+Commercial Speech Intelligence APIs", which we submit as a full-length
+original research article.
+
+Commercial speech APIs are consumed as black boxes, yet the acoustic channels
+feeding them are rarely clean. The manuscript introduces CascadeBench, a fully
+seeded black-box benchmark that measures how fourteen acoustic degradation
+conditions propagate through the recognition and translation services of one
+provider (five recognition systems in three product classes, three cascaded
+and two end-to-end translation paths), on a 480-sentence bilingual corpus
+with an eight-level babble sweep. The paper reports a knee-shaped error
+response to noise, a hallucination regime below 0 dB, an empirical linear
+pass-through from recognition error to translation loss, and a
+three-reference scoring protocol that separates genuine degradation from
+machine-reference affinity. We believe this quantitative, measurement-driven
+treatment of deployed speech services, with direct implications for
+integrators of speech interfaces in acoustically degraded environments, fits
+the journal's scope of applied acoustics with engineering impact.
+
+The measurement is anchored beyond the vendor's own stack by three
+independent validations: (1) a 150-utterance real-speech validation (AISHELL-1
+and LibriSpeech test speakers, real multi-talker babble and transport noise,
+and measured room impulse responses from the MIT IR Survey) that reproduces
+the knee and hallucination structure and calibrates the synthetic
+reverberation condition as an extreme direct-to-reverberant stress case;
+(2) an open-weights recogniser (Whisper small) executed locally on the same
+real-speech conditions, which shows that the Mandarin-insertion /
+English-deletion failure structure replicates outside the vendor while
+noise-tolerance levels do not; and (3) a second-vendor translation engine
+(GLM, Z.ai) used both as a family-disjoint scoring reference and as an
+alternative cascade backend, which reproduces the pass-through relation at
+the same order of magnitude and bounds reference-affinity effects on the
+end-to-end comparison. These are described in Sections 4.4-4.8 and the
+supplementary material.
+
+All data and code are publicly available: the complete benchmark (corpus,
+seeded degradation pipeline, degraded audio tree, 43,046 logged API
+responses, analysis scripts, and LaTeX source) is released at
+https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics, and the
+manuscript carries a data availability statement with the link. The work
+uses only free service quotas accessed through public interfaces and
+involves no human or animal subjects. The authors declare no competing
+interests. A declaration of generative AI use in the writing process is
+included in the manuscript before the reference list.
+
+This manuscript has not been published elsewhere and is not under
+consideration by any other journal. We look forward to the reviewers'
+assessments.
+
+Sincerely,
+Chang Tan
+Dalian University of Technology, Dalian, China
+aquars43@foxmail.com
