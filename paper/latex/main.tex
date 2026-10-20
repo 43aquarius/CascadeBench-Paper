@@ -27,34 +27,32 @@ Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs}
 \address[addr1]{Dalian University of Technology, Dalian, China}
 
 \begin{abstract}
-Cloud speech services are consumed as black boxes, yet the acoustic channels
-feeding them are rarely clean. CascadeBench is a fully seeded black-box
-benchmark measuring how fourteen degradation conditions from seven acoustic
+Cloud speech services are black boxes, yet their acoustic channels are
+rarely clean. CascadeBench is a seeded black-box
+benchmark measuring how fourteen degradations from seven acoustic
 families propagate through commercial speech APIs: five recognition systems
 in three product classes of one provider, three cascaded and two end-to-end
-translation paths, over a 480-sentence bilingual corpus with an eight-level
-babble sweep from 20 to $-10$~dB. Recognition error rises
-as a knee-shaped function of noise: the audio-LLM systems tolerate 2.2 to
-2.5~dB (Mandarin) and 4.4 to 4.8~dB (English) more noise than the
-specialised streaming system before error reaches ten percent, then
+translation paths, on a 480-sentence bilingual corpus with an eight-level
+babble sweep (20 to $-10$~dB). Recognition error rises
+as a knee-shaped function of noise: the audio-LLM systems tolerate
+2.2--2.5~dB (Mandarin) and 4.4--4.8~dB (English) more noise than the
+specialised streaming system before reaching ten percent error, then
 collapse below 0~dB into insertion-heavy hallucination above 100
 percent character error. Cascade loss follows an empirical pass-through of
 0.4 to 0.5 BLEU points per percentage point of recognition error; a
-three-point re-fit on a second vendor's translation engine reproduces the
-relation at the same order of magnitude, without showing the coefficient
-to be engine-independent. A
-150-utterance real-speech validation with a six-level real-babble ladder
-reproduces the knee structure and hallucination regime, shows rooms with
-measured impulse responses far milder than the synthetic stress case, and
+three-point re-fit on a second vendor's engine reproduces it at the same
+order of magnitude, and engine-independence of the coefficient is not
+established. A 150-utterance real-speech validation with a six-level
+babble ladder reproduces the knee and hallucination structure, finds
+measured-RIR rooms far milder than the synthetic stress case, and
 bounds the audio-LLM advantage to the near-knee regime. End-to-end
 translation is not automatically more robust: the omni-modal path is the
-most fragile of the end-to-end paths and degrades more than the
+most fragile end-to-end path and degrades more than the
 LLM-frontend cascades in point estimate, with a reference-dependent
-margin. Three-reference scoring, with one reference family-disjoint from
-every system, shows that relative-loss rankings are stable across
-references except for a sub-point inversion under the same-engine
-reference. The recipe, corpus, degraded audio, and 43{,}046 logged API
-responses are released.
+margin. Three-reference scoring with one family-disjoint
+reference shows relative-loss rankings are stable
+up to a sub-point inversion under the same-engine reference. The recipe,
+corpus, degraded audio, and 43{,}046 logged API responses are released.
 \end{abstract}
 
 \begin{keyword}

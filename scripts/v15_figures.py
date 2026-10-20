@@ -88,7 +88,7 @@ def get_bleu(mk, kind, cond):
         d = tx["e2e"].get(mk, {}).get(cond)
     return d["bleu"] if d else np.nan
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8.4, 6.2), constrained_layout=True,
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(5.9, 4.4), constrained_layout=True,
                                gridspec_kw={"height_ratios": [1.25, 1.0]})
 for ax, conds, labs in [(ax1, conds_top, lab_top), (ax2, conds_bot, lab_bot)]:
     w = 0.16
@@ -98,19 +98,16 @@ for ax, conds, labs in [(ax1, conds_top, lab_top), (ax2, conds_bot, lab_bot)]:
         ax.bar(xs + (k - 2) * w, vals, w, label=NAME5[mk] if ax is ax2 else None,
                color=C[mk], alpha=0.9)
     ax.axhline(55.5, color="#444", ls="--", lw=1.1)
-    ax.set_xticks(xs); ax.set_xticklabels(labs, fontsize=9)
+    ax.set_xticks(xs); ax.set_xticklabels(labs, fontsize=9.5)
     ax.set_ylim(0, 94 if ax is ax2 else 78)
     ax.grid(axis="y", alpha=0.2, lw=0.4)
-ax1.text(7.42, 57.2, "text-translation oracle (clean transcripts) = 55.5", fontsize=9,
-         ha="right", color="#444")
 ax1.set_ylabel("BLEU (primary reference)")
 ax1.set_xlabel("Babble SNR (dB)")
 ax1.set_title("Babble-noise SNR ladder", fontsize=10.5)
 ax2.set_ylabel("BLEU (primary reference)")
 ax2.set_xlabel("Non-noise channel and coding conditions")
 ax2.set_title("Non-noise conditions (synthetic reverb vs measured MIT RIR)", fontsize=10.5)
-ax2.legend(loc="upper right", fontsize=8.5, ncol=2, framealpha=0.95)
-ax2.text(0.02, 57.2, "oracle = 55.5", fontsize=9, ha="left", color="#444")
+ax2.legend(loc="upper right", fontsize=9.5, ncol=2, framealpha=0.95)
 save(fig, "fig4_cascade_e2e")
 
 # ---------------- fig5: sentence-level distributions, enlarged ----------------
@@ -130,7 +127,7 @@ def load_asr(model):
     return d
 A31, A16 = load_asr("q31"), load_asr("para16k")
 conds5 = [("clean", "Clean"), ("n10", "10 dB"), ("n5", "5 dB"), ("n0", "0 dB"), ("nm5", "-5 dB")]
-fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.3), sharey=True)
+fig, axes = plt.subplots(1, 2, figsize=(5.9, 2.35), sharey=True)
 for ax, (A, nm) in zip(axes, [(A31, "Qwen-Audio-3.1"), (A16, "Paraformer-RT-v2")]):
     data = [[err_rate(CORPUS[s]["text"], A.get(f"{c}/{s}", ""), CORPUS[s]["lang"])*100
              for s in SWEEP] for c, _ in conds5]
@@ -141,14 +138,14 @@ for ax, (A, nm) in zip(axes, [(A31, "Qwen-Audio-3.1"), (A16, "Paraformer-RT-v2")
     for med in bp["medians"]:
         med.set_color("#b04040"); med.set_linewidth(1.6)
     ax.axhline(10, color="#666", ls="--", lw=0.9)
-    ax.set_title(nm, fontsize=10.5); ax.set_ylim(-3, 105)
+    ax.set_title(nm, fontsize=11); ax.set_ylim(-3, 105)
 axes[0].set_ylabel("Per-sentence error (%)")
 fig.tight_layout()
 save(fig, "fig5_distribution")
 
 # ---------------- fig6 (paper Fig. 6): CAC, mild/collapsed markers, enlarged ----------------
 cac = X["cac_v2"]
-fig, ax = plt.subplots(figsize=(5.8, 4.7), constrained_layout=True)
+fig, ax = plt.subplots(figsize=(4.5, 3.6), constrained_layout=True)
 COLLAPSE_TH = 40.0
 for mk in ["q31", "para16k", "q3"]:
     d = cac[mk]
@@ -164,21 +161,21 @@ for mk in ["q31", "para16k", "q3"]:
     ax.fill_between(gx, ilo + slo * gx, ihi + shi * gx, color=col, alpha=0.10, lw=0, zorder=1)
     mild = xs <= COLLAPSE_TH; colp = xs > COLLAPSE_TH
     ax.scatter(xs[mild], ys[mild], s=28, color=col, zorder=3, edgecolor="white", lw=0.5,
-               label=f"{NAME5[mk]} (n={len(pts)})")
+               label=f"{NAME5[mk].replace('Cascade: ', '')} (n={len(pts)})")
     ax.scatter(xs[colp], ys[colp], s=64, color=col, marker="X", zorder=4,
                edgecolor="black", lw=0.6)
     idx = ["q31", "para16k", "q3"].index(mk)
     ytxt = 0.97 - 0.115 * idx
-    ax.text(0.98, ytxt, f"slope {b:.2f} (95% CI {slo:.2f}\u2013{shi:.2f}), intercept {a:+.1f}, r = {r:.3f}",
-            transform=ax.transAxes, ha="right", va="top", fontsize=9, color=col)
+    ax.text(0.98, ytxt, f"slope {b:.2f} [{slo:.2f}, {shi:.2f}], r = {r:.3f}",
+            transform=ax.transAxes, ha="right", va="top", fontsize=9.5, color=col)
 ax.scatter([], [], s=28, color="#555", edgecolor="white", lw=0.5, label="Mild (error \u2264 40%)")
 ax.scatter([], [], s=64, color="#555", marker="X", edgecolor="black", lw=0.6, label="Collapsed (error > 40%)")
 ax.axvline(COLLAPSE_TH, color="#999", ls=":", lw=0.9)
-ax.text(COLLAPSE_TH + 1.5, ax.get_ylim()[1] * 0.02, "40%", fontsize=9, color="#777")
+ax.text(COLLAPSE_TH + 1.5, ax.get_ylim()[1] * 0.02, "40%", fontsize=9.5, color="#777")
 ax.set_xlabel("Mean recognition error rate (%; refusals = 100% error)")
 ax.set_ylabel("BLEU loss from clean (points)")
 ax.set_xlim(-4, 120); ax.set_ylim(-4, 58)
-ax.legend(loc="upper left", fontsize=9, framealpha=0.95)
+ax.legend(loc="upper left", fontsize=9.5, framealpha=0.95)
 ax.grid(alpha=0.2, lw=0.4)
 save(fig, "fig6_cac")
 
@@ -187,8 +184,8 @@ snr = X["snr_curves_v2"]
 lad = V15["asr_real_all"]
 RB = [("rb10", 10), ("rb5", 5), ("rb25", 2.5), ("rb0", 0), ("rbm25", -2.5), ("rbm5", -5)]
 NAME8 = {"para16k": "Paraformer-RT-v2", "para8k": "Paraformer-RT-8K (zh)",
-         "q31": "Qwen-Audio-3.1", "q3": "Qwen3-ASR", "whisper": "Whisper small (non-vendor, local)"}
-fig, axes = plt.subplots(1, 2, figsize=(8.6, 4.0), sharey=True, constrained_layout=True)
+         "q31": "Qwen-Audio-3.1", "q3": "Qwen3-ASR", "whisper": "Whisper small (local)"}
+fig, axes = plt.subplots(1, 2, figsize=(6.0, 3.05), sharey=True, constrained_layout=True)
 for ai, lang in enumerate(["zh", "en"]):
     ax = axes[ai]
     for sysk in ["para16k", "para8k", "q31", "q3"]:
@@ -221,15 +218,15 @@ for ai, lang in enumerate(["zh", "en"]):
                 label=f"{NAME8['whisper']} (real)" if ai == 0 else None,
                 markeredgecolor="white", markeredgewidth=0.6)
     ax.axhline(100, color="#999", lw=0.7, ls=":")
-    ax.text(11, 106, "CER = 100%", ha="right", fontsize=8.5, color="#777")
+    ax.text(11, 106, "CER = 100%", ha="right", fontsize=9.5, color="#777")
     ax.axhline(10, color="#999", lw=0.7, ls="--")
     ax.set_xlabel("SNR (dB)")
-    ax.set_title("Mandarin (AISHELL-1 test)" if lang == "zh" else "English (LibriSpeech test-clean)", fontsize=10.5)
+    ax.set_title("Mandarin (AISHELL-1 test)" if lang == "zh" else "English (LibriSpeech test-clean)", fontsize=11)
     ax.set_xticks([10, 5, 2.5, 0, -2.5, -5])
     ax.set_xlim(-6.5, 11.5); ax.set_ylim(-5, 230)
     ax.grid(alpha=0.25, lw=0.5)
 axes[0].set_ylabel("Error rate (%)")
 h, l = axes[0].get_legend_handles_labels()
-fig.legend(h, l, loc="upper center", bbox_to_anchor=(0.5, 1.10), ncol=3, frameon=False, fontsize=8.5)
+fig.legend(h, l, loc="upper center", bbox_to_anchor=(0.5, 1.24), ncol=2, frameon=False, fontsize=9.5)
 save(fig, "fig8_real_validation")
 print("all v1.5 figures done")
