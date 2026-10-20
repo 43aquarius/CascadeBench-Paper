@@ -4,4 +4,4 @@ Highlights
 - Recognition error is knee-shaped in noise; audio-LLMs tolerate 2.2-2.5 dB more babble
 - Below 0 dB, LLM recognisers fail by insertion-heavy hallucination above 100% CER
 - Cascade BLEU loss tracks recognition error with a 0.4-0.5 point pass-through slope
-- Real speech, measured impulse responses, and six-level babble replicate the structure
+- Real-speech and open-weights ladders place the non-vendor knee with the specialists
