@@ -486,4 +486,40 @@ Condition & Lang & Error (\%, 95\% CI) & Empty (\%) & Ins & Del & Sub & Ins.\ fr
 \end{tabular}
 \end{table}
 
+\section{Second-backend (GLM) validation: complete nine-condition results}
+\label{supp:glm9}
+
+Table~\ref{tab:glm9} reports the complete second-backend matrix of
+Section~4.7 of the main paper: per-direction corpus BLEU of the
+Qwen-Audio cascade under the provider engine (qwen-mt-uni) and the
+second vendor's engine (GLM), each scored against both validation
+references, across all nine real-speech conditions. Both backends are
+scored on identical sentence sets: the frontend's transcription list is
+authoritative (150 utterances per condition), and the 61 slots in which
+the frontend returned no transcription carry an empty translation under
+both backends, the same broken-cascade rule as the main-grid cascades.
+
+The pass-through slopes refitted on the eight non-clean conditions are
+0.43 (Mandarin) and 0.72 (English) for the provider backend against its oracle reference
+and 0.32 (Mandarin) and 0.56 (English) for the GLM backend against its own reference, with
+per-point coordinates listed in the table comments of the released
+analysis file. The with-clean fits and the cross-reference fits are
+reported in the analysis JSON released with the corpus.
+
+\begin{table}[t]
+\centering
+\caption{Second-backend validation, per-direction corpus BLEU:
+two translation backends $\times$ two references over all nine
+real-speech conditions, $n = 150$ per cell (ASR-empty slots scored as
+empty translations under both backends).}
+\label{tab:glm9}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcc}
+\toprule
+\input{supp_tables/tab_s14_glm9} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \end{document}

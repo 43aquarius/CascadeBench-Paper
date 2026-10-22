@@ -247,8 +247,9 @@ API~\cite{glm2026api,glm2025tech}, is used in two roles: as a third
 translation
 reference, generated from the clean transcripts of both the synthetic and
 the real corpora, and as an alternative cascade backend, re-translating the
-Qwen-Audio recognition outputs of the four core real-speech conditions
-(clean, $+5$, $0$, $-5$~dB real babble) so that the pass-through relation
+Qwen-Audio recognition outputs of all nine real-speech conditions
+(clean, real reverberation, six real-babble SNR levels, real transport
+noise) so that the pass-through relation
 can be re-fitted on a translation engine disjoint from the vendor of every
 recognition frontend. Translation references for the validation subset are
 produced by the oracle protocol: the cascade translation engine applied to
@@ -316,7 +317,8 @@ instruction, and a dedicated streaming speech translation service
 with a translation model. The second-backend validation re-runs the cascade
 translation stage with the GLM model of the second vendor in place of
 qwen-mt-uni on the same
-recognition outputs. The internal frontend of the streaming translation
+recognition outputs, across all nine real-speech
+conditions of the validation corpus rather than a babble subset. The internal frontend of the streaming translation
 service, which its responses expose as source transcripts, is additionally
 scored as a seventh recognition system on the severity sweep; the five
 purchasable recognition systems of Table~\ref{tab:systems} are therefore
@@ -454,13 +456,14 @@ campaign in two columns that separate the two natural counting
 conventions: \emph{successful calls} counts every logged successful
 API response, and \emph{unique evaluations} counts distinct
 (system, condition, sentence) triples after later re-runs have superseded
-earlier responses. In total 43{,}046 successful API responses were
+earlier responses. In total 43{,}773 successful API responses were
 logged: 26{,}238 in the original measurement, 5{,}581 in the extension
 sweep, 6{,}675 in the real-speech validation (4{,}650 for the core
 six-condition design and 2{,}025 for extending the real-babble ladder from
 three to six SNR levels), 3{,}360 for the measured-impulse-response bridge
-condition on the synthetic corpus, and 1{,}192 for the second-vendor tasks
-(630 GLM reference translations and 562 GLM backend re-translations).
+condition on the synthetic corpus, and 1{,}919 for the second-vendor tasks
+(630 GLM reference translations and 1{,}289 GLM backend re-translations
+covering all nine real-speech conditions of the Qwen-Audio frontend).
 Alongside these, 1{,}650 Whisper transcriptions were computed locally
 without API access (600 with Whisper small on four conditions and 1{,}050
 with Whisper large-v3-turbo on the six-level real-babble ladder plus the
@@ -548,11 +551,11 @@ Measured RIR & cascades, 4 frontends & 1{,}680 & 1{,}680 & incl.\ 240 8~kHz \\
 \multicolumn{2}{l}{Measured-RIR bridge subtotal} & 3{,}360 & 3{,}360 & \\
 \midrule
 Second vendor & GLM references & 630 & 630 & 480 synth + 150 real \\
-Second vendor & GLM backend re-translation & 562 & 562 & 4 conds, Qwen-Audio \\
+Second vendor & GLM backend re-translation & 1{,}289 & 1{,}289 & 9 conds, Qwen-Audio \\
 \midrule
-\multicolumn{2}{l}{Second-vendor subtotal} & 1{,}192 & 1{,}192 & \\
+\multicolumn{2}{l}{Second-vendor subtotal} & 1{,}919 & 1{,}919 & \\
 \midrule
-\multicolumn{2}{l}{Total successful responses} & 43{,}046 & 42{,}171 & \\
+\multicolumn{2}{l}{Total successful responses} & 43{,}773 & 42{,}898 & \\
 \multicolumn{2}{l}{Failed attempts (3{,}333 LT drops + 541 API)} & 3{,}874 & --- & \\
 \multicolumn{2}{l}{Local Whisper runs (no API access)} & --- & --- & 1{,}650 transcriptions \\
 \bottomrule

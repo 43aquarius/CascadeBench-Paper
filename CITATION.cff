@@ -19,16 +19,18 @@ abstract: >-
   acoustic channel degradations from seven families propagate through the
   recognition and translation services of one commercial provider: five
   recognition systems in three product classes, three cascaded and two
-  end-to-end translation paths, 480 bilingual sentences, and 43,046 logged
+  end-to-end translation paths, 480 bilingual sentences, and 43,773 logged
   API responses on complimentary quotas. A 150-utterance real-speech
   validation with a six-level real-babble ladder, measured room impulse
   responses, open-weights recognisers (Whisper small and the
   large-v3-turbo distillation run on the full ladder, which localises the
   non-vendor knee in the specialist band in Mandarin and between the two
   product classes in English), and a
-  family-disjoint second-vendor reference and backend (GLM) replicate the
+  family-disjoint second-vendor reference and backend (GLM, re-translating
+  all nine real-speech conditions for the second-backend validation)
+  replicate the
   knee-and-collapse structure, bound the audio-LLM advantage to the
   near-knee regime, and validate the recognition-to-translation
   pass-through relation beyond the provider's own stack.
-version: 1.6.0
-date-released: "2026-10-20"
+version: 1.7.0
+date-released: "2026-10-21"

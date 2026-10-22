@@ -37,6 +37,38 @@ repository root. The study consumed only complimentary quotas:
 | Text MT / refs | `qwen-mt-uni`, `qwen3.8-max` | per-character free tier |
 | TTS | Sambert voices (`sambert-zhida-v1`, ...) | ~30 k calls / month / voice |
 
+
+## Second-vendor GLM backend (v1.5 / v1.7)
+
+The second-backend validation re-translates the Qwen-Audio (q31) recognition
+outputs with the GLM engine of a second vendor (Z.ai):
+
+| Script | Output | Notes |
+|--------|--------|-------|
+| `glm_translate2.mjs` | `results/glm_tasks.jsonl` | v1.4/v1.5 rounds: references + 4-condition backend (batched, 8 sentences/call) |
+| `glm_translate_v17.mjs` | `results/glm_tasks.jsonl` (appended) | v1.7 round: backend re-translation extended to all nine real-speech conditions (same batch protocol, resumable) |
+| `v17_glm9conds.py` | `results/analysis_v17_glm9.json` | n-aligned nine-condition backend matrix + per-backend pass-through slopes |
+| `v17_table.py` | stdout | main-paper Table (tab:backend) rows, cross-checked against the JSON |
+| `v17_suptable.py` | `paper/latex/supp_tables/tab_s14_glm9.tex` | Supplementary Table S14 |
+
+Both `.mjs` runners import the Z.ai SDK from `scripts/zai-sdk/dist/index.js`
+(not committed; place a copy of `z-ai-web-dev-sdk` there, or edit the `SDK`
+path). They are resumable: completed sentences are skipped on re-run, and a
+429 rate-limit exits with code 3 so a driver loop (`glm_drive.sh`) can retry
+after a cool-down.
+
+Protocol notes:
+
+- Translation prompt: one sentence per call in v1.4, batched
+  `N||translation` lines in v1.5/v1.7; the batch mode was verified
+  sentence-level consistent with the per-sentence mode before adoption.
+- n-alignment: the q31 transcription list is authoritative (150 per
+  condition); the 61 slots where the frontend returned no transcription
+  carry an empty translation under both backends, so every matrix cell
+  covers the same sentences.
+- The 429 penalty period on the Z.ai gateway can last hours; the driver
+  script probes with one lightweight call before each block.
+
 ## Operational notes discovered the hard way
 
 - `qwen3.8-livetranslate-flash-realtime` refuses concurrent websocket

@@ -781,13 +781,17 @@ the legend uses $n=14$, 14, and 11 points per cascade.}
 Because every cascade in the main grid shares one translation engine, the
 pass-through relation of Fig.~\ref{fig:cac} could in principle be an
 artefact of that engine. The second-backend validation re-translates the
-Qwen-Audio recognition outputs of the four core real-speech conditions
-with the GLM model of a second vendor (Z.ai), a translation engine
+Qwen-Audio recognition outputs of all nine real-speech conditions with
+the GLM model of a second vendor (Z.ai), a translation engine
 disjoint from the provider of every recognition frontend, keeping the
 recognition frontend fixed; the validation therefore isolates the engine
 contribution to the pass-through, and it does not constitute a
 vendor-independent cascade, since the recognition stage is still the
-provider's audio-LLM. Table~\ref{tab:backend} reports the resulting
+provider's audio-LLM. Both backends are scored on identical sentence
+sets: the frontend's transcription list is authoritative, and slots where
+the frontend returned no transcription carry an empty translation in
+both backends, so every cell covers all 150 utterances.
+Table~\ref{tab:backend} reports the resulting
 two-by-two matrix of backends and references. The diagonal cells, in which
 backend and reference share an engine, exceed the off-diagonal cells by 23
 to 36 BLEU on clean speech (69.1 and 60.2 against 32.9 and 36.8), which is
@@ -795,55 +799,50 @@ the same-family affinity of Section~\ref{sec:results:dual} measured on
 real speech; every backend looks strongest against its own reference, and
 the two off-diagonal cells differ by four BLEU points in favour of the
 GLM backend, so neither engine dominates decisively when scored away from
-its own family. The GLM backend's flatter profile under noise is also
-visible in its absolute scores.
+its own family. The two backends' absolute-score trajectories under noise are closely
+parallel rather than one being flatter.
 
 \begin{table}[t]
 \centering
 \caption{Second-backend validation on real speech: corpus BLEU of the
 Qwen-Audio cascade under both translation backends, scored against both
 validation references (oracle: the provider engine on human transcripts;
-GLM: the second vendor on the same transcripts). Diagonal cells share an
+GLM: the second vendor on the same transcripts) across all nine
+real-speech conditions. Diagonal cells share an
 engine between backend and reference. The final column gives the
 within-backend clean-to-$-5$~dB relative loss under the reference shown.}
 \label{tab:backend}
-\small
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{llccccc}
+\footnotesize
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{llcccccccccc}
 \toprule
- & & \multicolumn{4}{c}{BLEU by condition} & Rel.\ loss \\
-Backend & Reference & Clean & $+5$ & 0 & $-5$ & to $-5$ \\
+ & & \multicolumn{9}{c}{BLEU by condition} & Rel.\ loss \\
+Backend & Reference & Cl. & Rev & $+10$ & $+5$ & $+2.5$ & 0 & $-2.5$ & $-5$ & TN & to $-5$ \\
 \midrule
-qwen-mt-uni & oracle (same engine) & 69.1 & 66.2 & 45.8 & 7.3 & 89\% \\
-qwen-mt-uni & GLM (cross) & 32.9 & 31.2 & 22.1 & 4.9 & 85\% \\
-GLM & oracle (cross) & 36.8 & 36.0 & 26.3 & 6.7 & 82\% \\
-GLM & GLM (same engine) & 60.2 & 55.9 & 39.9 & 7.6 & 87\% \\
+qwen-mt-uni & oracle (same) & 69.1 & 69.7 & 69.2 & 66.2 & 63.1 & 45.8 & 18.5 & 7.3 & 65.0 & 89\% \\
+qwen-mt-uni & GLM (cross) & 32.9 & 32.5 & 32.1 & 31.2 & 30.6 & 22.1 & 11.2 & 4.9 & 30.7 & 85\% \\
+GLM & oracle (cross) & 36.8 & 38.3 & 35.5 & 36.0 & 35.1 & 26.1 & 10.6 & 4.9 & 35.4 & 87\% \\
+GLM & GLM (same) & 60.2 & 49.7 & 55.7 & 55.9 & 50.3 & 39.9 & 15.4 & 6.1 & 49.0 & 90\% \\
 \bottomrule
-\multicolumn{7}{l}{\footnotesize $n$: 150 per cell except GLM backend 148 at 0~dB and 114 at $-5$~dB.} \\
+\multicolumn{12}{l}{\footnotesize $n$: 150 per cell under both backends; ASR-empty slots carry an empty translation in both.} \\
 \end{tabular}
 \end{table}
 
 Three observations follow. First, the degradation behaviour is governed by
 the recognition frontend, not the engine: both backends lose a nearly
-identical fraction of their clean quality as babble deepens (33.7 against
-33.9 percent at 0~dB, 89.4 against 87.3 percent at $-5$~dB under their own
+identical fraction of their clean quality as babble deepens (34 against
+34 percent at 0~dB, 89 against 90 percent at $-5$~dB under their own
 references, with the cross-reference cells within a few points of these),
 so swapping the translation engine moves absolute scores by tens of BLEU
 points but barely moves the relative-loss trajectory. Second, refitting
-the pass-through relation on the GLM backend's three non-clean operating
-points gives slopes of 0.34 (Mandarin) and 0.55 (English), against 0.38 and
-0.72 for the provider engine on the same conditions -- the English
-coefficient about a quarter shallower -- and 0.43 and 0.72 for
-the nine-condition real-speech fit of
-Section~\ref{sec:results:real}; the relation is therefore reproduced on
-a disjoint engine at the same order of magnitude (a three-point fit,
-whose per-point correlation carries no inferential weight at $n=3$),
-with the GLM backend's shallower
-slopes consistent with its flatter absolute-quality profile under noise.
-Third, the caveat cuts both ways: the second backend is measured on three
-non-clean operating points of one frontend only, so it establishes that
-the pass-through is not a single-engine artefact, not that the coefficient
-is engine-independent. For deployment planning the practical reading is
+the pass-through relation on the GLM backend's eight non-clean operating
+points gives slopes of 0.32 (Mandarin, $r=$0.99) and 0.56 (English, $r=$0.99),
+against 0.43 and 0.72 for the provider engine on the same nine
+conditions; the GLM coefficients sit below the provider values on both directions, so the linear relation survives the engine swap while the coefficient itself does not. Third, the
+remaining caveat is coverage, not strength of evidence: the second
+backend is measured on one frontend only, so it establishes that the
+pass-through is not a single-engine artefact, not that the coefficient is
+engine-independent. For deployment planning the practical reading is
 that the recognition stage, not the choice among competent translation
 engines, is where acoustic degradation is won or lost.
 

@@ -57,9 +57,7 @@ which are cheaper to run and easier to interpret than full-pipeline
 evaluations, and to forecast translation quality degradation from a
 measured or contracted recognition error rate, with the caveats that the
 main-grid coefficient is calibrated on one translation engine (the
-second-backend three-point fit on a disjoint engine gives 0.34 to 0.55 on
-the shared
-conditions), that its honest
+second-backend nine-condition fit on a disjoint engine gives 0.32 (Mandarin) and 0.56 (English)), that its honest
 uncertainty is the condition-level interval rather than the sentence-level
 one, and that the linear form saturates in the whole-utterance failure
 regime. The end-to-end versus
@@ -196,8 +194,8 @@ regime but, as Section~\ref{sec:results:cac} quantifies, it is an
 empirical interpolation over the measured conditions rather than a law:
 its condition-level uncertainty spans 0.23 to 0.45 for the Qwen-Audio
 cascade, its main-grid coefficient is calibrated on one translation
-engine (the second-backend three-point fit reproduces the relation at 0.34 to
-0.55 on the shared real-speech conditions), and it must not be
+engine (the second-backend nine-condition fit reproduces the relation at
+0.32 (Mandarin) and 0.56 (English) on the real-speech conditions), and it must not be
 extrapolated to recognition errors beyond the measured range, where BLEU
 loss saturates while recognition error can grow without bound. The same
 arithmetic applied to the measured
@@ -265,7 +263,7 @@ encoder--decoder models rather than audio-LLMs of the provider's
 generation, so the near-knee advantage of the audio-LLM class remains a
 single-vendor observation pending a same-generation non-vendor system; the
 GLM backend swaps the
-translation engine on three non-clean operating points of a single
+translation engine on all nine real-speech conditions of a single
 frontend, enough to show that the pass-through is not a single-engine
 artefact but not enough to make the coefficient engine-independent; and
 every recognition frontend of every cascade remains the provider's, so no
