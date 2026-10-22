@@ -231,9 +231,21 @@ six real-babble SNRs, transport noise); the omni system is excluded because
 its complimentary quota was exhausted. Two external components extend the
 validation beyond the single vendor of the main grid. Two open-weights Whisper
 models~\cite{radford2023robust} are executed locally with the
-faster-whisper int8 CPU runtime and greedy decoding, with an explicit
-Mandarin initial prompt, as non-vendor recognition baselines: Whisper small
-on the clean and three hardest babble conditions (four conditions, 600
+faster-whisper int8 CPU runtime as non-vendor recognition baselines. Both
+models use one decoding configuration throughout: the language is forced per
+utterance, decoding is greedy with beam size one, the voice-activity filter
+is disabled, conditioning on previous text is disabled, timestamps are
+suppressed, and all remaining thresholds stay at the faster-whisper defaults
+(no-speech 0.6, log-probability $-1.0$, temperature fallback from 0.0 to
+1.0); the Mandarin initial prompt
+``以下是普通话的句子，简体白话文。''
+biases decoding toward simplified script. No traditional-to-simplified
+conversion is applied before scoring: the reference transcripts are
+simplified, and about ten percent of the small-model and thirteen percent of
+the large-v3-turbo Mandarin outputs contain occasional traditional
+characters, which the character error rate counts as substitutions. Whisper
+small runs on the clean anchor and the original three-level babble ladder
+($+5$, $0$, $-5$~dB; four conditions, 600
 transcriptions), and Whisper large-v3-turbo, the four-decoder-layer
 809M-parameter distillation of Whisper large-v3~\cite{whisperturbo2024},
 on all six real-babble SNR levels plus the clean anchor (seven conditions,
@@ -251,7 +263,11 @@ Qwen-Audio recognition outputs of all nine real-speech conditions
 (clean, real reverberation, six real-babble SNR levels, real transport
 noise) so that the pass-through relation
 can be re-fitted on a translation engine disjoint from the vendor of every
-recognition frontend. Translation references for the validation subset are
+recognition frontend. The GLM gateway exposes no temperature or seed
+parameters, so every reference and cascade translation is a single draw at
+the provider's default sampling configuration;
+Section~\ref{sec:results:backend} quantifies the corpus-level rendering
+noise that this introduces. Translation references for the validation subset are
 produced by the oracle protocol: the cascade translation engine applied to
 the human ground-truth transcripts, so the recognition stage is the only
 difference between the cascade and its own upper bound. This construction
@@ -473,10 +489,13 @@ API-level failures (throttling, timeouts, protocol errors) that were
 retried where the quota allowed. The 875-call difference
 between the two columns in the original phase consists of re-runs of the
 clipping, packet-loss, and tempo conditions whose later logs superseded the
-earlier ones in analysis. Twenty-four logged responses are protocol-level
-no-words refusals of the Qwen-Audio system under 0~dB babble; they are
-counted as successful calls, scored as empty transcripts, and tabulated
-separately in Supplementary Table~S4. The 1{,}544 unique successful
+earlier ones in analysis. Twenty-four grid triples of the Qwen-Audio system
+under 0~dB babble returned only protocol-level no-words refusals on every
+retry attempt (182 logged attempts in total, included among the 541 API
+failures); these triples carry no successful response, are absent from the
+unique-evaluation column of Table~\ref{tab:accounting}, and are scored as
+empty transcripts in the analysis, tabulated separately in Supplementary
+Table~S4. The 1{,}544 unique successful
 LiveTranslate evaluations of the main grid cover 89.5 percent of that
 system's 1{,}728 targets, and the extension added 251 of 432 targeted
 sessions; all 450 targeted LiveTranslate sessions
@@ -508,7 +527,10 @@ condition applies the three survey impulse responses to the synthetic
 corpus, so it is a synthetic-speech condition and is reported separately
 from the real-speech validation; Whisper runs are local, carry no API
 cost, and comprise 600 Whisper small and 1{,}050 Whisper large-v3-turbo
-transcriptions.}\label{tab:accounting}
+transcriptions. Unique evaluations count distinct triples with at least one
+successful response; the 24 Qwen-Audio triples that returned only protocol
+refusals at 0~dB babble are therefore absent from that column and are scored
+as empty transcripts in the analysis (Supplementary Table~S4).}\label{tab:accounting}
 \footnotesize
 \setlength{\tabcolsep}{1.7pt}
 \begin{tabular}{llrrl}
@@ -518,7 +540,7 @@ Phase & System & Calls & Unique & Coverage \\
 Synthesis & Sambert (4 test + 6 babble voices) & 520 & 520 & 480 + 40 babble \\
 Recognition & Paraformer-RT-v2 & 5{,}174 & 4{,}752 & full grid + sweep \\
 Recognition & Paraformer-RT-8K & 2{,}376 & 2{,}376 & zh subset+sweep \\
-Recognition & Qwen-Audio-3.1 & 5{,}154 & 4{,}752 & grid+sweep (24 ref.) \\
+Recognition & Qwen-Audio-3.1 & 5{,}154 & 4{,}728 & grid+sweep (24 ref.) \\
 Recognition & Qwen3-ASR & 4{,}752 & 4{,}752 & full grid + sweep \\
 Recognition & Qwen3.8-Omni & 1{,}271 & 1{,}271 & main grid, sweep subset \\
 Translation & oracle + primary reference & 960 & 960 & 480 + 480 \\

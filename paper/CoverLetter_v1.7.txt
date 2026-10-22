@@ -35,11 +35,12 @@ failure structure replicates outside the vendor while noise-tolerance
 levels do not, and which localise the non-vendor knee on the full
 six-level babble ladder -- in the specialist band in Mandarin and between
 the two product classes in English, so the audio-LLM robustness advantage
-is provider-specific rather than generic; and (3) a second-vendor translation engine
+is not reproduced on an open encoder--decoder of the previous generation,
+and whether it is a class or a vendor property remains open; and (3) a second-vendor translation engine
 (GLM, Z.ai) used both as a family-disjoint scoring reference and as an
 alternative cascade backend re-translating all nine real-speech conditions,
-which reproduces the linear form of the pass-through relation on a
-nine-condition re-fit (with an engine-dependent coefficient) and bounds
+which retains the linear form of the pass-through relation on a
+nine-condition re-fit with coefficients about a quarter lower, and bounds
 reference-affinity effects on the end-to-end comparison. These are described
 in Sections 4.4-4.8 and the supplementary material.
 

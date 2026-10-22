@@ -278,11 +278,21 @@ references are the single addition that would most strengthen the absolute
 claims, although the real-speech validation sidesteps this concern for
 recognition, where its references are human transcriptions. The synthetic
 babble noise is smoother than real multi-talker cocktail-party interference,
-which includes semantic competition and stronger nonstationarity; the
-six-level real-babble ladder confirms that this gap makes synthetic
-babble the milder stressor, shifting the degradation knee upward by
-roughly 3--6~dB, without changing the system ordering or the collapse
-structure. Similarly, the reverberation condition uses a synthetic
+which includes semantic competition and stronger nonstationarity, and the
+six-level real-babble ladder shows that the resulting gap is
+language-dependent: in Mandarin, real babble is the harsher stressor at
+every level, shifting the degradation knee upward by 2.9 and 6.7~dB for the
+two audio-LLM systems, whereas in English the two stressors cross -- real
+babble is harsher at mild levels and synthetic babble from 0~dB down, with
+knee shifts between $-0.1$ and $+3.0$~dB -- so a blanket reading of real
+babble as the harder stressor holds in Mandarin only. The comparison also
+confounds stressor identity with base material, because the synthetic
+curves are measured on the authored TTS corpus and the real curves on
+recorded corpora with different sentence sets; a same-sentence control that
+re-synthesises the real transcripts by TTS and re-adds the same real babble
+would separate the two factors and is left as future work. In neither
+language does the gap change the system ordering or the collapse structure.
+Similarly, the reverberation condition uses a synthetic
 exponentially decaying response whose diffuse tail yields a
 direct-to-reverberant ratio of $-27.6$~dB, far below the $+7.3$~dB survey
 median for everyday spaces; the measured-impulse-response bridge condition

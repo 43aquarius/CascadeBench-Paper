@@ -33,26 +33,26 @@ benchmark measuring how fourteen degradations from seven acoustic
 families propagate through commercial speech APIs: five recognition systems
 in three product classes of one provider, three cascaded and two end-to-end
 translation paths, on a 480-sentence bilingual corpus with an eight-level
-babble sweep (20 to $-10$~dB). Recognition error rises
+babble sweep. Recognition error rises
 knee-shaped with noise: audio-LLM systems tolerate
 2.2--2.5~dB (Mandarin) and 4.4--4.8~dB (English) more noise than the
 specialised streaming system before ten percent error, then
 collapse into insertion-heavy hallucination above 100
-percent character error. Cascade loss follows an empirical pass-through of
+percent error. Cascade loss follows an empirical pass-through of
 0.4 to 0.5 BLEU points per percentage point of recognition error; a
-nine-condition re-fit on a second vendor's engine reproduces it at
-0.32 to 0.56; engine-independence is not
-established. A 150-utterance real-speech validation with a six-level
-babble ladder reproduces the knee and hallucination structure, finds
+nine-condition re-fit on a second vendor's engine retains the linear form
+with coefficients about a quarter lower (0.32, 0.56); engine-independence is
+not established. A 150-utterance real-speech validation
+reproduces the knee and hallucination structure, finds
 measured-RIR rooms far milder than the synthetic stress case, and
 bounds the audio-LLM advantage to the near-knee regime; an open-weights
-recogniser on the same ladder crosses ten percent in the specialist
-band (Mandarin) and between the classes (English), making the advantage
-provider-specific. End-to-end
+recogniser crosses ten percent in the specialist
+band (Mandarin) and between the classes (English), so the advantage is not
+reproduced on an open encoder--decoder, and its
+class-versus-vendor provenance remains open. End-to-end
 translation is not automatically more robust: the omni-modal path, the
-most fragile, degrades more than the
-LLM-frontend cascades in point estimate, with a reference-dependent
-margin. Three-reference scoring with one family-disjoint
+most fragile, trails the LLM-frontend cascades with a
+reference-dependent margin. Three-reference scoring with one family-disjoint
 reference shows relative-loss rankings stable
 up to a sub-point same-engine inversion. Recipe,
 corpus, degraded audio, and 43{,}773 logged API responses are released.
@@ -99,6 +99,11 @@ experimental measurements, the analysis decisions, and the verification of
 all reported numbers against the released logs were performed and checked by
 the authors, who take full responsibility for the content of the published
 article.
+
+\section*{CRediT authorship contribution statement}
+\textbf{Chang Tan:} Conceptualization, Methodology, Software, Investigation,
+Data curation, Visualization, Writing -- original draft, Writing -- review \&
+editing.
 
 \section*{Declaration of competing interest}
 The authors declare that they have no known competing financial interests or

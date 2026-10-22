@@ -397,8 +397,10 @@ English stays deletion-dominated (deletion fraction up to 0.38), and its
 Mandarin error exceeds 100 percent from 0~dB down, so the sub-zero
 dB hallucination regime replicates on a second model family outside the
 vendor; its silent-empty rate, by contrast, is zero in every condition,
-against Qwen-Audio's 29.3 percent Mandarin refusal rate at $-5$~dB, so the
-refusal behaviour is engine-specific while the failure structure is not.
+against Qwen-Audio's 29.3 percent Mandarin refusal rate at $-5$~dB, so,
+under the decoding configuration shared by both local models
+(Sec.~\ref{sec:methods:real}), the refusal behaviour is engine-specific
+while the failure structure is not.
 At $-5$~dB the open model errs at 70.7 percent (English) and 120.3 percent
 (Mandarin) against a provider range of 64.1 to 86.6 percent English and
 93.1 to 207.6 percent Mandarin, so its collapse is milder than most but
@@ -484,10 +486,15 @@ $-5$~dB) on real recorded speech; the grey dashed series with square
 markers is the locally executed Whisper small model on its four tested
 conditions, and the green dashed series with triangle markers the locally
 executed Whisper large-v3-turbo model on all six levels. Left: Mandarin (AISHELL-1 test, telephone-band specialist
-Mandarin only); right: English (LibriSpeech test-clean). Real babble is
-the harder stressor at every SNR, but the system ordering, the knee
+Mandarin only); right: English (LibriSpeech test-clean). In Mandarin, real
+babble is the harsher stressor at every level; in English the two profiles
+cross -- real babble is harsher from $+10$ to $+2.5$~dB, synthetic babble
+from 0~dB down (at 0~dB, 26.0 against 39.7 percent for Qwen-Audio) -- and
+the synthetic curves are measured on the authored TTS corpus while the real
+curves use recorded speech, so stressor identity and base material are
+confounded in this overlay. The system ordering, the knee
 structure, and the sub-0~dB hallucination regime (CER above 100\%,
-dotted line) all replicate; Whisper small's Mandarin error already exceeds
+dotted line) all replicate in both languages; Whisper small's Mandarin error already exceeds
 the knee at $+5$~dB, the mildest level it was run at, while
 large-v3-turbo localises the non-vendor knee above $+10$~dB in Mandarin
 (the specialist band) and at 4.4~dB in English, between the two product
@@ -825,6 +832,7 @@ GLM & oracle (cross) & 36.8 & 38.3 & 35.5 & 36.0 & 35.1 & 26.1 & 10.6 & 4.9 & 35
 GLM & GLM (same) & 60.2 & 49.7 & 55.7 & 55.9 & 50.3 & 39.9 & 15.4 & 6.1 & 49.0 & 90\% \\
 \bottomrule
 \multicolumn{12}{l}{\footnotesize $n$: 150 per cell under both backends; ASR-empty slots carry an empty translation in both.} \\
+\multicolumn{12}{l}{\footnotesize GLM cells are single-draw generations; corpus-level rendering noise is roughly five BLEU (text).} \\
 \end{tabular}
 \end{table}
 
@@ -838,7 +846,24 @@ points but barely moves the relative-loss trajectory. Second, refitting
 the pass-through relation on the GLM backend's eight non-clean operating
 points gives slopes of 0.32 (Mandarin, $r=$0.99) and 0.56 (English, $r=$0.99),
 against 0.43 and 0.72 for the provider engine on the same nine
-conditions; the GLM coefficients sit below the provider values on both directions, so the linear relation survives the engine swap while the coefficient itself does not. Third, the
+conditions; the GLM coefficients sit below the provider values on both directions, so the linear relation survives the engine swap while the coefficient itself does not.
+A sampling caveat applies to the GLM cells. The gateway exposes no
+temperature or seed controls, so every cell is a single generation draw:
+nineteen doubly-rendered sentences (sixteen protocol-consistency checks and
+three in-run retries) put the sentence-level BLEU between two independent
+renderings of the same source at a mean of 65 (interquartile range 53 to
+76), and the clean and reverberation cells, whose ASR inputs are nearly
+identical (0.8 against 1.4 percent Mandarin error), still differ by 10.5
+BLEU, a direct observation of a corpus-level rendering-noise floor of
+roughly five BLEU. The mild-condition non-monotonicity of the GLM diagonal
+(reverberation at 49.7, below $+10$ and $+5$~dB at 55.7 and 55.9 despite
+lower recognition error) sits within this floor and should not be read as a
+condition effect; a Monte Carlo re-fit that perturbs every cell by the same
+floor keeps the provider-minus-GLM coefficient gap positive in 98 percent
+of draws (Mandarin gap 0.10, interval 0.01 to 0.19; English 0.16, 0.01 to
+0.32), so the direction of the gap is robust to generation noise while its
+magnitude is not. Per-direction scores for every cell of the matrix are
+given in Supplementary Table~S14. Third, the
 remaining caveat is coverage, not strength of evidence: the second
 backend is measured on one frontend only, so it establishes that the
 pass-through is not a single-engine artefact, not that the coefficient is

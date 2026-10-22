@@ -456,7 +456,11 @@ clean anchor, all six real-babble levels, error rates with bootstrap
 confidence intervals, silent-empty rates, and the error-mass decomposition
 over the same normalisation as every other system. The model never returns
 an empty transcript in any condition, in contrast to both the provider's
-refusal behaviour under deep noise and Whisper small's silent empties. Its
+refusal behaviour under deep noise and Whisper small's silent empties; this
+contrast is stated for the shared decoding configuration of the main
+protocol (greedy beam-one search, voice-activity filter disabled, remaining
+thresholds at the faster-whisper defaults), under which no voice-activity
+post-filter can remove silent empties. Its
 Mandarin error mass shifts towards insertions as noise deepens (insertion
 fraction 0.08 at $+10$~dB against 0.27 at $-2.5$~dB) while its English
 error mass remains deletion-led at every level (deletion fraction up to
