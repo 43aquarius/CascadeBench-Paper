@@ -503,7 +503,11 @@ authoritative (150 utterances per condition), and the 61 slots in which
 the frontend returned no transcription carry an empty translation under
 both backends, the same broken-cascade rule as the main-grid cascades.
 
-The pass-through slopes refitted on the eight non-clean conditions are
+The generation noise of the GLM engine, measured by regenerating the
+150-sentence reference four additional times, has a corpus self-consistency
+standard deviation of 1.4 BLEU (macro-average; 2.5 Chinese-to-English,
+1.5 English-to-Chinese). The pass-through slopes refitted on the eight
+non-clean conditions are
 0.43 (Mandarin) and 0.72 (English) for the provider backend against its oracle reference
 and 0.32 (Mandarin) and 0.56 (English) for the GLM backend against its own reference, with
 per-point coordinates listed in the table comments of the released

@@ -57,7 +57,10 @@ which are cheaper to run and easier to interpret than full-pipeline
 evaluations, and to forecast translation quality degradation from a
 measured or contracted recognition error rate, with the caveats that the
 main-grid coefficient is calibrated on one translation engine (the
-second-backend nine-condition fit on a disjoint engine gives 0.32 (Mandarin) and 0.56 (English)), that its honest
+second-backend nine-condition fit on a disjoint engine gives 0.32
+(Mandarin) and 0.56 (English), 95 percent intervals 0.29 to 0.36 and 0.53
+to 0.60 under the measured generation noise, on the one frontend tested),
+that its honest
 uncertainty is the condition-level interval rather than the sentence-level
 one, and that the linear form saturates in the whole-utterance failure
 regime. The end-to-end versus
@@ -195,7 +198,8 @@ empirical interpolation over the measured conditions rather than a law:
 its condition-level uncertainty spans 0.23 to 0.45 for the Qwen-Audio
 cascade, its main-grid coefficient is calibrated on one translation
 engine (the second-backend nine-condition fit reproduces the relation at
-0.32 (Mandarin) and 0.56 (English) on the real-speech conditions), and it must not be
+0.32 (Mandarin) and 0.56 (English) on the real-speech conditions, on the
+one frontend tested), and it must not be
 extrapolated to recognition errors beyond the measured range, where BLEU
 loss saturates while recognition error can grow without bound. The same
 arithmetic applied to the measured

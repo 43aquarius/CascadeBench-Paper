@@ -1,0 +1,94 @@
+{
+ "cells": {
+  "revr": {
+   "n_versions": 3,
+   "versions": {
+    "revr/r1": {
+     "zh2en": 48.73,
+     "en2zh": 50.68,
+     "macro": 49.7
+    },
+    "revr/r2": {
+     "zh2en": 56.04,
+     "en2zh": 54.32,
+     "macro": 55.18
+    },
+    "revr/r3": {
+     "zh2en": 58.18,
+     "en2zh": 52.47,
+     "macro": 55.33
+    }
+   },
+   "macro_mean": 53.4,
+   "macro_sd": 3.208,
+   "macro_range": [
+    49.7,
+    55.33
+   ],
+   "released_macro": 49.7
+  },
+  "rb5": {
+   "n_versions": 3,
+   "versions": {
+    "rb5/r1": {
+     "zh2en": 57.15,
+     "en2zh": 54.65,
+     "macro": 55.9
+    },
+    "rb5/r2": {
+     "zh2en": 53.05,
+     "en2zh": 53.83,
+     "macro": 53.44
+    },
+    "rb5/r3": {
+     "zh2en": 51.3,
+     "en2zh": 57.14,
+     "macro": 54.22
+    }
+   },
+   "macro_mean": 54.52,
+   "macro_sd": 1.257,
+   "macro_range": [
+    53.44,
+    55.9
+   ],
+   "released_macro": 55.9
+  },
+  "rb10": {
+   "n_versions": 3,
+   "versions": {
+    "rb10/r1": {
+     "zh2en": 53.67,
+     "en2zh": 57.73,
+     "macro": 55.7
+    },
+    "rb10/r2": {
+     "zh2en": 54.57,
+     "en2zh": 54.49,
+     "macro": 54.53
+    },
+    "rb10/r3": {
+     "zh2en": 54.41,
+     "en2zh": 57.09,
+     "macro": 55.75
+    }
+   },
+   "macro_mean": 55.33,
+   "macro_sd": 0.69,
+   "macro_range": [
+    54.53,
+    55.75
+   ],
+   "released_macro": 55.7
+  }
+ },
+ "protocol": "3 candidate versions per cell (released r1 + 2 reruns), scored vs the same released GLM reference",
+ "verdict": {
+  "gap_r1_rb10_minus_rev": 6.0,
+  "gap_r1_rb5_minus_rev": 6.2,
+  "gap_3verMean_rb10_minus_rev": 1.93,
+  "gap_3verMean_rb5_minus_rev": 1.12,
+  "max_cell_sd": 3.208,
+  "conclusion": "Rev deficit within measured cell noise"
+ }
+}

@@ -41,10 +41,11 @@ collapse into insertion-heavy hallucination above 100
 percent error. Cascade loss follows an empirical pass-through of
 0.4 to 0.5 BLEU points per percentage point of recognition error; a
 nine-condition re-fit on a second vendor's engine retains the linear form
-with coefficients about a quarter lower (0.32, 0.56); engine-independence is
+with coefficients about a quarter lower (0.32, 0.56),
+noise-sensitive in magnitude; engine-independence is
 not established. A 150-utterance real-speech validation
 reproduces the knee and hallucination structure, finds
-measured-RIR rooms far milder than the synthetic stress case, and
+measured-RIR rooms far milder than the synthetic case, and
 bounds the audio-LLM advantage to the near-knee regime; an open-weights
 recogniser crosses ten percent in the specialist
 band (Mandarin) and between the classes (English), so the advantage is not
@@ -55,7 +56,7 @@ most fragile, trails the LLM-frontend cascades with a
 reference-dependent margin. Three-reference scoring with one family-disjoint
 reference shows relative-loss rankings stable
 up to a sub-point same-engine inversion. Recipe,
-corpus, degraded audio, and 43{,}773 logged API responses are released.
+corpus, degraded audio, and 45{,}288 logged API responses are released.
 \end{abstract}
 
 \begin{keyword}
@@ -78,7 +79,7 @@ The complete benchmark is publicly released at
 \url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
 the sentence corpus, the seeded perturbation implementations, the full
 degraded audio tree, all per-sentence model transcripts and translations
-(43{,}773 logged API responses), the analysis scripts, and the LaTeX source
+(45{,}288 logged API responses), the analysis scripts, and the LaTeX source
 of this manuscript. Every number and figure in the paper is regenerated
 from the released logs by the released analysis scripts. Extended numeric
 tables (complete pairwise significance results, severity-sweep numerics,

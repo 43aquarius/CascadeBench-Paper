@@ -240,10 +240,17 @@ suppressed, and all remaining thresholds stay at the faster-whisper defaults
 1.0); the Mandarin initial prompt
 ``以下是普通话的句子，简体白话文。''
 biases decoding toward simplified script. No traditional-to-simplified
-conversion is applied before scoring: the reference transcripts are
-simplified, and about ten percent of the small-model and thirteen percent of
-the large-v3-turbo Mandarin outputs contain occasional traditional
-characters, which the character error rate counts as substitutions. Whisper
+conversion is applied in the released scoring: the reference transcripts are
+simplified, and a small share of the Mandarin outputs contains occasional
+traditional characters (six of 300 Whisper small sentences and two of 525
+large-v3-turbo sentences), which the character error rate counts as
+substitutions. A sensitivity re-scoring that applies OpenCC
+traditional-to-simplified conversion to every Mandarin hypothesis before
+scoring leaves no sentence traditional afterwards and moves no condition
+mean by more than 0.2 points (Whisper small clean 10.1 to 10.0;
+large-v3-turbo $+10$~dB 14.9 to 14.7), leaving every ten-percent crossing
+unchanged, so the reported knee placements are not artefacts of script
+mismatch. Whisper
 small runs on the clean anchor and the original three-level babble ladder
 ($+5$, $0$, $-5$~dB; four conditions, 600
 transcriptions), and Whisper large-v3-turbo, the four-decoder-layer
@@ -265,9 +272,13 @@ noise) so that the pass-through relation
 can be re-fitted on a translation engine disjoint from the vendor of every
 recognition frontend. The GLM gateway exposes no temperature or seed
 parameters, so every reference and cascade translation is a single draw at
-the provider's default sampling configuration;
-Section~\ref{sec:results:backend} quantifies the corpus-level rendering
-noise that this introduces. Translation references for the validation subset are
+the provider's default sampling configuration. To measure the resulting
+generation noise directly, the 150-sentence real-corpus reference was
+regenerated four additional times under the identical protocol, and the
+candidate translations of the three mildest conditions (real reverberation,
+$+10$, and $+5$~dB babble) twice each;
+Section~\ref{sec:results:backend} reports the measured corpus-level noise
+and its effect on the fitted coefficients. Translation references for the validation subset are
 produced by the oracle protocol: the cascade translation engine applied to
 the human ground-truth transcripts, so the recognition stage is the only
 difference between the cascade and its own upper bound. This construction
@@ -472,14 +483,17 @@ campaign in two columns that separate the two natural counting
 conventions: \emph{successful calls} counts every logged successful
 API response, and \emph{unique evaluations} counts distinct
 (system, condition, sentence) triples after later re-runs have superseded
-earlier responses. In total 43{,}773 successful API responses were
+earlier responses. In total 45{,}288 successful API responses were
 logged: 26{,}238 in the original measurement, 5{,}581 in the extension
 sweep, 6{,}675 in the real-speech validation (4{,}650 for the core
 six-condition design and 2{,}025 for extending the real-babble ladder from
 three to six SNR levels), 3{,}360 for the measured-impulse-response bridge
-condition on the synthetic corpus, and 1{,}919 for the second-vendor tasks
-(630 GLM reference translations and 1{,}289 GLM backend re-translations
-covering all nine real-speech conditions of the Qwen-Audio frontend).
+condition on the synthetic corpus, and 3{,}434 for the second-vendor tasks
+(630 GLM reference translations, 1{,}289 GLM backend re-translations
+covering all nine real-speech conditions of the Qwen-Audio frontend, and
+1{,}515 GLM noise-measurement regenerations -- 600 reference and 915
+candidate re-renders, 1{,}500 of them unique -- feeding the generation-noise
+analysis of Section~\ref{sec:results:backend}).
 Alongside these, 1{,}650 Whisper transcriptions were computed locally
 without API access (600 with Whisper small on four conditions and 1{,}050
 with Whisper large-v3-turbo on the six-level real-babble ladder plus the
@@ -530,7 +544,11 @@ cost, and comprise 600 Whisper small and 1{,}050 Whisper large-v3-turbo
 transcriptions. Unique evaluations count distinct triples with at least one
 successful response; the 24 Qwen-Audio triples that returned only protocol
 refusals at 0~dB babble are therefore absent from that column and are scored
-as empty transcripts in the analysis (Supplementary Table~S4).}\label{tab:accounting}
+as empty transcripts in the analysis (Supplementary Table~S4). The
+measured-RIR cascade row covers the three full-bandwidth cascades (480
+sentences each) and the 8~kHz specialist on the Mandarin half (240); the
+main text reports the three full-bandwidth cascades, and the 8~kHz cascade
+appears in Supplementary Table~S8.}\label{tab:accounting}
 \footnotesize
 \setlength{\tabcolsep}{1.7pt}
 \begin{tabular}{llrrl}
@@ -568,16 +586,17 @@ Real validation & ladder to 6 babble SNRs & 2{,}025 & 2{,}025 & 3 added SNR leve
 \multicolumn{2}{l}{Real validation subtotal} & 6{,}675 & 6{,}675 & \\
 \midrule
 Measured RIR & 4 ASR (synthetic corpus) & 1{,}680 & 1{,}680 & 480$\times$3 + 240 zh \\
-Measured RIR & cascades, 4 frontends & 1{,}680 & 1{,}680 & incl.\ 240 8~kHz \\
+Measured RIR & cascades, 4 frontends & 1{,}680 & 1{,}680 & 3$\times$480 + 240 zh 8~kHz \\
 \midrule
 \multicolumn{2}{l}{Measured-RIR bridge subtotal} & 3{,}360 & 3{,}360 & \\
 \midrule
 Second vendor & GLM references & 630 & 630 & 480 synth + 150 real \\
 Second vendor & GLM backend re-translation & 1{,}289 & 1{,}289 & 9 conds, Qwen-Audio \\
+Second vendor & GLM noise-measurement reruns & 1{,}515 & 1{,}500 & 600 ref + 900 cand \\
 \midrule
-\multicolumn{2}{l}{Second-vendor subtotal} & 1{,}919 & 1{,}919 & \\
+\multicolumn{2}{l}{Second-vendor subtotal} & 3{,}434 & 3{,}419 & \\
 \midrule
-\multicolumn{2}{l}{Total successful responses} & 43{,}773 & 42{,}898 & \\
+\multicolumn{2}{l}{Total successful responses} & 45{,}288 & 44{,}398 & \\
 \multicolumn{2}{l}{Failed attempts (3{,}333 LT drops + 541 API)} & 3{,}874 & --- & \\
 \multicolumn{2}{l}{Local Whisper runs (no API access)} & --- & --- & 1{,}650 transcriptions \\
 \bottomrule
