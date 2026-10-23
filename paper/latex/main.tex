@@ -8,8 +8,15 @@
 \usepackage{xurl}
 \usepackage{xeCJK}
 \setCJKmainfont{Noto Serif SC}
-\setCJKsansfont{Noto Sans SC}
+%% CJK sans is not used anywhere in this manuscript; the fallback keeps the
+%% source compilable on systems where the variable-font family name is not
+%% indexed by fontconfig.
+\IfFontExistsTF{Noto Sans SC}{\setCJKsansfont{Noto Sans SC}}{\setCJKsansfont{Noto Serif SC}}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+%% Continuous line numbering for review (per the journal's Guide for Authors
+%% and the elsarticle template instructions).
+\usepackage{lineno}
+\linenumbers
 \journal{Applied Acoustics}
 
 \newcommand{\cer}{\mathrm{CER}}

@@ -32,5 +32,5 @@ abstract: >-
   knee-and-collapse structure, bound the audio-LLM advantage to the
   near-knee regime, and validate the recognition-to-translation
   pass-through relation beyond the provider's own stack.
-version: 1.8.0
+version: 1.8.1
 date-released: "2026-10-23"
