@@ -4,23 +4,23 @@
 \subsection{Robustness of speech recognition under acoustic degradation}
 
 The sensitivity of ASR to noise and channel distortions has been studied since
-the earliest statistical recognisers~\cite{lippmann1997speech}. Surveys such
-as that of Virtanen et al.~\cite{li2014overview} organise this
+the earliest statistical recognisers~\citep{lippmann1997speech}. Surveys such
+as that of Virtanen et al.~\citep{li2014overview} organise this
 literature around feature enhancement, model adaptation, and multi-condition
 training. Controlled evaluation infrastructure has been decisive for
-progress. The Aurora framework~\cite{pearce2000aurora} standardised noise
+progress. The Aurora framework~\citep{pearce2000aurora} standardised noise
 types and signal-to-noise ratios for telephone-band recognition, and the CHiME
-challenge series~\cite{barker2018fifth} extended such evaluation to
+challenge series~\citep{barker2018fifth} extended such evaluation to
 far-field, reverberant, and overlapping-speech conditions. Classical feature
-transformations such as RASTA filtering~\cite{hermansky1994rasta} targeted the
+transformations such as RASTA filtering~\citep{hermansky1994rasta} targeted the
 same distortions from the signal-processing side, and synthetic room impulse
 responses generated with the image method of Allen and
-Berkley~\cite{allen1979image} and its modern
-implementations~\cite{habets2006room} remain standard tools for controlled
+Berkley~\citep{allen1979image} and its modern
+implementations~\citep{habets2006room} remain standard tools for controlled
 reverberation studies. More recently, data augmentation strategies such as
-SpecAugment~\cite{park2019specaugment} have embedded artificial degradation
+SpecAugment~\citep{park2019specaugment} have embedded artificial degradation
 into the training process itself, and weakly supervised training at scale, as
-exemplified by Whisper~\cite{radford2023robust}, has produced recognisers
+exemplified by Whisper~\citep{radford2023robust}, has produced recognisers
 with markedly improved noise tolerance. The present work inherits the
 methodological principle of these efforts, namely controlled and reproducible
 degradation of the input signal, but applies it to black-box services rather
@@ -32,16 +32,16 @@ makes the measurement itself the object of study.
 The cascade versus end-to-end question has accompanied speech translation
 since neural systems became practical. Early sequence-to-sequence systems
 demonstrated that audio-to-text translation without an explicit recognition
-stage is feasible~\cite{berard2016listen,weiss2017sequence}, and
-Bentivogli et al.~\cite{bentivogli2021cascade} compared the two paradigms
+stage is feasible~\citep{berard2016listen,weiss2017sequence}, and
+Bentivogli et al.~\citep{bentivogli2021cascade} compared the two paradigms
 systematically on IWSLT data, finding that end-to-end systems could match
 cascades in translation quality while differing in error structure, with
 cascades inheriting recognition errors and end-to-end systems producing more
 fluent but occasionally freer output. The survey of Sperber and
-Paulik~\cite{sperber2020speech} synthesises this literature, including work on
+Paulik~\citep{sperber2020speech} synthesises this literature, including work on
 robustness of end-to-end systems to noisy input. Subsequent research
 addressed noise robustness of end-to-end ST through self-training and data
-selection~\cite{pino20_interspeech}. These studies evaluate models that the
+selection~\citep{pino20_interspeech}. These studies evaluate models that the
 researchers train themselves on public corpora. Robustness of the end-to-end component in
 particular has been treated as a training-data problem, with noise-augmented
 source audio, self-training on noisy transcripts, and domain adaptation as
@@ -60,8 +60,8 @@ specifically for that setting.
 
 A third strand of related work evaluates speech services as they are
 exposed to users. Benchmarks for large audio-language models, such as
-AIR-Bench~\cite{yang2024airbench} for audio understanding and
-VoiceBench~\cite{chen2024voicebench} for LLM-based voice assistants,
+AIR-Bench~\citep{yang2024airbench} for audio understanding and
+VoiceBench~\citep{chen2024voicebench} for LLM-based voice assistants,
 measure knowledge, comprehension, and instruction following, and they
 establish the black-box, generative-evaluation methodology that the present
 benchmark extends to the acoustic-robustness axis; neither, however,
@@ -69,7 +69,7 @@ characterises behaviour under controlled channel degradation, and both stop
 at the response boundary rather than following errors into downstream
 tasks. The propagation of recognition errors into translation has a long
 history in the cascade literature, going back to the statistical framework
-of Ruiz and Federico~\cite{ruiz2014assessing} for relating ASR error types
+of Ruiz and Federico~\citep{ruiz2014assessing} for relating ASR error types
 to downstream MT quality, but that line of work assumes access to the
 models and corpora involved rather than opaque commercial endpoints.
 Methodologically, black-box evaluations face constraints that mirror ours:

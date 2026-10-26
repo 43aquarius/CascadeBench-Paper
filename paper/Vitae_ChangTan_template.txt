@@ -1,0 +1,28 @@
+Vitae — Computer Speech & Language submission requirement (Guide for Authors:
+"Submit a short (maximum 100 words) biography of each author, along with a
+passport-type photograph accompanying the other figures. Please provide the
+biography in an editable format (e.g. Word), not in PDF format.")
+
+This file is a TEMPLATE with the biography kept strictly to facts already
+stated in the manuscript and repository. Please fill in the bracketed
+placeholders, adjust to taste (<= 100 words), and upload alongside a
+passport-type photograph as separate files in the submission system.
+
+--- biography draft (XX words after placeholders are filled) ---
+
+Chang Tan [degree / current position] at Dalian University of Technology.
+[He/She] is the author of CascadeBench, a seeded black-box benchmark of
+error propagation in cascaded speech translation, whose corpus, degraded
+audio tree, and 45,288 logged API responses are publicly released.
+[One or two sentences on research interests, e.g.: His/Her research
+interests include robust speech recognition, speech translation, and the
+reproducible evaluation of commercial speech APIs.]
+
+--- checklist ---
+
+[ ] Fill placeholders; keep the biography at 100 words or fewer.
+[ ] Obtain a passport-type photograph of the author.
+[ ] Upload both as separate files (biography in an editable format, not PDF)
+    at the Attach Files step in Editorial Manager.
+[ ] CSL publishes the vitae with the final article; they are not part of the
+    anonymised review PDF.

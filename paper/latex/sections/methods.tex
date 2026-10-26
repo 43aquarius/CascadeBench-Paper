@@ -57,8 +57,8 @@ reference transcript is exact by construction, which removes the transcription
 noise that limits error floor measurement in recorded corpora, and the
 acoustic properties of the test material can be regenerated at any time,
 which decouples the benchmark from the licensing and availability constraints
-of recorded corpora such as AISHELL-1~\cite{bu2017aishell} or
-LibriSpeech-derived material~\cite{zen2019libritts}. The corresponding
+of recorded corpora such as AISHELL-1~\citep{bu2017aishell} or
+LibriSpeech-derived material~\citep{zen2019libritts}. The corresponding
 limitation, that synthetic speech does not sample the full variability of
 spontaneous human speech, is examined in Section~\ref{sec:limitations}.
 
@@ -112,7 +112,7 @@ bandwidth rather than noise generated inside its band.
 
 Reverberation was applied by convolving each signal with a synthetic room
 impulse response of the exponentially decaying noise
-form~\cite{allen1979image,habets2006room} with a direct-path impulse and a
+form~\citep{allen1979image,habets2006room} with a direct-path impulse and a
 reverberation time of 0.5~s. We measured the acoustic properties of the
 realised impulse responses: Schroeder $T_{60}$ is 0.51~s as designed, the
 clarity ratio $C_{50}$ is $+4.9$~dB, and the direct-to-reverberant ratio is
@@ -127,7 +127,7 @@ Section~\ref{sec:limitations}. Narrowband degradation resamples each
 signal to 8~kHz and back to 16~kHz with polyphase anti-aliasing filters,
 which removes the 4 to 8~kHz band exactly as a telephone channel does; the
 telephone-specialised recogniser receives the 8~kHz signal natively. Codec
-degradation encodes each signal with the Opus codec~\cite{valin2012definition}
+degradation encodes each signal with the Opus codec~\citep{valin2012definition}
 at 8~kbit/s mono, in the default voip application mode of the libopus
 encoder as shipped by ffmpeg 7.1.5, and decodes it back. Measurement of the
 decoded signals shows that at this bitrate the encoder operates effectively
@@ -188,9 +188,9 @@ design on human-recorded speech with human-authored ground-truth
 transcripts, real measured impulse responses, and real noise, addressing
 the realism concerns that a purely synthetic pipeline invites. The
 validation subset contains 150 utterances: 75 Mandarin sentences drawn
-from the AISHELL-1 test set~\cite{bu2017aishell} (11 speakers) and 75
+from the AISHELL-1 test set~\citep{bu2017aishell} (11 speakers) and 75
 English sentences from the LibriSpeech test-clean
-set~\cite{panayotov2015librispeech} (16 speakers), filtered to 2.5--12~s
+set~\citep{panayotov2015librispeech} (16 speakers), filtered to 2.5--12~s
 and level-normalised to the active-speech RMS of the synthetic corpus so
 that signal-to-noise ratios remain comparable across pipelines. Unlike the
 synthetic corpus, the reference transcripts are human transcriptions that
@@ -202,7 +202,7 @@ conditions in total (clean, real reverberation, six babble SNRs, transport
 noise), all constructed to
 be directly comparable to synthetic counterparts. First, real-room
 reverberation convolves each utterance with one of three measured impulse
-responses from the MIT Impulse Response Survey~\cite{traer2016statistics},
+responses from the MIT Impulse Response Survey~\citep{traer2016statistics},
 selected because their Schroeder-integrated reverberation times (0.495,
 0.499, and 0.500~s) match the synthetic $T_{60} = 0.5$~s condition almost
 exactly while spanning a realistic range of direct-to-reverberant ratios
@@ -218,7 +218,7 @@ mixed with the target speech at six SNR levels of $+10$, $+5$, $+2.5$, $0$,
 $-2.5$, and $-5$~dB, so that the crossing levels of the degradation knee are
 interpolated between adjacent measured points rather than extrapolated from
 a three-level tail. Third, real non-speech transport noise, drawn from the
-train category of the ESC-50 environmental sound corpus~\cite{piczak2015esc},
+train category of the ESC-50 environmental sound corpus~\citep{piczak2015esc},
 is mixed at 0~dB SNR to probe whether the noise-type conclusions transfer
 beyond speech-shaped interference. Acoustic verification of all degraded
 signals follows the main protocol: median STOI is 0.77 for real reverberation
@@ -230,7 +230,7 @@ paths are evaluated on all real-speech conditions (clean, real reverb, the
 six real-babble SNRs, transport noise); the omni system is excluded because
 its complimentary quota was exhausted. Two external components extend the
 validation beyond the single vendor of the main grid. Two open-weights Whisper
-models~\cite{radford2023robust} are executed locally with the
+models~\citep{radford2023robust} are executed locally with the
 faster-whisper int8 CPU runtime as non-vendor recognition baselines. Both
 models use one decoding configuration throughout: the language is forced per
 utterance, decoding is greedy with beam size one, the voice-activity filter
@@ -254,7 +254,7 @@ mismatch. Whisper
 small runs on the clean anchor and the original three-level babble ladder
 ($+5$, $0$, $-5$~dB; four conditions, 600
 transcriptions), and Whisper large-v3-turbo, the four-decoder-layer
-809M-parameter distillation of Whisper large-v3~\cite{whisperturbo2024},
+809M-parameter distillation of Whisper large-v3~\citep{whisperturbo2024},
 on all six real-babble SNR levels plus the clean anchor (seven conditions,
 1{,}050 transcriptions), so that the knee position of a non-vendor
 open-weights recogniser can be localised on the same ladder as the provider
@@ -262,7 +262,7 @@ systems. Neither model makes any API calls; their per-call latencies
 (Whisper small: median 3.9~s, up to 34~s on the hardest conditions;
 large-v3-turbo: median 16~s on two CPU cores) confirm local execution. The GLM large language
 model of a second vendor (Z.ai), accessed as a hosted
-API~\cite{glm2026api,glm2025tech}, is used in two roles: as a third
+API~\citep{glm2026api,glm2025tech}, is used in two roles: as a third
 translation
 reference, generated from the clean transcripts of both the synthetic and
 the real corpora, and as an alternative cascade backend, re-translating the
@@ -304,19 +304,19 @@ through their documented interfaces; the validation components add one
 open-weights model executed locally and one commercial model of a second
 vendor, so that vendor and product class are separated wherever the design
 allows. The specialised family consists of
-streaming recognisers in the Paraformer lineage~\cite{gao2023funasr}, a
+streaming recognisers in the Paraformer lineage~\citep{gao2023funasr}, a
 16~kHz model and an 8~kHz telephone-band model. The LLM-ASR family consists
-of Qwen-Audio 3.1 Flash~\cite{chu2024qwen2audio,qwenaudio31card} and Qwen3-ASR Flash, audio
+of Qwen-Audio 3.1 Flash~\citep{chu2024qwen2audio,qwenaudio31card} and Qwen3-ASR Flash, audio
 input models built on large language model backbones. The multimodal family
 consists of Qwen3.8-Omni Flash, a general-purpose omni-modal foundation
-model~\cite{qwen2.5omni2025,qwenomni38card} queried with a transcription instruction. The
+model~\citep{qwen2.5omni2025,qwenomni38card} queried with a transcription instruction. The
 external components are two open-weights recognition models of the Whisper
-family~\cite{radford2023robust} executed locally with the faster-whisper
+family~\citep{radford2023robust} executed locally with the faster-whisper
 int8 CPU runtime -- Whisper small, and the 809M-parameter large-v3-turbo
-distillation of Whisper large-v3~\cite{whisperturbo2024} -- and the GLM
+distillation of Whisper large-v3~\citep{whisperturbo2024} -- and the GLM
 large language model of a second vendor
-(Z.ai)~\cite{glm2026api}, from the GLM foundation-model
-family~\cite{glm2025tech}, used as a reference generator and as an
+(Z.ai)~\citep{glm2026api}, from the GLM foundation-model
+family~\citep{glm2025tech}, used as a reference generator and as an
 alternative cascade backend. All
 systems were accessed in their default configurations, since a consumer of a
 black-box service cannot apply front-end training or adaptation, and the
@@ -335,7 +335,7 @@ source text with explicit source and target language tags. Every call was
 executed with an automatic retry policy of up to six attempts with
 exponential backoff on throttling, timeout, and connection failures, and no
 other tuning parameters were exposed or set. The speech translation systems are the text translation
-engine qwen-mt-uni~\cite{qwenmtcard}, used as the second stage of three cascades built on the
+engine qwen-mt-uni~\citep{qwenmtcard}, used as the second stage of three cascades built on the
 16~kHz specialised recogniser, on the Qwen-Audio 3.1 recogniser, and on the
 Qwen3-ASR recogniser, and two
 end-to-end paths: the omni foundation model with an audio translation
@@ -394,7 +394,7 @@ GLM (Z.ai, second vendor) & text API & ref.\ + backend & both corpora \\
 
 Recognition accuracy is scored as the character error rate (CER) for Chinese
 and the word error rate (WER) for English, computed with the standard
-Levenshtein alignment~\cite{levenshtein1966binary} after a normalisation
+Levenshtein alignment~\citep{levenshtein1966binary} after a normalisation
 pipeline that is applied identically to references and hypotheses. The
 normalisation performs Unicode compatibility folding, case folding,
 punctuation removal, and, critically, canonicalisation of numeric
@@ -413,10 +413,10 @@ scoring artefacts. Utterances for which a service returns no transcript at
 all, a behaviour documented in Section~\ref{sec:results}, are scored as
 complete failures with an error rate of one.
 
-Translation quality is scored with corpus-level BLEU~\cite{papineni2002bleu}
-using sacreBLEU~\cite{post2018call} with the 13a tokeniser for English
+Translation quality is scored with corpus-level BLEU~\citep{papineni2002bleu}
+using sacreBLEU~\citep{post2018call} with the 13a tokeniser for English
 targets and the character-level tokeniser for Chinese targets, and with
-chrF~\cite{popovic2015chrf} as a second string-matching metric; sacreBLEU
+chrF~\citep{popovic2015chrf} as a second string-matching metric; sacreBLEU
 signatures are fixed in the released scripts (BLEU: effective order 1,
 case-insensitive, 13a for English and zh character tokenisation for
 Chinese). Because the
@@ -432,14 +432,14 @@ are longer than references, so the refusal-sensitive comparison in
 Section~\ref{sec:results:cascade} is anchored on chrF as well. Every
 hypothesis is scored against three reference sets with deliberately
 distinct family relationships. The primary reference is
-produced by Qwen3.8-Max~\cite{qwen3technical2025}, the strongest
+produced by Qwen3.8-Max~\citep{qwen3technical2025}, the strongest
 general-purpose text LLM of the same provider, translating the clean
 reference transcripts; it shares a vendor, though not a product line, with
 the translation systems under test. The secondary reference is the oracle
 cascade output, that is, the cascade translation engine applied to the clean
 reference transcripts, which is same-engine with every cascade. The
 tertiary reference is generated by the GLM model of a second
-vendor~\cite{glm2026api,glm2025tech},
+vendor~\citep{glm2026api,glm2025tech},
 translating the same clean transcripts,
 and is therefore family-disjoint from every system under test; the family
 relationships of all systems and references are disclosed in
@@ -614,8 +614,8 @@ are pooled only as a macro-average of the two language halves, and an
 insertion-dominated transcript can push a rate above 100 percent, which
 occurs in the sub-zero-dB regime documented in
 Section~\ref{sec:results:snr}. Differences between systems within a
-condition are tested with the Wilcoxon signed-rank test~\cite{wilcoxon1945individual}
-on paired per-sentence errors, with Holm correction~\cite{holm1979simple}
+condition are tested with the Wilcoxon signed-rank test~\citep{wilcoxon1945individual}
+on paired per-sentence errors, with Holm correction~\citep{holm1979simple}
 within the family of all pairwise comparisons of the same condition and
 language; because both systems are often simultaneously perfect, the
 fraction of zero differences is reported alongside (up to 83 percent under
@@ -643,7 +643,7 @@ slope depends on the particular mix of operating points and are the
 appropriate currency for extrapolating the rule to unseen conditions; the
 condition-level intervals are substantially wider, and both are reported
 wherever the rule is used. Signal processing and statistics use
-SciPy~\cite{virtanen2020scipy}, librosa~\cite{mcfee2015librosa}, and
+SciPy~\citep{virtanen2020scipy}, librosa~\citep{mcfee2015librosa}, and
 pystoi for the short-time objective intelligibility analysis of
 Section~\ref{sec:results:snr}, in both the standard and extended (ESTOI)
 variants; the tempo condition is excluded from cross-family STOI

@@ -13,7 +13,7 @@ keywords:
   - black-box API evaluation
   - error propagation
 license: MIT
-repository-code: "https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics"
+repository-code: "https://github.com/43aquarius/CascadeBench-Paper"
 abstract: >-
   CascadeBench is a fully seeded, black-box case study measuring how fourteen
   acoustic channel degradations from seven families propagate through the
@@ -32,5 +32,5 @@ abstract: >-
   knee-and-collapse structure, bound the audio-LLM advantage to the
   near-knee regime, and validate the recognition-to-translation
   pass-through relation beyond the provider's own stack.
-version: 1.8.1
-date-released: "2026-10-23"
+version: 1.9.0
+date-released: "2026-10-26"

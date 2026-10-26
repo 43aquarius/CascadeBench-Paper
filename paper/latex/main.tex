@@ -1,4 +1,4 @@
-\documentclass[review,number,sort&compress]{elsarticle}
+\documentclass[review,authoryear,sort&compress]{elsarticle}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -17,7 +17,7 @@
 %% and the elsarticle template instructions).
 \usepackage{lineno}
 \linenumbers
-\journal{Applied Acoustics}
+\journal{Computer Speech \& Language}
 
 \newcommand{\cer}{\mathrm{CER}}
 \newcommand{\wer}{\mathrm{WER}}
@@ -68,7 +68,7 @@ corpus, degraded audio, and 45{,}288 logged API responses are released.
 
 \begin{keyword}
 speech recognition \sep speech translation \sep robustness benchmark \sep
-acoustic channel degradations \sep cascaded systems \sep cloud APIs
+acoustic channel degradation \sep cascaded translation \sep cloud speech API
 \end{keyword}
 
 \end{frontmatter}
@@ -83,7 +83,7 @@ acoustic channel degradations \sep cascaded systems \sep cloud APIs
 
 \section*{Data and code availability}
 The complete benchmark is publicly released at
-\url{https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}:
+\url{https://github.com/43aquarius/CascadeBench-Paper}:
 the sentence corpus, the seeded perturbation implementations, the full
 degraded audio tree, all per-sentence model transcripts and translations
 (45{,}288 logged API responses), the analysis scripts, and the LaTeX source
@@ -108,6 +108,10 @@ all reported numbers against the released logs were performed and checked by
 the authors, who take full responsibility for the content of the published
 article.
 
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in
+the public, commercial, or not-for-profit sectors.
+
 \section*{CRediT authorship contribution statement}
 \textbf{Chang Tan:} Conceptualization, Methodology, Software, Investigation,
 Data curation, Visualization, Writing -- original draft, Writing -- review \&
@@ -118,7 +122,7 @@ The authors declare that they have no known competing financial interests or
 personal relationships that could have appeared to influence the work reported
 in this paper.
 
-\bibliographystyle{elsarticle-num}
+\bibliographystyle{elsarticle-harv}
 \bibliography{refs}
 
 \end{document}

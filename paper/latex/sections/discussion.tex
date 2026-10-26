@@ -74,7 +74,7 @@ achieves both the smallest relative loss at 0~dB and sub-second latency.
 \subsection{Why foundation-model recognisers degrade more slowly}
 
 The robustness advantage of the LLM-ASR systems echoes the finding of
-Radford et al.~\cite{radford2023robust} that recognition models trained on
+Radford et al.~\citep{radford2023robust} that recognition models trained on
 very large and weakly curated corpora acquire substantial noise tolerance
 without explicit multi-condition training. Two of our observations sharpen
 this picture for API consumers. First, the advantage is strongly
@@ -115,7 +115,7 @@ asymmetric amounts, from 1.3 to 1 ratio to 3.2 to 1, under identical noise.
 
 \subsection{Cascade versus end-to-end revisited}
 
-The classical comparison of Bentivogli et al.~\cite{bentivogli2021cascade}
+The classical comparison of Bentivogli et al.~\citep{bentivogli2021cascade}
 found end-to-end and cascade systems competitive on clean speech with
 different error structures. Our measurements extend that comparison to
 degraded channels in the black-box setting and qualify it in two ways. The
@@ -253,7 +253,7 @@ constraint is that the main grid -- every recognition system, the synthesis,
 and two of the three references -- comes from a single provider, so product
 class and vendor are fully confounded there: the class-level regularities
 reported here are consistent with published
-training-scale explanations~\cite{radford2023robust}, but cross-provider
+training-scale explanations~\citep{radford2023robust}, but cross-provider
 replication is required before they can be attributed to architecture
 rather than to one provider's engineering. The validation components
 loosen this confound only partway and only for structural conclusions:

@@ -5,9 +5,11 @@
 This repository accompanies the manuscript
 
 > *Error Propagation in Cascaded Speech Translation under Acoustic Channel Degradations: A Black-Box Case Study of Commercial Speech Intelligence APIs*
-> — prepared for submission to **Applied Acoustics** (Elsevier).
+> — prepared for submission to **Computer Speech & Language** (Elsevier).
 
-Preprint PDF: [`paper/CascadeBench_Paper_AppliedAcoustics.pdf`](paper/CascadeBench_Paper_AppliedAcoustics.pdf) (v1.8.1, 8 figures, supplementary material with 14 tables, 77 pages + 10 pages, continuously line-numbered).
+Preprint PDF: [`paper/CascadeBench_Paper.pdf`](paper/CascadeBench_Paper.pdf) (v1.9.0, 8 figures, supplementary material with 14 tables, 78 pages + 10 pages, continuously line-numbered, author-year reference style).
+
+> **v1.9.0 (tenth round, Computer Speech & Language transfer)** — following the desk decision that the previous venue was not a journal match, the manuscript is adapted to the **Computer Speech & Language** Guide for Authors with no change to any result, number, figure, or table: the reference style moves from numbered to **author-year** (`elsarticle-harv`, 51 in-text citations re-rendered "(Author, Year)", reference list now alphabetical, ten journal names abbreviated per the List of Title Word Abbreviations); the page-1 footer now reads "Preprint submitted to Computer Speech & Language"; three plural keywords are singularised ("acoustic channel degradation", "cascaded translation", "cloud speech API"); an Elsevier-standard no-funding **Funding** section is added before CRediT; the GitHub repository is renamed to the journal-neutral **`CascadeBench-Paper`** (all old URLs redirect, every release intact) with the manuscript data-availability URL, README, and CITATION.cff updated; and a Vitae template and a CSL cover letter are added. Verification: 78 + 10 pages compile with **zero new overfull boxes** (the two log warnings reproduce byte-identically on the pristine v1.8.1 source in the same environment and the Table 6 page is pixel-identical to the released v1.8.1 PDF), the **92-check suite passes unchanged**, the abstract is 248 words (CSL sets no hard limit), 6 keywords and 5 Highlights bullets ≤ 81 chars are re-confirmed, no bracketed `[n]` citations remain, and the watermark text/metadata/pixel triple-verification is clean. See `paper/REVISION_NOTES_v1.9.0.md`.
 
 > **v1.8.1 (ninth round, journal-compliance pass for submission)** — the manuscript is brought to the final Applied Acoustics submission format: continuous line numbering is added (`lineno`, the Elsevier review requirement; the 77-page layout is unchanged and all 92 numeric self-checks still pass), the CJK sans declaration is made portable with an `\IfFontExistsTF` fallback, **the LaTeX source zip is fixed to actually include the figures directory** (the v1.7/v1.8 zips silently omitted it; a fresh-extract compile of both documents is now verified), and the **anonymised repository snapshot** promised in the data-availability statement is built and released (author-identifying strings scrubbed from the tex/README/self-check sources, CITATION.cff and cover letters excluded, anonymised manuscript + supplementary recompiled inside the snapshot). Guide-for-Authors audit on the re-exported PDF: abstract 246/250 words, 6 keywords, 5 Highlights bullets at ≤ 85 characters each, numbered reference style, single-anonymised-review handling, generative-AI declaration, CRediT, competing-interest and data-availability statements, and the text/metadata/pixel watermark triple-verification all confirmed. The complete journal submission package (manuscript, supplementary, Highlights, cover letter, LaTeX source, anonymised snapshot) is collected in release v1.8.1. See `paper/REVISION_NOTES_v1.8.1.md`.
 
@@ -123,8 +125,8 @@ Code and Data Availability section.
   author = {CascadeBench Authors},
   year   = {2026},
   note   = {Benchmark and dataset accompanying the manuscript submitted to
-            Applied Acoustics},
-  url    = {https://github.com/43aquarius/CascadeBench-Paper-AppliedAcoustics}
+            Computer Speech \& Language},
+  url    = {https://github.com/43aquarius/CascadeBench-Paper}
 }
 ```
 
